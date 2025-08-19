@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MINDflow – App</title>
+  <style>
+    :root{
+      --bg:#000; --text:#fff; --dim:#cfcfd2;
+      --panel:rgba(255,255,255,.05); --panel2:rgba(255,255,255,.1); --bd:rgba(255,255,255,.12);
+      --p1:#FFB6C1; --p2:#FFDAB9; --p3:#9370DB;
+      --r1:12px; --r2:16px; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
+    .app{height:100%;max-width:390px;margin:0 auto;display:flex;flex-direction:column;border:1px solid #222;border-radius:25px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);overflow:hidden}
+    .status{height:30px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#000,#111);border-bottom:1px solid #222;font-size:12px;padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
+    .topbar{padding:18px 16px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#1a1a1a)}
+    .logo{font-size:28px;font-weight:800;background:linear-gradient(45deg,var(--p1),var(--p2),var(--p1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
+    main{flex:1;overflow:auto;padding:18px 16px 100px}
+    .home{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(120px,1fr);gap:14px}
+    .card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:16px;border:1px solid var(--bd);padding:14px 10px;color:var(--text);text-align:center;cursor:pointer;transition:transform .18s ease;box-shadow:var(--shadow)}
+    .card:focus-visible{outline:2px solid var(--p1);outline-offset:2px}
+    .ic{font-size:28px}.tl{font-weight:700}.st{font-size:11px;opacity:.8}
+    .career{background:linear-gradient(135deg,#1a1a2e,#16213e)}
+    .emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
+    .fit{background:linear-gradient(135deg,#2e1f1a,#3e2a1b)}
+    .spi{background:linear-gradient(135deg,#1a2e1f,#1b3e26)}
+    .com{background:linear-gradient(135deg,#2e2a1a,#3e361b)}
+    .pro{background:linear-gradient(135deg,#2e1a2a,#3e1b2f)}
+    .view{display:none;animation:fade .24s ease}
+    .view.active{display:block}
+    .head{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px}
+    .back{appearance:none;border:0;background:none;color:var(--p1);font-size:18px;cursor:pointer}
+    .title{font-size:18px;font-weight:800}
+    .ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-style:italic}
+    .ai:before{content:"🤖";position:absolute;right:10px;top:-6px}
+    .panel{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;background:var(--panel2);border-radius:8px;margin-top:8px}
+    .bottom{position:fixed;left:0;right:0;bottom:0;height:80px;background:linear-gradient(135deg,#111,#000);border-top:1px solid #222;display:flex;justify-content:center;align-items:center;padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
+    .homebtn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--p1),var(--p2));border:0;cursor:pointer}
+    .sys{position:absolute;right:20px;font-size:12px;color:var(--p1);background:rgba(255,182,193,.1);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
+    .jindi{position:fixed;right:18px;bottom:100px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20;animation:wave 2s infinite}
+    .chat{position:fixed;right:18px;bottom:170px;width:300px;height:400px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
+    .chat.active{display:block;animation:up .22s ease}
+    .chathead{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #333}
+    .msgs{height:280px;overflow:auto;margin:10px 0}
+    .msg{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
+    .msg.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000}
+    .msg.me{background:var(--panel2)}
+    .in{width:100%;padding:8px;border-radius:8px;border:1px solid #333;color:var(--text);background:rgba(255,255,255,.08)}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    @keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(12deg)}75%{transform:rotate(-12deg)}}
+    @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="status"><div>9:41</div><div>📶 🔋 100%</div></div>
+    <div class="topbar">
+      <div class="logo">MINDflow</div>
+      <div class="tag">Il tuo viaggio verso la consapevolezza</div>
+    </div>
+
+    <main id="main">
+      <!-- HOME -->
+      <section id="home" class="home view active" aria-label="Home">
+        <button class="card career" data-view="career"><div class="ic">🧠</div><div class="tl">Carriera</div><div class="st">Mindset</div></button>
+        <button class="card emo" data-view="emotions"><div class="ic">🩷</div><div class="tl">Emozioni</div><div class="st">Equilibrio</div></button>
+        <button class="card fit" data-view="fitness"><div class="ic">💪🏼</div><div class="tl">Fitness</div><div class="st">Alimentazione</div></button>
+        <button class="card spi" data-view="spirituality"><div class="ic">🔮</div><div class="tl">Spiritualità</div><div class="st">Crescita</div></button>
+        <button class="card com" data-view="community"><div class="ic">🫂</div><div class="tl">Community</div><div class="st">Connessioni</div></button>
+        <button class="card pro" data-view="profile"><div class="ic">🫆</div><div class="tl">Profilo</div><div class="st">Il tuo universo</div></button>
+      </section>
+
+      <!-- CARRIERA -->
+      <section id="career" class="view" aria-label="Carriera">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🧠 Carriera & Mindset</div></div>
+        <div class="ai">"Oggi è il giorno perfetto per trasformare i tuoi sogni in realtà. Jindi crede in te!"</div>
+        <div class="panel">
+          <h3>📅 Daily Planner</h3>
+          <div class="row"><span>📧 Rispondere alle email</span><span>2h</span></div>
+          <div class="row"><span>💼 Meeting progetto X</span><span>1.5h</span></div>
+          <div class="row"><span>📊 Analisi report mensile</span><span>3h</span></div>
+        </div>
+        <div class="panel">
+          <h3>💶 Calcolo Rapido</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <input id="hours" class="in" inputmode="decimal" placeholder="Ore" />
+            <input id="rate" class="in" inputmode="decimal" placeholder="€/ora" />
+            <div class="row"><span>Lordo</span><strong>€ <span id="gross">0.00</span></strong></div>
+            <div class="row"><span>Netto (≈70%)</span><strong>€ <span id="net">0.00</span></strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EMOZIONI -->
+      <section id="emotions" class="view" aria-label="Emozioni">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🩷 Emozioni</div></div>
+        <div class="ai">"Le tue emozioni sono valide. Navighiamo insieme questo mare interiore."</div>
+        <div class="panel">
+          <h3>😊 Tracker Umore</h3>
+          <div style="display:flex;gap:8px;justify-content:space-between;margin:10px 0">
+            <button class="card" style="flex:1" data-mood="😢">😢</button>
+            <button class="card" style="flex:1" data-mood="😐">😐</button>
+            <button class="card" style="flex:1" data-mood="😊">😊</button>
+            <button class="card" style="flex:1" data-mood="😄">😄</button>
+            <button class="card" style="flex:1" data-mood="🤩">🤩</button>
+          </div>
+          <input id="intensity" type="range" min="1" max="10" value="7" style="width:100%">
+          <p>Intensità: <strong><span id="intensity-val">7</span>/10</strong> – Umore: <strong><span id="mood-val">😊</span></strong></p>
+        </div>
+      </section>
+
+      <!-- FITNESS -->
+      <section id="fitness" class="view" aria-label="Fitness e Alimentazione">
+        <div class="head"><button class="back" data-back>←</button><div class="title">💪🏼 Fitness & Alimentazione</div></div>
+        <div class="ai">"Il corpo è il tempio dell’anima. Un passo alla volta!"</div>
+        <div class="panel">
+          <h3>🤖 Workout AI</h3>
+          <div class="row"><span>🏃‍♀️ Cardio HIIT – 20’</span><button class="homebtn" aria-label="Avvia">▶️</button></div>
+          <div class="row"><span>💪 Upper Body – 30’</span><button class="homebtn" aria-label="Avvia">▶️</button></div>
+          <div class="row"><span>🧘 Yoga – 15’</span><button class="homebtn" aria-label="Avvia">▶️</button></div>
+        </div>
+        <div class="panel">
+          <h3>💧 Contatori Giornalieri</h3>
+          <div style="display:flex;gap:10px">
+            <div class="panel" style="flex:1">
+              <div>💧 Idratazione</div>
+              <div style="font-size:24px;font-weight:800;margin:8px 0" id="water-count">0</div>
+              <div>
+                <button data-counter="water" data-delta="-1">−</button>
+                <button data-counter="water" data-delta="1">+</button>
+              </div>
+              <div style="font-size:11px;opacity:.7">bicchieri</div>
+            </div>
+            <div class="panel" style="flex:1">
+              <div>🚭 Sigarette</div>
+              <div style="font-size:24px;font-weight:800;margin:8px 0" id="cig-count">0</div>
+              <div>
+                <button data-counter="cig" data-delta="-1">−</button>
+                <button data-counter="cig" data-delta="1">+</button>
+              </div>
+              <div style="font-size:11px;opacity:.7">oggi</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>🛒 Spesa Salutare</h3>
+          <button>📷 Scansiona prodotto</button>
+          <p style="opacity:.75;font-size:12px">Jindi analizzerà il prodotto e suggerirà ricette.</p>
+        </div>
+      </section>
+
+      <!-- SPIRITUALITÀ -->
+      <section id="spirituality" class="view" aria-label="Spiritualità">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🔮 Spiritualità</div></div>
+        <div class="ai" style="background:linear-gradient(135deg,var(--p3),var(--p1))">"Le stelle ti sussurrano: oggi è giorno di trasformazione."</div>
+        <div class="panel">
+          <h3>🧘‍♀️ Meditazione Guidata</h3>
+          <div style="text-align:center">
+            <div id="med-timer" style="font-size:32px;font-weight:800;color:var(--p1);margin:8px 0">05:00</div>
+            <button id="med-toggle" class="homebtn" aria-pressed="false">▶️</button>
+            <div style="opacity:.7;font-size:12px">Audio: “Connessione con l’Universo” – 5 min</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMUNITY -->
+      <section id="community" class="view" aria-label="Community">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🫂 Community</div></div>
+        <div class="ai">"Insieme siamo più forti!"</div>
+        <div class="panel">
+          <h3>✨ Condividi il tuo momento</h3>
+          <textarea rows="3" class="in" placeholder="Cosa stai pensando oggi?"></textarea>
+          <div class="row"><span>Allega 📷 🎯 💡</span><button class="homebtn">Pubblica</button></div>
+        </div>
+      </section>
+
+      <!-- PROFILO -->
+      <section id="profile" class="view" aria-label="Profilo">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🫆 Profilo</div></div>
+        <div class="panel">
+          <h3>🔔 Notifiche</h3>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0">
+            <input type="checkbox" id="n-career" /> 🧠 Carriera
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0">
+            <input type="checkbox" id="n-emotions" /> 🩷 Emozioni
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom" aria-label="Navigazione">
+      <button class="homebtn" id="go-home" aria-label="Home">🏠</button>
+      <button class="sys" id="open-system" aria-haspopup="dialog">Sistema ⚙️</button>
+    </nav>
+  </div>
+
+  <!-- Bolla Jindi -->
+  <button class="jindi" id="jindi" aria-controls="chat" aria-expanded="false">👋</button>
+
+  <!-- Chat -->
+  <section class="chat" id="chat" aria-live="polite" aria-label="Chat con Jindi">
+    <div class="chathead">
+      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center">👋</div>
+      <div><strong>Jindi AI</strong><div style="font-size:10px;opacity:.7">Il tuo assistente</div></div>
+      <button id="close-chat" style="margin-left:auto;background:none;border:0;color:#ccc;font-size:18px">×</button>
+    </div>
+    <div class="msgs" id="msgs"><div class="msg ai">Ciao! Come posso aiutarti oggi? 🌟</div></div>
+    <input id="chat-in" class="in" placeholder="Scrivi a Jindi…" />
+  </section>
+
+  <script>
+    // --- mini helpers
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
+    const views = ["home","career","emotions","fitness","spirituality","community","profile"];
+    function show(v){ views.forEach(x=>$("#"+x).classList.toggle("active", x===v)); location.hash="#"+v; }
+    window.addEventListener("hashchange", ()=>{ const v=(location.hash||"#home").slice(1); show(views.includes(v)?v:"home"); });
+
+    // home cards
+    $$("#home .card").forEach(b=>b.addEventListener("click", ()=>show(b.dataset.view)));
+    $$("#[data-back]").forEach(b=>b.addEventListener("click", ()=>history.back()));
+    $("#go-home").addEventListener("click", ()=>show("home"));
+    $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup, Supporto, Info App"));
+
+    // calcolo
+    const hours=$("#hours"), rate=$("#rate"), gross=$("#gross"), net=$("#net");
+    function calc(){ const h=parseFloat(hours?.value||0)||0; const r=parseFloat(rate?.value||0)||0; const g=h*r; gross.textContent=g.toFixed(2); net.textContent=(g*0.7).toFixed(2); }
+    hours?.addEventListener("input", calc); rate?.addEventListener("input", calc);
+
+    // umore
+    const moodVal=$("#mood-val"), intensity=$("#intensity"), intensityVal=$("#intensity-val");
+    $$("#[data-mood]").forEach(btn=>btn.addEventListener("click", ()=>{ moodVal.textContent=btn.dataset.mood; }));
+    intensity?.addEventListener("input", e=>{ intensityVal.textContent=e.target.value; });
+
+    // contatori
+    const counters={water:$("#water-count"), cig:$("#cig-count")};
+    $$("[data-counter]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const n=btn.dataset.counter; const d=parseInt(btn.dataset.delta,10);
+        const el=counters[n]; let v=parseInt(el.textContent||"0",10)+d; el.textContent=Math.max(0,v);
+      });
+    });
+
+    // meditazione
+    const medBtn=$("#med-toggle"), medTimer=$("#med-timer"); let secs=5*60, iv=null;
+    function rend(){const m=Math.floor(secs/60), s=secs%60; medTimer.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
+    function start(){ if(iv) return; medBtn.setAttribute("aria-pressed","true"); medBtn.textContent="⏸"; iv=setInterval(()=>{ if(secs>0){secs--;rend();}else{stop();secs=5*60;rend();alert("Meditazione completata ✨");}},1000); }
+    function stop(){ clearInterval(iv); iv=null; medBtn.textContent="▶️"; medBtn.setAttribute("aria-pressed","false"); }
+    medBtn?.addEventListener("click", ()=> iv?stop():start()); rend();
+
+    // chat
+    const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
+    function toggleChat(open){ const isOpen=open??!chat.classList.contains("active"); chat.classList.toggle("active", isOpen); bubble.setAttribute("aria-expanded", String(isOpen)); if(isOpen) input.focus(); }
+    bubble.addEventListener("click", ()=>toggleChat()); closeChat.addEventListener("click", ()=>toggleChat(false));
+
+    function addMsg(text, who="ai"){ const d=document.createElement("div"); d.className="msg "+who; d.textContent=text; msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; }
+
+    // >>> QUI: chiamata alla tua API su Vercel <<<
+    async function generateAIResponse(userMessage){
+      try{
+        const r = await fetch("/api/chat", {
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify({ message: userMessage })
+        });
+        if(!r.ok) throw new Error(await r.text());
+        const data = await r.json();
+        return data.reply || "Sto riflettendo… ✨";
+      }catch(e){
+        console.error(e);
+        return "Ops, non riesco a rispondere ora. Riprova tra poco 🙏";
+      }
+    }
+
+    input.addEventListener("keydown", async e=>{
+      if(e.key==="Enter"){
+        const text=input.value.trim(); if(!text) return;
+        addMsg(text,"me"); input.value="";
+        const reply = await generateAIResponse(text);
+        addMsg(reply,"ai");
+      }
+    });
+
+    // avvio
+    show((location.hash||"#home").slice(1));
+  </script>
+</body>
+</html>
