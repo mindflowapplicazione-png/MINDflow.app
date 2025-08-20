@@ -21,11 +21,11 @@
     .tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
     main{flex:1;overflow:auto;padding:18px 16px 100px}
 
-    /* HOME centrata 2x2 */
+    /* HOME centrata 2 colonne (2–3 righe) */
     .home-wrap{height:100%;display:grid;place-items:center}
     .home{
       display:grid; grid-template-columns:repeat(2,150px); grid-auto-rows:150px; gap:16px;
-      justify-content:center; align-content:center;
+      place-content:center; place-items:center; /* centrate verticalmente/orizzontalmente */
     }
     .card{
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
@@ -38,6 +38,8 @@
     .emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
     .fit{background:linear-gradient(135deg,#2e1f1a,#3e2a1b)}
     .spi{background:linear-gradient(135deg,#1a2e1f,#1b3e26)}
+    .com{background:linear-gradient(135deg,#2e2a1a,#3e361b)}
+    .pro{background:linear-gradient(135deg,#2e1a2a,#3e1b2f)}
 
     .view{display:none;animation:fade .24s ease}
     .view.active{display:block}
@@ -78,13 +80,15 @@
     </div>
 
     <main id="main">
-      <!-- HOME (centrata 2x2) -->
+      <!-- HOME (2 colonne, 3 righe, centrata) -->
       <div class="home-wrap view active" id="home" aria-label="Home">
         <section class="home">
           <button class="card career" data-view="career"><div class="ic">🧠</div><div class="tl">Carriera</div><div class="st">Mindset</div></button>
           <button class="card emo" data-view="emotions"><div class="ic">🩷</div><div class="tl">Emozioni</div><div class="st">Equilibrio</div></button>
           <button class="card fit" data-view="fitness"><div class="ic">💪🏼</div><div class="tl">Fitness</div><div class="st">Alimentazione</div></button>
           <button class="card spi" data-view="spirituality"><div class="ic">🔮</div><div class="tl">Spiritualità</div><div class="st">Crescita</div></button>
+          <button class="card com" data-view="community"><div class="ic">🫂</div><div class="tl">Community</div><div class="st">Connessioni</div></button>
+          <button class="card pro" data-view="profile"><div class="ic">🫆</div><div class="tl">Profilo</div><div class="st">Il tuo universo</div></button>
         </section>
       </div>
 
@@ -175,6 +179,57 @@
           <button id="med-toggle" class="in" style="cursor:pointer;width:auto">▶️ Avvia/Metti in pausa</button>
         </div>
       </section>
+
+      <!-- COMMUNITY -->
+      <section id="community" class="view" aria-label="Community">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🫂 Community</div></div>
+        <div class="ai">"Insieme siamo più forti!"</div>
+
+        <div class="panel">
+          <h3>✨ Condividi il tuo momento</h3>
+          <textarea rows="3" class="in" id="post-text" placeholder="Cosa stai pensando oggi?"></textarea>
+          <div class="row">
+            <span>Allega 📷 🎯 💡</span>
+            <button id="post-btn" class="in" style="width:auto;cursor:pointer">Pubblica</button>
+          </div>
+        </div>
+
+        <div class="panel" id="feed">
+          <h3>📰 Feed</h3>
+          <div class="row"><span>@MindfulSara</span><span>“Prima meditazione di 20’ fatta! 🧘‍♀️”</span></div>
+          <div class="row"><span>@FitnessMarco</span><span>“10.000 passi al giorno ✅”</span></div>
+        </div>
+      </section>
+
+      <!-- PROFILO -->
+      <section id="profile" class="view" aria-label="Profilo">
+        <div class="head"><button class="back" data-back>←</button><div class="title">🫆 Profilo</div></div>
+        <div class="ai">"Il tuo profilo è la mappa del tuo universo."</div>
+
+        <div class="panel">
+          <h3>👤 Info</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <input class="in" value="Alessandro" placeholder="Nome">
+            <input class="in" value="Rossi" placeholder="Cognome">
+            <input class="in" value="alex@mindflow.app" placeholder="Email">
+            <input class="in" type="date" value="1995-03-15">
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>🔔 Notifiche</h3>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 🧠 Carriera</label>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox"> 🩷 Emozioni</label>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 💪🏼 Fitness</label>
+          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 🔮 Spiritualità</label>
+        </div>
+
+        <div class="panel">
+          <h3>💎 Piano</h3>
+          <div class="row"><span>Piano attivo:</span><strong>Fiori</strong></div>
+          <div class="row"><span>Rinnovo:</span><strong>15/09/2024</strong></div>
+        </div>
+      </section>
     </main>
 
     <nav class="bottom" aria-label="Navigazione">
@@ -203,7 +258,7 @@
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
 
     // router
-    const views = ["home","career","emotions","fitness","spirituality"];
+    const views = ["home","career","emotions","fitness","spirituality","community","profile"];
     function show(v){ views.forEach(x=>$("#"+x).classList.toggle("active", x===v)); location.hash="#"+v; }
     window.addEventListener("hashchange", ()=>{ const v=(location.hash||"#home").slice(1); show(views.includes(v)?v:"home"); });
 
@@ -247,6 +302,15 @@
     function start(){ if(iv) return; iv=setInterval(()=>{ if(secs>0){secs--;rend();}else{stop();secs=5*60;rend();alert("Meditazione completata ✨");}},1000); }
     function stop(){ clearInterval(iv); iv=null; }
     medBtn?.addEventListener("click", ()=> iv?stop():start()); rend();
+
+    // community post finto
+    $("#post-btn")?.addEventListener("click", ()=>{
+      const t=$("#post-text").value.trim(); if(!t) return;
+      const row=document.createElement("div"); row.className="row";
+      row.innerHTML=`<span>@Tu</span><span>${t}</span>`;
+      $("#feed").appendChild(row); $("#post-text").value="";
+      alert("Pubblicato nella community ✨");
+    });
 
     // chat open/close
     const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
