@@ -1,43 +1,32 @@
-import { serverClient } from "../lib/supabase";
+export const config = { runtime: "nodejs" };
 
-export const config = { api: { bodyParser: false } }; // Vercel Node runtime
+import { uploadToStorage, db } from "../lib/Supabase.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Use POST");
 
-  // Parse FormData senza librerie pesanti
-  const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
-  const buffer = Buffer.concat(chunks);
+  try {
+    // Expect: multipart/form-data con campo "file" + optional "text" + "type"
+    // Se arrivi dal client come base64, puoi mandare JSON {filename, dataBase64, text, type}
+    const contentType = req.headers["content-type"] || "";
+    if (contentType.includes("application/json")) {
+      const { filename, dataBase64, text = "", type = "feed" } = req.body || {};
+      if (!filename || !dataBase64) return res.status(400).json({ error: "Missing file" });
+      const bytes = Buffer.from(dataBase64.split(",").pop(), "base64");
+      const url = await uploadToStorage(`${Date.now()}-${filename}`, bytes);
 
-  // molto semplice: usiamo boundary per estrarre file (mobile friendly).
-  const ct = req.headers["content-type"] || "";
-  const boundary = /boundary=(.*)$/i.exec(ct)?.[1];
-  if (!boundary) return res.status(400).send("No boundary");
+      // Persist nelle tabelle “feed” o “moods” in base a type
+      const user_id = req.headers["x-user-id"] || null; // opzionale (se in futuro usi auth)
+      if (type === "feed") {
+        await db.insertFeed({ user_id, text, media_urls: [url] });
+      }
+      return res.json({ url });
+    }
 
-  const parts = buffer.toString("binary").split(`--${boundary}`);
-  const files = [];
-  for (const p of parts) {
-    if (!/Content-Disposition/i.test(p) || !/filename="/i.test(p)) continue;
-    const nameMatch = /filename="([^"]+)"/i.exec(p);
-    const typeMatch = /Content-Type:\s*([^\r\n]+)/i.exec(p);
-    const start = p.indexOf("\r\n\r\n");
-    const bin = p.slice(start + 4, p.lastIndexOf("\r\n"));
-    files.push({ filename: nameMatch?.[1] || `file-${Date.now()}`, mime: typeMatch?.[1] || "application/octet-stream", data: Buffer.from(bin, "binary") });
+    // Se preferisci form-data lato client, qui ci vorrebbe un parser (es. busboy).
+    return res.status(400).json({ error: "Send JSON {filename, dataBase64}" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send(String(e));
   }
-
-  if (!files.length) return res.status(400).send("No files");
-
-  const supa = serverClient();
-  const urls = [];
-  for (const f of files) {
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}/${f.filename}`;
-    const { error } = await supa.storage.from("media").upload(path, f.data, { contentType: f.mime, upsert: false });
-    if (error) return res.status(500).send(error.message);
-    const { data } = supa.storage.from("media").getPublicUrl(path);
-    urls.push(data.publicUrl);
-  }
-
-  res.setHeader("Content-Type","application/json");
-  res.status(200).send(JSON.stringify({ urls }));
 }
