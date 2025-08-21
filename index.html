@@ -1,414 +1,227 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>MINDflow – App</title>
-<style>
-:root{--bg:#000;--text:#fff;--dim:#cfcfd2;--panel:rgba(255,255,255,.05);--panel2:rgba(255,255,255,.1);--bd:rgba(255,255,255,.12);--p1:#FFB6C1;--p2:#FFDAB9;--shadow:0 6px 24px rgba(0,0,0,.35)}
-*{box-sizing:border-box} html,body{height:100%}
-body{margin:0;background:#000;color:#fff;font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
-.app{height:100%;max-width:390px;margin:0 auto;display:flex;flex-direction:column;border:1px solid #222;border-radius:25px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);overflow:hidden}
-.topbar{padding:18px 16px 6px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#111)}
-.logo{font-size:28px;font-weight:800;background:linear-gradient(45deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
-main{flex:1;overflow:auto;padding:18px 16px 110px}
-.home-wrap{height:100%;display:grid;place-items:center}
-.home{display:grid;grid-template-columns:repeat(2,150px);grid-auto-rows:150px;gap:16px;place-content:center;place-items:center}
-.card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:150px;height:150px;border-radius:16px;border:1px solid var(--bd);text-align:center;cursor:pointer;transition:transform .18s;box-shadow:var(--shadow);color:#fff}
-.ic{font-size:28px}.tl{font-weight:700}.st{font-size:11px;opacity:.85}
-.career{background:linear-gradient(135deg,#1a1a2e,#16213e)}.emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
-.fit{background:linear-gradient(135deg,#2e1f1a,#3e2a1b)}.spi{background:linear-gradient(135deg,#1a2e1f,#1b3e26)}
-.com{background:linear-gradient(135deg,#2e2a1a,#3e361b)}.pro{background:linear-gradient(135deg,#2e1a2a,#3e1b2f)}
-.view{display:none;animation:fade .24s ease}.view.active{display:block}
-.head{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px}
-.back{appearance:none;border:0;background:none;color:#FFB6C1;font-size:18px;cursor:pointer}
-.title{font-size:18px;font-weight:800}
-.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-style:italic}
-.panel{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;background:var(--panel2);border-radius:8px;margin-top:8px}
-.in{width:100%;padding:8px;border-radius:8px;border:1px solid #333;color:#fff;background:rgba(255,255,255,.08)}
-.small{font-size:12px;opacity:.85}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.btn{background:linear-gradient(135deg,var(--p1),var(--p2));border:0;padding:8px 10px;border-radius:10px;cursor:pointer;color:#000;font-weight:700}
-.badge{font-size:11px;padding:2px 8px;border:1px solid #444;border-radius:999px;opacity:.9;cursor:pointer}
-.bottom{position:fixed;left:0;right:0;bottom:0;height:84px;background:linear-gradient(135deg,#111,#000);border-top:1px solid #222;display:flex;justify-content:center;align-items:center;padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
-.homebtn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--p1),var(--p2));border:0;cursor:pointer}
-.sys{position:absolute;right:20px;font-size:12px;color:#FFB6C1;background:rgba(255,182,193,.08);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
-.jindi{position:fixed;right:18px;bottom:104px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20}
-.chat{position:fixed;right:18px;bottom:174px;width:300px;height:420px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
-.chat.active{display:block} .chathead{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #333}
-.msgs{height:300px;overflow:auto;margin:10px 0}.msg{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
-.msg.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000}.msg.me{background:var(--panel2)}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mèlora 🌙</title>
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:0; }
+    header { text-align:center; padding:20px; font-size:1.5em; background:#111; }
+    main { padding:15px; }
+    section { border:1px solid #333; padding:15px; border-radius:8px; margin-bottom:20px; }
+    h2 { margin-top:0; }
+    input, textarea, button, select {
+      width:100%; padding:8px; margin:5px 0; border-radius:6px; border:none;
+    }
+    button { background:#e91e63; color:white; font-weight:bold; cursor:pointer; }
+    button:hover { background:#ad1457; }
+    .output { white-space:pre-wrap; background:#111; padding:10px; border-radius:6px; margin-top:10px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  </style>
 </head>
 <body>
-<div class="app">
-  <div class="topbar">
-    <div class="logo">MINDflow</div>
-    <div class="tag">Il tuo viaggio verso la consapevolezza</div>
-  </div>
-
-  <main id="main">
-    <!-- HOME -->
-    <div class="home-wrap view active" id="home" aria-label="Home">
-      <section class="home">
-        <button class="card career" data-view="career"><div class="ic">🧠</div><div class="tl">Carriera</div><div class="st">Mindset</div></button>
-        <button class="card emo" data-view="emotions"><div class="ic">🩷</div><div class="tl">Emozioni</div><div class="st">Equilibrio</div></button>
-        <button class="card fit" data-view="fitness"><div class="ic">💪🏼</div><div class="tl">Fitness</div><div class="st">Salute</div></button>
-        <button class="card spi" data-view="spirituality"><div class="ic">🔮</div><div class="tl">Spiritualità</div><div class="st">Crescita</div></button>
-        <button class="card com" data-view="community"><div class="ic">🫂</div><div class="tl">Community</div><div class="st">Connessioni</div></button>
-        <button class="card pro" data-view="profile"><div class="ic">🫆</div><div class="tl">Profilo</div><div class="st">Piani</div></button>
-      </section>
-    </div>
-
-    <!-- CARRIERA -->
-    <section id="career" class="view" aria-label="Carriera">
-      <div class="head"><button class="back" data-back>←</button><div class="title">🧠 Carriera & Mindset</div></div>
-      <div class="ai">"Oggi è il giorno perfetto per trasformare i tuoi sogni in realtà. Jindi crede in te!"</div>
-
-      <div class="panel">
-        <h3>⚠️ Priorità del giorno (max 3)</h3>
-        <div id="prio-list"></div>
-        <div class="grid2" style="margin-top:8px">
-          <input id="prio-text" class="in" placeholder="Aggiungi priorità…">
-          <button id="prio-add" class="btn">+ Aggiungi</button>
-        </div>
-        <hr/>
-        <div class="grid2">
-          <div><h4>🥇 Obiettivo principale</h4>
-            <div class="row"><input id="goal-main" class="in" placeholder="Cosa conta di più oggi?"><span class="badge" id="goal-main-done">✅</span></div>
-          </div>
-          <div><h4>🥈 Mini obiettivi</h4>
-            <input id="goal-mini" class="in" placeholder="Scrivi mini obiettivi separati da ;">
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h3>📅 Daily Planner (00:00 → 24:00)</h3>
-        <div class="small">Crea slot con <em>Inizio</em> e <em>Fine</em>, spunta ✅ per completare.</div>
-        <div class="grid3">
-          <input id="pl-start" class="in" type="time" value="08:00">
-          <input id="pl-end" class="in" type="time" value="08:30">
-          <input id="pl-text" class="in" placeholder="Azione…">
-        </div>
-        <button id="pl-add" class="btn" style="margin-top:8px">+ Aggiungi</button>
-        <div id="planner-list" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🗒️ Note rapide / meeting</h3>
-        <div class="grid3">
-          <input id="note-text" class="in" placeholder="Scrivi nota/memo…">
-          <input id="meet-time" class="in" type="datetime-local">
-          <input id="meet-link" class="in" placeholder="Link (https://…)" />
-        </div>
-        <button id="note-add" class="btn" style="margin-top:8px">+ Aggiungi</button>
-        <div id="notes-list" style="margin-top:8px"></div>
-        <div style="margin-top:8px">
-          <h4>📷 Cosa ti ha colpito oggi?</h4>
-          <div class="grid2">
-            <input id="wow-text" class="in" placeholder="Commento…">
-            <input id="wow-file" type="file" class="in" multiple>
-          </div>
-          <button id="wow-pub" class="btn" style="margin-top:8px">Pubblica</button>
-          <div id="wow-feed" style="margin-top:8px"></div>
-        </div>
-        <div class="row" style="margin-top:8px">
-          <input id="challenge" class="in" placeholder='🧩 Sfida personale (es. "zero social per 1h")'>
-          <span class="badge" id="challenge-done">✅</span>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h3>💰 Bilancio giornaliero</h3>
-        <div class="grid3">
-          <select id="cash-type" class="in"><option value="in">Entrata</option><option value="out">Uscita</option></select>
-          <input id="cash-desc" class="in" placeholder="Descrizione">
-          <input id="cash-val" class="in" inputmode="decimal" placeholder="€">
-        </div>
-        <button id="cash-add" class="btn" style="margin-top:8px;width:100%">+ Registra</button>
-        <div id="cash-list" style="margin-top:8px"></div>
-        <div class="row"><span>Totale Entrate</span><strong>€ <span id="cash-in-tot">0.00</span></strong></div>
-        <div class="row"><span>Totale Uscite</span><strong>€ <span id="cash-out-tot">0.00</span></strong></div>
-        <div class="row"><span>Saldo</span><strong>€ <span id="cash-balance">0.00</span></strong></div>
-      </div>
-
-      <div class="panel">
-        <h3>🗂️ Liste veloci</h3>
-        <div class="grid3">
-          <input id="todo-shop" class="in" placeholder="🛍️ Cose da comprare…">
-          <input id="todo-home" class="in" placeholder="🧽 Faccende domestiche…">
-          <div class="grid2">
-            <input id="todo-call-name" class="in" placeholder="📲 Nome">
-            <input id="todo-call-num" class="in" placeholder="Numero/email">
-          </div>
-        </div>
-        <div class="grid2" style="margin-top:8px">
-          <input id="todo-deadline" class="in" placeholder="⏰ Scadenze importanti…">
-          <button id="todo-add" class="btn">+ Salva</button>
-        </div>
-        <div id="todo-lists" class="small" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🤔 Riflessione serale</h3>
-        <div class="grid2">
-          <input id="reflect" class="in" placeholder="Cosa ho imparato? Cosa migliorare?">
-          <button id="reflect-pub" class="btn">Pubblica</button>
-        </div>
-        <div id="reflect-feed" style="margin-top:8px"></div>
-      </div>
+  <header>🌸 Benvenuta in <b>Mèlora</b></header>
+  <main>
+    
+    <!-- Chat motivazionale -->
+    <section>
+      <h2>🩷 Chat Motivazionale</h2>
+      <textarea id="chatInput" placeholder="Scrivi un pensiero..."></textarea>
+      <button onclick="sendChat()">Invia</button>
+      <div id="chatOut" class="output"></div>
     </section>
 
-    <!-- EMOZIONI -->
-    <section id="emotions" class="view" aria-label="Emozioni">
-      <div class="head"><button class="back" data-back>←</button><div class="title">🩷 Emozioni</div></div>
-      <div class="panel">
-        <h3>😊 Tracker Umore</h3>
-        <div class="grid3">
-          <input id="mood-time" class="in" type="time" value="08:00">
-          <select id="mood-emo" class="in"><option>😢</option><option>😐</option><option selected>😊</option><option>😄</option><option>🤩</option></select>
-          <input id="mood-int" class="in" type="range" min="1" max="10" value="7">
-        </div>
-        <div class="grid3" style="margin-top:8px">
-          <input id="mood-trigger" class="in" placeholder="⁉️ Trigger emotivo">
-          <input id="mood-why" class="in" placeholder="Perché? Dipende da me o da eventi esterni?">
-          <input id="mood-file" class="in" type="file" multiple>
-        </div>
-        <button id="mood-add" class="btn" style="margin-top:8px;width:100%">+ Registra</button>
-        <div id="mood-list" style="margin-top:8px"></div>
-        <canvas id="mood-chart" width="340" height="120" style="margin-top:8px;background:rgba(255,255,255,.04);border:1px solid #333;border-radius:10px"></canvas>
-      </div>
-
-      <div class="panel">
-        <h3>🙏🏼 Gratitudine (3)</h3>
-        <div class="grid3"><input class="in grat" placeholder="1."><input class="in grat" placeholder="2."><input class="in grat" placeholder="3."></div>
-      </div>
-
-      <div class="panel">
-        <h3>🌪️ Contatti/Album</h3>
-        <div class="grid2"><input id="contact-name" class="in" placeholder="Nome amico/parente…"><input id="contact-files" class="in" type="file" multiple></div>
-        <button id="contact-pub" class="btn" style="margin-top:8px">+ Pubblica album</button>
-        <div id="contact-feed" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>✨ Self‑care del giorno</h3>
-        <div class="grid2"><input id="selfcare" class="in" placeholder="Breve rituale…"><button id="selfcare-pub" class="btn">Pubblica</button></div>
-        <div id="selfcare-feed" style="margin-top:8px"></div>
-      </div>
+    <!-- Ricette -->
+    <section>
+      <h2>🍽️ Ricette</h2>
+      <input id="recIn" placeholder="Ingredienti (es: pollo, zucchine)">
+      <button onclick="sendRecipes()">Genera ricette</button>
+      <div id="recOut" class="output"></div>
     </section>
 
-    <!-- FITNESS -->
-    <section id="fitness" class="view" aria-label="Fitness">
-      <div class="head"><button class="back" data-back>←</button><div class="title">💪🏼 Fitness & Salute</div></div>
-
-      <div class="panel">
-        <h3>😴 Sonno / 🧘 Stretching / 💊 Integratori</h3>
-        <div class="grid3">
-          <input id="sleep-hours" class="in" inputmode="decimal" placeholder="Ore sonno">
-          <input id="stretch-min" class="in" inputmode="decimal" placeholder="Min stretching/yoga">
-          <input id="pills" class="in" placeholder="Farmaci/integratori">
-        </div>
-        <div class="row"><span>Media sonno oggi</span><strong id="sleep-avg-day">0 h</strong></div>
-        <div class="row"><span>Media sonno settimana</span><strong id="sleep-avg-week">0 h</strong></div>
-        <button id="ai-stretch" class="btn" style="margin-top:8px">Consigli Stretching (AI)</button>
-        <div id="ai-stretch-out" class="panel" style="margin-top:8px"></div>
-        <button id="ai-pills" class="btn">Spiega integratori (AI)</button>
-        <div id="ai-pills-out" class="panel" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🍽️ Nutrizione & kcal (auto)</h3>
-        <div class="grid3">
-          <input id="food-name" class="in" placeholder="Alimento/piatto…">
-          <input id="food-qty" class="in" placeholder="Quantità (es. 150 g)">
-          <button id="food-add" class="btn">+ Aggiungi</button>
-        </div>
-        <div id="food-list" style="margin-top:8px"></div>
-        <div class="row"><span>Totale oggi</span><strong><span id="kcal-tot">0</span> kcal</strong></div>
-      </div>
-
-      <div class="panel">
-        <h3>🏋️ Workout</h3>
-        <div class="grid3"><input id="w-goal" class="in" placeholder="Obiettivo (es. forza)"><input id="w-days" class="in" inputmode="numeric" placeholder="Giorni/sett."><button id="w-generate" class="btn">AI</button></div>
-        <div class="grid2" style="margin-top:8px"><input id="w-manual" class="in" placeholder="Aggiungi esercizio/giorno…"><button id="w-add" class="btn">+ Manuale</button></div>
-        <div id="workout-list" style="margin-top:8px"></div>
-      </div>
+    <!-- Workout -->
+    <section>
+      <h2>💪 Workout</h2>
+      <select id="goal">
+        <option>Forza</option>
+        <option>Dimagrimento</option>
+        <option>Mobilità</option>
+      </select>
+      <input id="days" type="number" value="3" min="1" max="7">
+      <button onclick="sendWorkout()">Crea piano</button>
+      <div id="workOut" class="output"></div>
     </section>
 
-    <!-- SPIRITUALITÀ -->
-    <section id="spirituality" class="view" aria-label="Spiritualità">
-      <div class="head"><button class="back" data-back>←</button><div class="title">🔮 Spiritualità</div></div>
-
-      <div class="panel" style="text-align:center">
-        <h3>🧘‍♀️ Meditazione Guidata</h3>
-        <div id="med-timer" style="font-size:32px;font-weight:800;color:var(--p1);margin:8px 0">10:00</div>
-        <button id="med-toggle" class="btn">▶️ Avvia/Metti in pausa</button>
-      </div>
-
-      <div class="panel">
-        <h3>🪐 Tema natale (AI)</h3>
-        <div class="grid3"><input id="astro-date" class="in" placeholder="10 lug 2004"><input id="astro-time" class="in" placeholder="05:00"><input id="astro-place" class="in" placeholder="Broni, (PV)"></div>
-        <button id="astro-analyze" class="btn" style="margin-top:8px;width:100%">Analizza influenza su azioni & umore</button>
-        <div id="astro-out" class="panel" style="margin-top:8px">—</div>
-      </div>
-
-      <div class="panel">
-        <h3>🃏 Carte del giorno (max 10)</h3>
-        <div class="row"><span id="tarot">Tocca per pescare…</span><button id="tarot-btn" class="btn">Pesca</button></div>
-        <div id="tarot-out" class="panel" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🕯️ Rituali / 📿 Sogni</h3>
-        <div class="grid2"><input id="ritual" class="in" placeholder="Nome rituale…"><input id="ritual-desc" class="in" placeholder="Descrizione…"></div>
-        <button id="ritual-pub" class="btn" style="margin-top:8px">Pubblica</button>
-        <div id="ritual-feed" style="margin-top:8px"></div>
-        <div class="grid2" style="margin-top:8px"><input id="dreams" class="in" placeholder="Sogni ricordati…"><button id="dreams-pub" class="btn">Pubblica</button></div>
-        <div id="dreams-feed" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🎨 Creatività & Doodle</h3>
-        <div class="grid3"><input id="creative-hours" class="in" inputmode="decimal" placeholder="Ore dedicate"><input id="creative-file" class="in" type="file" multiple><button id="creative-save" class="btn">Allega</button></div>
-        <div id="creative-feed" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🎞️ Watchlist + descrizione (AI)</h3>
-        <div class="grid3"><select id="watch-type" class="in"><option>Film</option><option>Libro</option><option>Serie</option></select><input id="watch-title" class="in" placeholder="Titolo…"><button id="watch-add" class="btn">+ Aggiungi</button></div>
-        <div id="watch-feed" style="margin-top:8px"></div>
-      </div>
-
-      <div class="panel">
-        <h3>🖌️ Ispirazione creativa</h3>
-        <div class="grid3"><input id="inspo" class="in" placeholder="Idea/frase/sketch…"><input id="inspo-file" class="in" type="file" multiple><button id="inspo-add" class="btn">Pubblica</button></div>
-        <div id="inspo-feed" style="margin-top:8px"></div>
-      </div>
+    <!-- Astrologia -->
+    <section>
+      <h2>🔮 Astrologia</h2>
+      <input id="date" type="date">
+      <input id="time" type="time">
+      <input id="place" placeholder="Luogo di nascita">
+      <button onclick="sendAstro()">Leggi</button>
+      <div id="astroOut" class="output"></div>
     </section>
 
-    <!-- COMMUNITY -->
-    <section id="community" class="view" aria-label="Community">
-      <div class="head"><button class="back" data-back>←</button><div class="title">🫂 Community</div></div>
-      <div class="panel">
-        <h3>✨ Condividi</h3>
-        <textarea rows="3" class="in" id="post-text" placeholder="Cosa stai pensando oggi?"></textarea>
-        <div class="grid3" style="margin-top:8px"><input id="post-files" class="in" type="file" multiple><button id="post-btn" class="btn">Pubblica</button><span class="small">Foto/Audio/File</span></div>
-      </div>
-      <div class="panel" id="feed"><h3>📰 Feed</h3></div>
+    <!-- Feed -->
+    <section>
+      <h2>📢 Feed</h2>
+      <textarea id="feedText" placeholder="Scrivi un post..."></textarea>
+      <input id="feedFile" type="file">
+      <button onclick="sendFeed()">Pubblica</button>
+      <div id="feedOut" class="output"></div>
     </section>
 
-    <!-- PROFILO -->
-    <section id="profile" class="view" aria-label="Profilo">
-      <div class="head"><button class="back" data-back>←</button><div class="title">🫆 Profilo</div></div>
-      <div class="panel">
-        <h3>💎 Piani & Upgrade</h3>
-        <div class="grid3">
-          <a class="btn" rel="nofollow noopener" target="_blank" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03">🌱 Boccioli €7,99/m</a>
-          <a class="btn" rel="nofollow noopener" target="_blank" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04">🌸 Fiori €12,99/m</a>
-          <a class="btn" rel="nofollow noopener" target="_blank" href="https://buy.stripe.com/00w7sL3Lpclj3Cucild0Q05">💎 Premium €149,99/m</a>
-        </div>
+    <!-- Emozioni -->
+    <section>
+      <h2>🩷 Emozioni</h2>
+      <div class="grid">
+        <input id="emoEmoji" placeholder="Emoji 😊">
+        <input id="emoInt" type="number" placeholder="Intensità 1-10">
       </div>
+      <input id="emoTrigger" placeholder="Trigger">
+      <textarea id="emoWhy" placeholder="Perché?"></textarea>
+      <textarea id="emoCare" placeholder="Self-care"></textarea>
+      <input id="emoFile" type="file">
+      <button onclick="sendMood()">Salva Emozione</button>
+      <div id="emoOut" class="output"></div>
     </section>
+
+    <!-- Planner -->
+    <section>
+      <h2>📅 Planner</h2>
+      <input id="planStart" type="datetime-local">
+      <input id="planEnd" type="datetime-local">
+      <input id="planTitle" placeholder="Titolo attività">
+      <button onclick="sendPlan()">Aggiungi</button>
+      <div id="planOut" class="output"></div>
+    </section>
+
+    <!-- Bilancio -->
+    <section>
+      <h2>💸 Bilancio</h2>
+      <select id="cashKind"><option value="in">Entrata</option><option value="out">Uscita</option></select>
+      <input id="cashAmt" type="number" placeholder="Importo €">
+      <input id="cashDesc" placeholder="Descrizione">
+      <button onclick="sendCash()">Registra</button>
+      <div id="cashOut" class="output"></div>
+    </section>
+
   </main>
 
-  <nav class="bottom" aria-label="Navigazione">
-    <button class="homebtn" id="go-home" aria-label="Home">🏠</button>
-    <button class="sys" id="open-system" aria-haspopup="dialog">Sistema ⚙️</button>
-  </nav>
-</div>
-
-<button class="jindi" id="jindi" aria-controls="chat" aria-expanded="false">👋</button>
-<section class="chat" id="chat" aria-live="polite" aria-label="Chat con Jindi">
-  <div class="chathead"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center">🤖</div><div><strong>Jindi AI</strong><div style="font-size:10px;opacity:.7">Assistente</div></div><button id="close-chat" style="margin-left:auto;background:none;border:0;color:#ccc;font-size:18px">×</button></div>
-  <div class="msgs" id="msgs"><div class="msg ai">Ciao! Come posso aiutarti oggi? 🌟</div></div>
-  <input id="chat-in" class="in" placeholder="Scrivi a Jindi…" />
-</section>
-
 <script>
-/* ===== util & nav ===== */
-const $=(s,r=document)=>r.querySelector(s); const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const views=["home","career","emotions","fitness","spirituality","community","profile"];
-function show(v){views.forEach(x=>$("#"+x).classList.toggle("active",x===v));location.hash="#"+v;}
-window.addEventListener("hashchange",()=>{const v=(location.hash||"#home").slice(1);show(views.includes(v)?v:"home");});
-$$("#home .card").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
-$$("[data-back]").forEach(b=>b.addEventListener("click",()=>history.back()));
-$("#go-home").addEventListener("click",()=>show("home"));
-$("#open-system").addEventListener("click",()=>alert("Backup/Supporto/Info"));
-
-/* ==== helper upload → Supabase via /api/upload ==== */
-async function uploadFiles(inputEl){
-  const files=[...(inputEl?.files||[])]; if(!files.length) return [];
-  const fd=new FormData(); files.forEach(f=>fd.append("files",f));
-  const r=await fetch("/api/upload",{method:"POST",body:fd});
-  if(!r.ok) throw new Error(await r.text());
-  const {urls}=await r.json(); return urls;
+async function api(path, body) {
+  const r = await fetch(path, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(body) });
+  return r.json();
 }
 
-/* ===== Carriera ===== */
-$("#prio-add").onclick=()=>{const t=$("#prio-text").value.trim();if(!t)return;const list=$("#prio-list");if(list.children.length>=3)return alert("Max 3 priorità");const r=document.createElement("div");r.className="row";r.innerHTML=`<span>⚠️ ${t}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.remove();list.appendChild(r);$("#prio-text").value=""}
-$("#goal-main-done").onclick=()=>{$("#goal-main").style.textDecoration = $("#goal-main").style.textDecoration? "" : "line-through";}
-$("#pl-add").onclick=()=>{const s=$("#pl-start").value,e=$("#pl-end").value,t=$("#pl-text").value.trim();if(!t)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${s}–${e} • ${t}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.remove();$("#planner-list").appendChild(r);$("#pl-text").value=""}
-$("#note-add").onclick=()=>{const t=$("#note-text").value.trim(),when=$("#meet-time").value,link=$("#meet-link").value.trim();if(!t&&!when&&!link)return;const r=document.createElement("div");r.className="row";const a=link?` <a href="${/^https?:\/\//.test(link)?link:"https://"+link}" target="_blank" rel="noopener">🔗 apri</a>`:"";r.innerHTML=`<span>${t||"—"} ${when?("• "+when):""}${a}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.remove();$("#notes-list").appendChild(r);$("#note-text").value=$("#meet-time").value=$("#meet-link").value=""}
-$("#wow-pub").onclick=async()=>{try{const urls=await uploadFiles($("#wow-file"));const txt=$("#wow-text").value.trim();const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${txt||"—"}</span><span class="small">${urls.map(u=>`<a href="${u}" target="_blank">file</a>`).join(" • ")||"—"}</span>`;$("#wow-feed").prepend(r);$("#wow-text").value="";$("#wow-file").value="";}catch(e){alert("Upload fallito")}}
-$("#challenge-done").onclick=()=>{$("#challenge").style.textDecoration = $("#challenge").style.textDecoration? "":"line-through";}
+// CHAT
+async function sendChat(){
+  const message=document.getElementById("chatInput").value;
+  const out=document.getElementById("chatOut");
+  out.textContent="⏳...";
+  const res=await api("/api/chat",{message});
+  out.textContent=res.reply;
+}
 
-const money={in:0,out:0};
-$("#cash-add").onclick=()=>{const type=$("#cash-type").value,desc=$("#cash-desc").value.trim(),val=parseFloat($("#cash-val").value||"0")||0;if(!val)return;money[type]+=val;const row=document.createElement("div");row.className="row";row.innerHTML=`<span>${type==="in"?"Entrata":"Uscita"} — ${desc||"—"}</span><strong>€ ${val.toFixed(2)}</strong>`;$("#cash-list").appendChild(row);$("#cash-in-tot").textContent=money.in.toFixed(2);$("#cash-out-tot").textContent=money.out.toFixed(2);$("#cash-balance").textContent=(money.in-money.out).toFixed(2);$("#cash-desc").value=$("#cash-val").value="";}
-$("#todo-add").onclick=()=>{const data={shop:$("#todo-shop").value,home:$("#todo-home").value,call:($("#todo-call-name").value?`${$("#todo-call-name").value} (${ $("#todo-call-num").value||"—"})`:""),deadline:$("#todo-deadline").value};const wrap=$("#todo-lists");wrap.innerHTML="";Object.values(data).forEach(v=>{if(!v)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${v}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.remove();wrap.appendChild(r)});}
-$("#reflect-pub").onclick=()=>{const t=$("#reflect").value.trim();if(!t)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>📝 ${t}</span>`;$("#reflect-feed").prepend(r);$("#reflect").value=""}
+// RICETTE
+async function sendRecipes(){
+  const ingredients=document.getElementById("recIn").value;
+  const out=document.getElementById("recOut");
+  out.textContent="⏳...";
+  const res=await api("/api/recipes",{ingredients});
+  out.textContent=res.text;
+}
 
-/* ===== Emozioni ===== */
-const moodSeries=[];function drawMood(){const c=$("#mood-chart"),ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);if(!moodSeries.length){ctx.fillStyle="#777";ctx.fillText("Nessun dato",10,16);return}const maxX=c.width-20,maxY=c.height-20,step=maxX/Math.max(1,moodSeries.length-1);ctx.strokeStyle="#fff";ctx.beginPath();moodSeries.forEach((v,i)=>{const x=10+i*step,y=maxY-(v-1)/9*maxY;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
-$("#mood-add").onclick=async()=>{const v=parseInt($("#mood-int").value,10),time=$("#mood-time").value,emo=$("#mood-emo").value,trg=$("#mood-trigger").value,why=$("#mood-why").value;let files=[];try{files=await uploadFiles($("#mood-file"))}catch{}const row=document.createElement("div");row.className="row";row.innerHTML=`<span>${time} ${emo} (int.${v})</span><span class="small">${trg||"—"} | ${why||"—"} ${files.length?(" | "+files.map(u=>`<a href='${u}' target='_blank'>file</a>`).join(" • ")):""}</span>`;$("#mood-list").prepend(row);moodSeries.push(v);if(moodSeries.length>56)moodSeries.shift();drawMood()}
+// WORKOUT
+async function sendWorkout(){
+  const goal=document.getElementById("goal").value;
+  const days=document.getElementById("days").value;
+  const out=document.getElementById("workOut");
+  out.textContent="⏳...";
+  const res=await api("/api/workout",{goal,days});
+  out.textContent=res.text;
+}
 
-$("#contact-pub").onclick=async()=>{try{const urls=await uploadFiles($("#contact-files"));const r=document.createElement("div");r.className="row";r.innerHTML=`<span>Album • ${$("#contact-name").value||"—"}</span><span class="small">${urls.map(u=>`<a href="${u}" target="_blank">foto</a>`).join(" • ")||"—"}</span>`;$("#contact-feed").prepend(r);$("#contact-name").value="";$("#contact-files").value=""}catch(e){alert("Upload fallito")}}
-$("#selfcare-pub").onclick=()=>{const t=$("#selfcare").value.trim();if(!t)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${t}</span>`;$("#selfcare-feed").prepend(r);$("#selfcare").value=""}
+// ASTRO
+async function sendAstro(){
+  const date=document.getElementById("date").value;
+  const time=document.getElementById("time").value;
+  const place=document.getElementById("place").value;
+  const out=document.getElementById("astroOut");
+  out.textContent="⏳...";
+  const res=await api("/api/astro",{date,time,place});
+  out.textContent=res.text;
+}
 
-/* ===== Fitness ===== */
-const sleepDay=[];const sleepWeek=[];function calcSleep(){const sum=a=>a.reduce((s,x)=>s+x,0);$("#sleep-avg-day").textContent=(sleepDay.length? (sum(sleepDay)/sleepDay.length):0).toFixed(1)+" h";$("#sleep-avg-week").textContent=(sleepWeek.length? (sum(sleepWeek)/sleepWeek.length):0).toFixed(1)+" h";}
-$("#sleep-hours").addEventListener("change",()=>{const v=parseFloat($("#sleep-hours").value||"0")||0;if(!v)return;sleepDay.push(v);if(sleepDay.length>1)sleepDay.shift();sleepWeek.push(v);if(sleepWeek.length>7)sleepWeek.shift();calcSleep();});
-$("#ai-stretch").onclick=async()=>{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Suggerisci una breve routine di stretching/yoga in minuti, livello base, elenco puntato.`})});const d=await r.json();$("#ai-stretch-out").textContent=d.reply||"—";}
-$("#ai-pills").onclick=async()=>{const txt=$("#pills").value.trim();if(!txt)return;const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Spiega in modo pratico e sicuro l'effetto quotidiano di questi integratori/farmaci: ${txt}. Italiano, avvertenze brevi.`})});const d=await r.json();$("#ai-pills-out").textContent=d.reply||"—";}
+// FEED
+async function sendFeed(){
+  const text=document.getElementById("feedText").value;
+  const file=document.getElementById("feedFile").files[0];
+  const out=document.getElementById("feedOut");
+  out.textContent="⏳...";
+  let media_urls=[];
+  if(file){
+    const b64=await toBase64(file);
+    const up=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filename:file.name,dataBase64:b64,text,type:"feed"})});
+    const u=await up.json();
+    media_urls=[u.url];
+  }
+  const res=await api("/api/feed",{text,media_urls});
+  out.textContent="✅ Post pubblicato";
+}
 
-const foods=[];async function estimateKcal(n,qty){try{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Stima calorie per '${n}' quantità '${qty}'. Rispondi SOLO con numero intero kcal.`})});const d=await r.json();const num=parseInt(String(d.reply||"0").replace(/\D/g,""),10)||0;return num}catch{return 0}}
-$("#food-add").onclick=async()=>{const n=$("#food-name").value.trim(),q=$("#food-qty").value.trim();if(!n)return;const kcal=await estimateKcal(n,q);foods.push({n,q,kcal});const row=document.createElement("div");row.className="row";row.innerHTML=`<span>${n}${q?(" • "+q):""}</span><strong>${kcal} kcal</strong>`;$("#food-list").prepend(row);$("#kcal-tot").textContent=foods.reduce((s,x)=>s+x.kcal,0);$("#food-name").value=$("#food-qty").value="";}
+// MOODS
+async function sendMood(){
+  const emoji=document.getElementById("emoEmoji").value;
+  const intensity=document.getElementById("emoInt").value;
+  const trigger=document.getElementById("emoTrigger").value;
+  const why=document.getElementById("emoWhy").value;
+  const selfcare=document.getElementById("emoCare").value;
+  const file=document.getElementById("emoFile").files[0];
+  const out=document.getElementById("emoOut");
+  out.textContent="⏳...";
+  let media_urls=[];
+  if(file){
+    const b64=await toBase64(file);
+    const up=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filename:file.name,dataBase64:b64,type:"mood"})});
+    const u=await up.json();
+    media_urls=[u.url];
+  }
+  const res=await api("/api/moods",{emoji,intensity,trigger,why,selfcare,media_urls});
+  out.textContent="✅ Emozione salvata";
+}
 
-$("#w-generate").onclick=async()=>{const goal=$("#w-goal").value||"forza",days=$("#w-days").value||"3";const r=await fetch("/api/workout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({goal,days})});const d=await r.json();renderWorkout((d.text||"").split("\n").filter(Boolean));}
-$("#w-add").onclick=()=>{const t=$("#w-manual").value.trim();if(!t)return;renderWorkout([t]);$("#w-manual").value="";}
-function renderWorkout(lines){const host=$("#workout-list");lines.forEach(l=>{const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${l}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.style.textDecoration = r.style.textDecoration? "":"line-through";host.appendChild(r);});}
+// PLANNER
+async function sendPlan(){
+  const start_ts=document.getElementById("planStart").value;
+  const end_ts=document.getElementById("planEnd").value;
+  const title=document.getElementById("planTitle").value;
+  const out=document.getElementById("planOut");
+  out.textContent="⏳...";
+  const res=await api("/api/planner",{start_ts,end_ts,title});
+  out.textContent="✅ Attività salvata";
+}
 
-/* ===== Spiritualità ===== */
-let secs=10*60,iv=null;const medTimer=$("#med-timer");function rend(){const m=Math.floor(secs/60),s=secs%60;medTimer.textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;}
-function start(){if(iv)return;iv=setInterval(()=>{if(secs>0){secs--;rend()}else{clearInterval(iv);iv=null;alert("Meditazione completata ✨");secs=10*60;rend()}},1000)} $("#med-toggle").onclick=()=>iv? (clearInterval(iv),iv=null):start();rend();
+// CASHBOOK
+async function sendCash(){
+  const kind=document.getElementById("cashKind").value;
+  const amount=document.getElementById("cashAmt").value;
+  const description=document.getElementById("cashDesc").value;
+  const out=document.getElementById("cashOut");
+  out.textContent="⏳...";
+  const res=await api("/api/cashbook",{kind,amount,description});
+  out.textContent="✅ Registrato";
+}
 
-$("#astro-analyze").onclick=async()=>{$("#astro-out").textContent="Analizzo…";const date=$("#astro-date").value.trim(),time=$("#astro-time").value.trim(),place=$("#astro-place").value.trim();try{const r=await fetch("/api/astro",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({date,time,place})});const d=await r.json();$("#astro-out").textContent=d.text||"—"}catch(e){$("#astro-out").textContent="Ops 🙏"}}
-
-const TAROT=["Il Matto","Il Bagatto","La Papessa","L’Imperatrice","L’Imperatore","Il Papa","Gli Amanti","Il Carro","La Giustizia","L’Eremita","La Ruota","La Forza","L’Appeso","La Morte","La Temperanza","Il Diavolo","La Torre","Le Stelle","La Luna","Il Sole","Il Giudizio","Il Mondo"];let tarotCount=0;
-$("#tarot-btn").onclick=async()=>{if(tarotCount>=10)return alert("Già 10 carte oggi!");const c=TAROT[Math.floor(Math.random()*TAROT.length)];$("#tarot").textContent="🃏 "+c;tarotCount++;const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Interpreta brevemente la carta dei tarocchi: ${c}. Stile incoraggiante, pratico.`})});const d=await r.json();const out=document.createElement("div");out.className="row";out.innerHTML=`<span>${c}</span><span class="small">${d.reply||"—"}</span>`;$("#tarot-out").prepend(out);}
-
-$("#ritual-pub").onclick=()=>{const n=$("#ritual").value.trim(),ds=$("#ritual-desc").value.trim();if(!n)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>🕯️ ${n} — ${ds||"—"}</span><span class="badge">✅</span>`;r.querySelector(".badge").onclick=()=>r.style.textDecoration=r.style.textDecoration?"":"line-through";$("#ritual-feed").prepend(r);$("#ritual").value=$("#ritual-desc").value=""}
-$("#dreams-pub").onclick=()=>{const t=$("#dreams").value.trim();if(!t)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>💤 ${t}</span>`;$("#dreams-feed").prepend(r);$("#dreams").value=""}
-
-$("#creative-save").onclick=async()=>{const hrs=parseFloat($("#creative-hours").value||"0")||0;let urls=[];try{urls=await uploadFiles($("#creative-file"))}catch{}const r=document.createElement("div");r.className="row";r.innerHTML=`<span>🎨 ${hrs}h</span><span class="small">${urls.map(u=>`<a href="${u}" target="_blank">opera</a>`).join(" • ")||"—"}</span>`;$("#creative-feed").prepend(r)}
-$("#watch-add").onclick=async()=>{const type=$("#watch-type").value,title=$("#watch-title").value.trim();if(!title)return;const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Scrivi una breve descrizione senza spoiler per questo ${type.toLowerCase()}: ${title}. Italiano, 2-3 frasi.`})});const d=await r.json();const row=document.createElement("div");row.className="row";row.innerHTML=`<span>${type}: ${title}</span><span class="small">${d.reply||"—"}</span>`;$("#watch-feed").prepend(row);$("#watch-title").value=""}
-$("#inspo-add").onclick=async()=>{let urls=[];try{urls=await uploadFiles($("#inspo-file"))}catch{}const t=$("#inspo").value.trim();if(!t&&!urls.length)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>${t||"—"}</span><span class="small">${urls.map(u=>`<a href="${u}" target="_blank">allegato</a>`).join(" • ")}</span>`;$("#inspo-feed").prepend(r);$("#inspo").value="";$("#inspo-file").value=""}
-
-/* ===== Community ===== */
-$("#post-btn").onclick=async()=>{let urls=[];try{urls=await uploadFiles($("#post-files"))}catch{}const t=$("#post-text").value.trim();if(!t&&!urls.length)return;const r=document.createElement("div");r.className="row";r.innerHTML=`<span>@Tu</span><span>${t||""} ${urls.map(u=>`<a href="${u}" target="_blank">allegato</a>`).join(" • ")}</span>`;$("#feed").prepend(r);$("#post-text").value="";$("#post-files").value=""}
-
-/* ===== Chat minima ===== */
-const bubble=$("#jindi"),chat=$("#chat"),closeChat=$("#close-chat"),input=$("#chat-in"),msgs=$("#msgs");function toggleChat(o){const open=o??!chat.classList.contains("active");chat.classList.toggle("active",open);if(open)input.focus();} bubble.onclick=()=>toggleChat(); closeChat.onclick=()=>toggleChat(false);
-function addMsg(text,who="ai"){const d=document.createElement("div");d.className="msg "+who;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
-async function askLLM(q){const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:q})});if(!r.ok)return"Ops 🙏";const d=await r.json();return d.reply||"—";}
-input.addEventListener("keydown",async e=>{if(e.key==="Enter"){const t=input.value.trim();if(!t)return;addMsg(t,"me");input.value="";addMsg(await askLLM(t),"ai");}})
-
-show((location.hash||"#home").slice(1));
+// Helper
+function toBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.readAsDataURL(file);
+    r.onload=()=>resolve(r.result);
+    r.onerror=reject;
+  });
+}
 </script>
 </body>
 </html>
