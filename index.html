@@ -381,9 +381,9 @@ hr{border:0;border-top:1px solid #333;margin:10px 0}
       <div class="panel">
         <h3>💎 Piani & Upgrade</h3>
         <div class="grid3">
-          <a class="btn" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03" target="_blank">🌱 Boccioli €7,99/m</a>
-          <a class="btn" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04" target="_blank">🌸 Fiori €12,99/m</a>
-          <a class="btn" href="https://buy.stripe.com/00w7sL3Lpclj3Cucild0Q05" target="_blank">💎 Premium €149,99/m</a>
+          <a class="btn" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03" target="_blank" rel="noopener noreferrer">🌱 Boccioli €7,99/m</a>
+          <a class="btn" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04" target="_blank" rel="noopener noreferrer">🌸 Fiori €12,99/m</a>
+          <a class="btn" href="https://buy.stripe.com/00w7sL3Lpclj3Cucild0Q05" target="_blank" rel="noopener noreferrer">💎 Premium €149,99/m</a>
         </div>
         <div class="small" style="margin-top:6px">Clicca un piano per aprire il checkout sicuro Stripe.</div>
       </div>
@@ -438,14 +438,14 @@ $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup, Sup
     row.innerHTML = `
       <span style="min-width:64px;display:inline-block">${t}</span>
       <input class="in slot" data-time="${t}" placeholder="Aggiungi azione per ${t}">
-      <button class="badge done" data-time="${t}">✅</button>
+      <button class="badge done" data-time="${t}" title="Completa">✅</button>
     `;
     host.appendChild(row);
   });
   host.addEventListener("click", e=>{
     if(e.target.classList.contains("done")){
       const t=e.target.dataset.time;
-      const inp=$(\`.slot[data-time="\${t}"]\`);
+      const inp=document.querySelector(\`.slot[data-time="\${t}"]\`);
       if(!inp.value.trim()) return;
       inp.style.textDecoration = inp.style.textDecoration? "" : "line-through";
     }
@@ -453,7 +453,7 @@ $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup, Sup
 })();
 
 /* Priorità */
-$("#prio-add").addEventListener("click", ()=>{
+$("#prio-add")?.addEventListener("click", ()=>{
   const t=$("#prio-text").value.trim(); if(!t) return;
   const list=$("#prio-list");
   if(list.children.length>=3) return alert("Max 3 priorità!");
@@ -464,7 +464,7 @@ $("#prio-add").addEventListener("click", ()=>{
 });
 
 /* Mini liste varie */
-$("#todo-add").addEventListener("click", ()=>{
+$("#todo-add")?.addEventListener("click", ()=>{
   const s = (id)=>$("#"+id).value.trim();
   const data = { shop:s("todo-shop"), home:s("todo-home"), comm:s("todo-comm"), deadline:s("todo-deadline") };
   const wrap=$("#todo-lists"); wrap.innerHTML="";
@@ -478,7 +478,7 @@ $("#todo-add").addEventListener("click", ()=>{
 
 /* Bilancio */
 const money = { in:0, out:0 };
-$("#cash-add").addEventListener("click", ()=>{
+$("#cash-add")?.addEventListener("click", ()=>{
   const d=$("#cash-desc").value.trim();
   const inc=parseFloat($("#cash-in").value||"0")||0;
   const out=parseFloat($("#cash-out").value||"0")||0;
@@ -503,9 +503,10 @@ const moodDataDay=[], moodDataWeek=[];
 function drawChart(){
   const c=$("#mood-chart"); const ctx=c.getContext("2d");
   ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle="#aaa"; ctx.textBaseline="top"; ctx.font="12px system-ui";
   const mode=$("#mood-range").textContent.includes("giorno")?"day":"week";
   const data= mode==="day"? moodDataDay : moodDataWeek;
-  if(!data.length){ ctx.fillStyle="#777"; ctx.fillText("Nessun dato", 10, 20); return; }
+  if(!data.length){ ctx.fillText("Nessun dato", 10, 10); return; }
   const maxX=c.width-20, maxY=c.height-20;
   const stepX = maxX/Math.max(1,data.length-1);
   ctx.strokeStyle="#fff"; ctx.beginPath();
@@ -515,7 +516,7 @@ function drawChart(){
   });
   ctx.stroke();
 }
-$("#mood-add").addEventListener("click", ()=>{
+$("#mood-add")?.addEventListener("click", ()=>{
   const v=parseInt($("#mood-int").value,10);
   const time=$("#mood-time").value, emo=$("#mood-emo").value, trg=$("#mood-trigger").value, sc=$("#mood-selfcare").value;
   const row=document.createElement("div"); row.className="row";
@@ -525,7 +526,7 @@ $("#mood-add").addEventListener("click", ()=>{
   moodDataWeek.push(v); if(moodDataWeek.length>56) moodDataWeek.shift();
   drawChart();
 });
-$("#mood-range").addEventListener("click", e=>{
+$("#mood-range")?.addEventListener("click", e=>{
   e.target.textContent = e.target.textContent==="giorno" ? "settimana" : "giorno";
   drawChart();
 });
@@ -542,7 +543,7 @@ function sumKcal(){ let tot=0; $$(".kcal").forEach(i=>{ const v=parseFloat(i.val
 $$(".kcal").forEach(i=>i.addEventListener("input", sumKcal));
 
 /* Spesa/ricette AI */
-$("#ai-recipes").addEventListener("click", async ()=>{
+$("#ai-recipes")?.addEventListener("click", async ()=>{
   const ingredients=$("#ing-list").value.trim();
   $("#recipes-out").textContent="Sto pensando a ricette…";
   try{
@@ -554,7 +555,7 @@ $("#ai-recipes").addEventListener("click", async ()=>{
 });
 
 /* Workout AI */
-$("#w-generate").addEventListener("click", async ()=>{
+$("#w-generate")?.addEventListener("click", async ()=>{
   const goal=$("#w-goal").value.trim()||"Forza"; const days=$("#w-days").value.trim()||"3";
   $("#workout-out").textContent="Creo il tuo piano…";
   try{
@@ -572,7 +573,7 @@ function stop(){ clearInterval(iv); iv=null; }
 medBtn?.addEventListener("click", ()=> iv?stop():start()); rend();
 
 /* Astro AI */
-$("#astro-analyze").addEventListener("click", async ()=>{
+$("#astro-analyze")?.addEventListener("click", async ()=>{
   $("#astro-out").textContent="Analizzo…";
   const date=$("#astro-date").value.trim(), time=$("#astro-time").value.trim(), place=$("#astro-place").value.trim();
   try{
@@ -584,11 +585,12 @@ $("#astro-analyze").addEventListener("click", async ()=>{
 
 /* Tarot semplice */
 const TAROT=["Il Matto","Il Bagatto","La Papessa","L’Imperatrice","L’Imperatore","Il Papa","Gli Amanti","Il Carro","La Giustizia","L’Eremita","La Ruota","La Forza","L’Appeso","La Morte","La Temperanza","Il Diavolo","La Torre","Le Stelle","La Luna","Il Sole","Il Giudizio","Il Mondo"];
-$("#tarot-btn").addEventListener("click", ()=>{ const c=TAROT[Math.floor(Math.random()*TAROT.length)]; $("#tarot").textContent="🃏 "+c; });
+$("#tarot-btn")?.addEventListener("click", ()=>{ const c=TAROT[Math.floor(Math.random()*TAROT.length)]; $("#tarot").textContent="🃏 "+c; });
 
 /* Doodle */
 (function(){
-  const c=$("#doodle"), ctx=c.getContext("2d"); let drawing=false, lx=0, ly=0;
+  const c=$("#doodle"); if(!c) return;
+  const ctx=c.getContext("2d"); let drawing=false, lx=0, ly=0;
   function p(e){const r=c.getBoundingClientRect(); return {x:(e.touches?e.touches[0].clientX:e.clientX)-r.left, y:(e.touches?e.touches[0].clientY:e.clientY)-r.top};}
   function down(e){drawing=true; const a=p(e); lx=a.x; ly=a.y;}
   function move(e){if(!drawing) return; const a=p(e); ctx.strokeStyle="#fff"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(a.x,a.y); ctx.stroke(); lx=a.x; ly=a.y;}
@@ -596,7 +598,7 @@ $("#tarot-btn").addEventListener("click", ()=>{ const c=TAROT[Math.floor(Math.ra
   ["mousedown","touchstart"].forEach(ev=>c.addEventListener(ev,down)); 
   ["mousemove","touchmove"].forEach(ev=>c.addEventListener(ev,move)); 
   ["mouseup","mouseleave","touchend","touchcancel"].forEach(ev=>c.addEventListener(ev,up));
-  $("#doodle-save").addEventListener("click",()=>{ const a=document.createElement("a"); a.href=c.toDataURL("image/png"); a.download="doodle.png"; a.click(); });
+  $("#doodle-save")?.addEventListener("click",()=>{ const a=document.createElement("a"); a.href=c.toDataURL("image/png"); a.download="doodle.png"; a.click(); });
 })();
 
 /* Community mock */
@@ -611,7 +613,7 @@ $("#post-btn")?.addEventListener("click", ()=>{
 /* Chat AI minimale */
 const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
 function toggleChat(open){ const isOpen=open??!chat.classList.contains("active"); chat.classList.toggle("active", isOpen); bubble.setAttribute("aria-expanded", String(isOpen)); if(isOpen) input.focus(); }
-bubble.addEventListener("click", ()=>toggleChat()); closeChat.addEventListener("click", ()=>toggleChat(false));
+bubble?.addEventListener("click", ()=>toggleChat()); closeChat?.addEventListener("click", ()=>toggleChat(false));
 function addMsg(text, who="ai"){ const d=document.createElement("div"); d.className="msg "+who; d.textContent=text; msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; }
 async function generateAIResponse(userMessage){
   try{
@@ -620,7 +622,7 @@ async function generateAIResponse(userMessage){
     return data.reply || "Sto riflettendo… ✨";
   }catch(e){ console.error(e); return "Ops, non riesco a rispondere ora. Riprova tra poco 🙏"; }
 }
-input.addEventListener("keydown", async e=>{
+input?.addEventListener("keydown", async e=>{
   if(e.key==="Enter"){
     const text=input.value.trim(); if(!text) return;
     addMsg(text,"me"); input.value="";
