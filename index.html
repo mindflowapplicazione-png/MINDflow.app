@@ -8,27 +8,26 @@
     :root{
       --bg:#000; --text:#fff; --dim:#cfcfd2;
       --panel:rgba(255,255,255,.05); --panel2:rgba(255,255,255,.1); --bd:rgba(255,255,255,.12);
-      --p1:#FFB6C1; --p2:#FFDAB9; --p3:#9370DB; --ok:#68e365;
+      --p1:#FFB6C1; --p2:#FFDAB9; --p3:#9370DB;
       --shadow:0 6px 24px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;background:#000;color:#fff;font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
     .app{height:100%;max-width:390px;margin:0 auto;display:flex;flex-direction:column;border:1px solid #222;border-radius:25px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);overflow:hidden}
-    .topbar{padding:18px 16px 8px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#1a1a1a)}
+    .topbar{padding:18px 16px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#1a1a1a)}
     .logo{font-size:28px;font-weight:800;background:linear-gradient(45deg,var(--p1),var(--p2),var(--p1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
     .tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
-    main{flex:1;overflow:auto;padding:18px 16px 110px}
+    main{flex:1;overflow:auto;padding:18px 16px 100px}
 
     /* HOME centrata 2 colonne */
     .home-wrap{height:100%;display:grid;place-items:center}
-    .home{display:grid;grid-template-columns:repeat(2,150px);grid-auto-rows:150px;gap:16px;place-content:center;place-items:center}
+    .home{display:grid; grid-template-columns:repeat(2,150px); grid-auto-rows:150px; gap:16px; place-content:center; place-items:center}
     .card{
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-      width:150px;height:150px;border-radius:16px;border:1px solid var(--bd);
-      color:#fff;text-align:center;cursor:pointer;transition:transform .18s ease;box-shadow:var(--shadow)
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+      width:150px; height:150px; border-radius:16px; border:1px solid var(--bd);
+      color:#fff; text-align:center; cursor:pointer; transition:transform .18s ease; box-shadow:var(--shadow)
     }
-    .card:focus-visible{outline:2px solid var(--p1);outline-offset:2px}
     .ic{font-size:28px}.tl{font-weight:700}.st{font-size:11px;opacity:.8}
     .career{background:linear-gradient(135deg,#1a1a2e,#16213e)}
     .emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
@@ -40,26 +39,24 @@
     .view{display:none;animation:fade .24s ease}
     .view.active{display:block}
     .head{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px}
-    .back{appearance:none;border:0;background:none;color:#ffd3dc;font-size:18px;cursor:pointer}
+    .back{appearance:none;border:0;background:none;color:#FFB6C1;font-size:18px;cursor:pointer}
     .title{font-size:18px;font-weight:800}
     .ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-style:italic}
     .ai:before{content:"🤖";position:absolute;right:10px;top:-6px}
     .panel{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;background:var(--panel2);border-radius:8px;margin-top:8px}
     .in{width:100%;padding:8px;border-radius:8px;border:1px solid #333;color:#fff;background:rgba(255,255,255,.08)}
-    .hint{font-size:11px;opacity:.7}
+    .tiny{font-size:11px;opacity:.7}
 
-    .bottom{position:fixed;left:0;right:0;bottom:0;height:88px;background:linear-gradient(135deg,#111,#000);
-      border-top:1px solid #222;display:flex;justify-content:center;align-items:center;
-      padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
+    .bottom{position:fixed;left:0;right:0;bottom:0;height:80px;background:linear-gradient(135deg,#111,#000);border-top:1px solid #222;display:flex;justify-content:center;align-items:center;padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
     .homebtn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--p1),var(--p2));border:0;cursor:pointer}
-    .sys{position:absolute;right:20px;font-size:12px;color:#ffd3dc;background:rgba(255,182,193,.1);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
+    .sys{position:absolute;right:20px;font-size:12px;color:#FFB6C1;background:rgba(255,182,193,.1);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
 
-    .jindi{position:fixed;right:18px;bottom:108px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20;animation:wave 2s infinite}
-    .chat{position:fixed;right:18px;bottom:178px;width:300px;height:420px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
+    .jindi{position:fixed;right:18px;bottom:100px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20;animation:wave 2s infinite}
+    .chat{position:fixed;right:18px;bottom:170px;width:300px;height:400px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
     .chat.active{display:block;animation:up .22s ease}
     .chathead{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #333}
-    .msgs{height:300px;overflow:auto;margin:10px 0}
+    .msgs{height:280px;overflow:auto;margin:10px 0}
     .msg{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
     .msg.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000}
     .msg.me{background:var(--panel2)}
@@ -68,19 +65,11 @@
     @keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(12deg)}75%{transform:rotate(-12deg)}}
     @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
     @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-    /* planner */
-    .slot{display:grid;grid-template-columns:66px 1fr 28px;gap:8px;align-items:center;margin:4px 0}
-    .slot.done input[type="text"]{text-decoration:line-through;opacity:.6}
-    .slot time{font-feature-settings:"tnum";font-variant-numeric:tabular-nums;color:#cbd}
-    .check{appearance:none;width:22px;height:22px;border-radius:7px;border:1px solid #3a3a3a;background:var(--panel2);cursor:pointer}
-    .slot.done .check{background:linear-gradient(135deg,#b1f8a2,#9df19b);border-color:#6dd86a}
-    .goal-list li{margin:6px 0}
-    canvas{width:100%;height:160px;border:1px solid #333;border-radius:8px;background:#0a0a0a}
   </style>
 </head>
 <body>
   <div class="app">
+    <!-- rimossa status bar -->
     <div class="topbar">
       <div class="logo">MINDflow</div>
       <div class="tag">Il tuo viaggio verso la consapevolezza</div>
@@ -104,54 +93,38 @@
         <div class="head"><button class="back" data-back>←</button><div class="title">🧠 Carriera & Mindset</div></div>
         <div class="ai">"Oggi è il giorno perfetto per trasformare i tuoi sogni in realtà. Jindi crede in te!"</div>
 
+        <!-- Planner 00:00 → 23:30 a step 30' -->
         <div class="panel">
-          <h3>📅 Daily Planner (00:00 → 24:00, slot 30’)</h3>
-          <div class="row">
-            <input id="pl-date" class="in" type="date">
-            <span class="hint">Tocca ✅ per completare</span>
-          </div>
-          <div id="slots"></div>
+          <h3>📅 Daily planner (00:00 → 23:30)</h3>
+          <div class="tiny">Tocca un orario per aggiungere attività. Spunta ✅ quando hai completato.</div>
+          <div id="planner-grid"></div>
+          <div class="tiny">I dati restano sul dispositivo (localStorage).</div>
         </div>
 
+        <!-- Calcolo rapido: solo Lordo -->
         <div class="panel">
           <h3>💶 Calcolo Rapido</h3>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
             <input id="hours" class="in" inputmode="decimal" placeholder="Ore" />
             <input id="rate" class="in" inputmode="decimal" placeholder="€/ora" />
-            <div class="row"><span>Lordo</span><strong>€ <span id="gross">0.00</span></strong></div>
+            <div class="row" style="grid-column:1/3"><span>Lordo</span><strong>€ <span id="gross">0.00</span></strong></div>
           </div>
         </div>
 
+        <!-- Obiettivi -->
         <div class="panel">
           <h3>🎯 Obiettivi</h3>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div>
-              <strong>Breve termine</strong>
-              <ul id="goals-short" class="goal-list"></ul>
-              <div style="display:flex;gap:6px">
-                <input id="goal-short-in" class="in" placeholder="Es: pubblicare CV">
-                <button id="goal-short-add" class="in" style="width:auto">+ Aggiungi</button>
-              </div>
-            </div>
-            <div>
-              <strong>Lungo termine</strong>
-              <ul id="goals-long" class="goal-list"></ul>
-              <div style="display:flex;gap:6px">
-                <input id="goal-long-in" class="in" placeholder="Es: lanciare startup">
-                <button id="goal-long-add" class="in" style="width:auto">+ Aggiungi</button>
-              </div>
-            </div>
+            <textarea id="goals-short" class="in" rows="5" placeholder="Breve termine (1–3 mesi)"></textarea>
+            <textarea id="goals-long" class="in" rows="5" placeholder="Lungo termine (6–12+ mesi)"></textarea>
           </div>
         </div>
 
+        <!-- Podcast & Libri (vetrina) -->
         <div class="panel">
-          <h3>🎧 Podcast & 📚 Libri (vetrina)</h3>
-          <div class="hint">Carica i tuoi contenuti e vendili con i piani qui sotto (vedi “Profilo → Upgrade”). L’AI può generare descrizioni e copy.</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-            <input id="content-title" class="in" placeholder="Titolo o link esterno">
-            <button id="content-ai" class="in" style="width:auto">Crea descrizione (AI)</button>
-          </div>
-          <div id="content-desc" class="in" style="margin-top:8px;background:rgba(255,255,255,.08)">—</div>
+          <h3>🎧 Podcast & 📚 Libri</h3>
+          <div class="row"><span>Mindset Sprint – Audio corso</span><a class="in" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03" target="_blank">Acquista</a></div>
+          <div class="row"><span>Manuale: Focus Profondo</span><a class="in" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04" target="_blank">Acquista</a></div>
         </div>
       </section>
 
@@ -161,34 +134,22 @@
         <div class="ai">"Le tue emozioni sono valide. Navighiamo insieme questo mare interiore."</div>
 
         <div class="panel">
-          <h3>😊 Tracker Umore (con orario)</h3>
-          <div style="display:grid;grid-template-columns:1fr 110px 100px;gap:8px">
-            <div style="display:flex;gap:8px;justify-content:space-between">
-              <button class="in" data-mood="😢" style="width:auto">😢</button>
-              <button class="in" data-mood="😐" style="width:auto">😐</button>
-              <button class="in" data-mood="😊" style="width:auto">😊</button>
-              <button class="in" data-mood="😄" style="width:auto">😄</button>
-              <button class="in" data-mood="🤩" style="width:auto">🤩</button>
+          <h3>😊 Tracker Umore</h3>
+          <div class="row">
+            <select id="mood-time" class="in" style="max-width:140px"></select>
+            <div style="display:flex;gap:6px">
+              <button class="in" style="width:auto" data-mood="😢">😢</button>
+              <button class="in" style="width:auto" data-mood="😐">😐</button>
+              <button class="in" style="width:auto" data-mood="😊">😊</button>
+              <button class="in" style="width:auto" data-mood="😄">😄</button>
+              <button class="in" style="width:auto" data-mood="🤩">🤩</button>
             </div>
-            <input id="emo-time" class="in" type="time">
-            <button id="emo-add" class="in" style="width:auto">+ Registra</button>
           </div>
-          <div style="margin-top:8px">
-            Intensità: <input id="intensity" type="range" min="1" max="10" value="7" style="width:65%"> <strong><span id="intensity-val">7</span>/10</strong> – Umore scelto: <strong><span id="mood-val">😊</span></strong>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <input id="emo-files" type="file" multiple accept="image/*,audio/*" class="in">
-            <button id="emo-export" class="in" style="width:auto">Esporta .json</button>
-          </div>
-          <div id="emo-list" class="hint" style="margin-top:8px">0 registrazioni</div>
-        </div>
-
-        <div class="panel">
-          <h3>📈 Grafici umore</h3>
-          <div class="hint">Giornaliero (oggi) e media settimanale</div>
-          <canvas id="chart-day" width="340" height="160"></canvas>
-          <canvas id="chart-week" width="340" height="160" style="margin-top:8px"></canvas>
-          <div class="hint" style="margin-top:6px">Per una condivisione reale con psicologo serve un backend (Supabase). Qui i dati restano solo sul tuo dispositivo.</div>
+          <input id="intensity" type="range" min="1" max="10" value="7" style="width:100%">
+          <p>Orario: <strong id="mood-time-val">00:00</strong> – Intensità: <strong><span id="intensity-val">7</span>/10</strong> – Umore: <strong><span id="mood-val">😊</span></strong></p>
+          <div class="row"><input type="file" class="in" id="mood-file" multiple /></div>
+          <div class="panel"><h4 style="margin:0 0 6px">📈 Andamento</h4><svg id="mood-chart" width="100%" height="80"></svg><div class="tiny">Grafico giornaliero (oggi) – media settimanale visibile tornando ogni giorno 😊</div></div>
+          <div class="row"><button id="share-psych" class="in" style="width:auto">Condividi con psicologo (link protetto)</button><span class="tiny" id="share-link"></span></div>
         </div>
       </section>
 
@@ -199,71 +160,72 @@
 
         <div class="panel">
           <h3>💧 Contatori Giornalieri</h3>
-          <div style="display:flex;gap:10px">
-            <div class="panel" style="flex:1">
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="panel" style="flex:1;min-width:120px">
               <div>💧 Idratazione</div>
               <div style="font-size:24px;font-weight:800;margin:8px 0" id="water-count">0</div>
-              <div><button data-counter="water" data-delta="-1">−</button> <button data-counter="water" data-delta="1">+</button></div>
-              <div class="hint">bicchieri</div>
+              <div><button data-counter="water" data-delta="-1">−</button><button data-counter="water" data-delta="1">+</button></div>
+              <div class="tiny">bicchieri</div>
             </div>
-            <div class="panel" style="flex:1">
+            <div class="panel" style="flex:1;min-width:120px">
               <div>🚭 Sigarette</div>
               <div style="font-size:24px;font-weight:800;margin:8px 0" id="cig-count">0</div>
-              <div><button data-counter="cig" data-delta="-1">−</button> <button data-counter="cig" data-delta="1">+</button></div>
-              <div class="hint">oggi</div>
+              <div><button data-counter="cig" data-delta="-1">−</button><button data-counter="cig" data-delta="1">+</button></div>
+              <div class="tiny">oggi</div>
             </div>
-            <div class="panel" style="flex:1">
+            <div class="panel" style="flex:1;min-width:120px">
               <div>🍷 Alcol</div>
               <div style="font-size:24px;font-weight:800;margin:8px 0" id="alcohol-count">0</div>
-              <div><button data-counter="alcohol" data-delta="-1">−</button> <button data-counter="alcohol" data-delta="1">+</button></div>
-              <div class="hint">unità oggi</div>
+              <div><button data-counter="alcohol" data-delta="-1">−</button><button data-counter="alcohol" data-delta="1">+</button></div>
+              <div class="tiny">unità</div>
             </div>
           </div>
         </div>
 
+        <!-- Dati fisici -->
         <div class="panel">
           <h3>📏 Dati personali</h3>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <input id="kg" class="in" inputmode="decimal" placeholder="Kg">
-            <input id="cm-braccia" class="in" inputmode="decimal" placeholder="Braccia (cm)">
-            <input id="cm-petto" class="in" inputmode="decimal" placeholder="Petto (cm)">
-            <input id="cm-vita" class="in" inputmode="decimal" placeholder="Vita (cm)">
-            <input id="cm-fianchi" class="in" inputmode="decimal" placeholder="Fianchi (cm)">
-            <input id="cm-gambe" class="in" inputmode="decimal" placeholder="Gambe (cm)">
+            <input id="arms" class="in" inputmode="decimal" placeholder="Braccia (cm)">
+            <input id="chest" class="in" inputmode="decimal" placeholder="Petto (cm)">
+            <input id="waist" class="in" inputmode="decimal" placeholder="Vita (cm)">
+            <input id="hips" class="in" inputmode="decimal" placeholder="Fianchi (cm)">
+            <input id="legs" class="in" inputmode="decimal" placeholder="Gambe (cm)">
           </div>
         </div>
 
+        <!-- Nutrizione -->
         <div class="panel">
-          <h3>🥗 Nutrizione & Kcal</h3>
-          <div class="hint">Aggiungi pasti: colazione, spuntino, pranzo, merenda, cena, spuntino</div>
-          <div style="display:grid;grid-template-columns:1fr 90px 90px;gap:8px;margin-top:8px">
-            <input id="meal-name" class="in" placeholder="Es: Pranzo - riso + pollo">
-            <input id="meal-kcal" class="in" inputmode="decimal" placeholder="Kcal">
-            <button id="meal-add" class="in" style="width:auto">+ Aggiungi</button>
+          <h3>🍽️ Nutrizione (kcal)</h3>
+          <div class="tiny">Inserisci piatto e calorie; totale si aggiorna automaticamente.</div>
+          <div id="meals">
+            <!-- righe generate via JS: colazione, spuntino, pranzo, merenda, cena, spuntino -->
           </div>
-          <div id="meals"></div>
-          <div class="row"><strong>Totale Kcal oggi</strong><strong><span id="kcal-total">0</span></strong></div>
+          <div class="row"><span>Totale oggi</span><strong><span id="kcal-total">0</span> kcal</strong></div>
         </div>
 
+        <!-- Lista spesa & Ricette AI -->
         <div class="panel">
-          <h3>🛒 Ricette dal carrello (AI)</h3>
-          <input id="ingr" class="in" placeholder="Scrivi ingredienti o incolla lista (es: uova, cipolle, tonno)">
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <input id="photo" type="file" accept="image/*" class="in" style="flex:1">
-            <button id="recipe-btn" class="in" style="width:auto;cursor:pointer">Suggerisci ricette (AI)</button>
+          <h3>🧾 Spesa & ricette (AI)</h3>
+          <input id="ingredients-input" class="in" placeholder="Scrivi ingredienti o incolla la lista (es. uova, cipolle)"/>
+          <div class="row">
+            <input type="file" id="groceries-photo" class="in" style="max-width:180px">
+            <button id="recipes-btn" class="in" style="width:auto">Suggerisci ricette (AI)</button>
           </div>
-          <div id="recipe-out" class="in" style="margin-top:8px;background:rgba(255,255,255,.08)">—</div>
-          <div class="hint">Per OCR foto servirebbe un servizio esterno; qui l’AI usa solo il testo degli ingredienti.</div>
+          <pre id="recipes-out" class="in" style="min-height:80px;white-space:pre-wrap"></pre>
+          <div class="tiny">L’OCR delle foto non è attivo qui: l’AI userà solo il testo degli ingredienti.</div>
         </div>
 
+        <!-- Workout AI -->
         <div class="panel">
           <h3>🏋️‍♀️ Workout (AI)</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <input id="wk-goal" class="in" placeholder="Obiettivo (es: Forza, Definizione)">
-            <input id="wk-days" class="in" placeholder="Giorni a settimana (es: 3)">
+          <div class="row">
+            <input id="workout-goal" class="in" placeholder="Obiettivo (es. Forza, Dimagrimento)">
+            <input id="workout-days" class="in" inputmode="numeric" placeholder="Giorni/sett. (es. 3)" style="max-width:130px">
+            <button id="workout-btn" class="in" style="width:auto">Genera piano</button>
           </div>
-          <button id="wk-btn" class="in" style="margin-top:8px;width:auto;cursor:pointer">Genera piano</button>
-          <div id="wk-out" class="in" style="margin-top:8px;background:rgba(255,255,255,.08)">—</div>
+          <pre id="workout-out" class="in" style="min-height:80px;white-space:pre-wrap"></pre>
         </div>
       </section>
 
@@ -278,15 +240,15 @@
         </div>
 
         <div class="panel">
-          <h3>🧿 Tema natale (AI)</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-            <input id="astro-date" class="in" type="date" value="2004-07-10">
-            <input id="astro-time" class="in" type="time" value="05:00">
-            <input id="astro-place" class="in" placeholder="Città, (Provincia)" value="Broni,(PV)">
+          <h3>🪐 Tema natale (AI)</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <input id="astro-date" class="in" type="date" />
+            <input id="astro-time" class="in" type="time" />
+            <input id="astro-place" class="in" placeholder="Luogo (es. Broni, PV)" style="grid-column:1/3" />
           </div>
-          <button id="astro-btn" class="in" style="margin-top:8px;width:auto;cursor:pointer">Analizza influenza su azioni & umore</button>
-          <div id="astro-out" class="in" style="margin-top:8px;background:rgba(255,255,255,.08)">—</div>
-          <div class="hint">Per un tema natale astronomicamente preciso serve un’API di effemeridi; qui l’AI crea una lettura personalizzata dai tuoi dati.</div>
+          <button id="astro-btn" class="in" style="width:auto">Analizza influenza su azioni & umore</button>
+          <pre id="astro-out" class="in" style="min-height:80px;white-space:pre-wrap;margin-top:8px">—</pre>
+          <div class="tiny">Per un calcolo astronomico preciso servono effemeridi; qui l’AI fa una lettura personalizzata.</div>
         </div>
       </section>
 
@@ -299,14 +261,15 @@
           <h3>✨ Condividi il tuo momento</h3>
           <textarea rows="3" class="in" id="post-text" placeholder="Cosa stai pensando oggi?"></textarea>
           <div class="row">
-            <span>Allega 📷 🎯 💡 (locale)</span>
+            <span>Allega 📷 🎯 💡</span>
             <button id="post-btn" class="in" style="width:auto;cursor:pointer">Pubblica</button>
           </div>
         </div>
 
         <div class="panel" id="feed">
           <h3>📰 Feed</h3>
-          <div class="hint">I post sono salvati localmente sul tuo dispositivo.</div>
+          <div class="row"><span>@MindfulSara</span><span>“Prima meditazione di 20’ fatta! 🧘‍♀️”</span></div>
+          <div class="row"><span>@FitnessMarco</span><span>“10.000 passi al giorno ✅”</span></div>
         </div>
       </section>
 
@@ -334,18 +297,20 @@
         </div>
 
         <div class="panel">
-          <h3>💎 Upgrade piano (Stripe)</h3>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a class="in" style="width:auto" target="_blank" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03">🌸 Boccioli €7,99/mese</a>
-            <a class="in" style="width:auto" target="_blank" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04">💐 Fiori €12,99/mese</a>
-            <a class="in" style="width:auto" target="_blank" href="https://buy.stripe.com/00w7sL3Lpclj3Cucild0Q05">🌳 Premium €149,99/mese</a>
-          </div>
-          <div class="hint">Pagamento sicuro su Stripe. Torna qui dopo il pagamento.</div>
+          <h3>💎 Piano</h3>
+          <div class="row"><span>Piano attivo:</span><strong>Fiori</strong></div>
+          <div class="row"><span>Rinnovo:</span><strong>15/09/2024</strong></div>
         </div>
 
         <div class="panel">
-          <h3>🎥 Live (prossimamente)</h3>
-          <div class="hint">Mindset, business, meditazione… Integreremo un provider live (es. Livepeer/Mux) quando vuoi.</div>
+          <h3>🚀 Upgrade Piano</h3>
+          <p class="tiny" style="margin:0 0 8px">Sblocca contenuti premium, piani personalizzati e priorità con Jindi.</p>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px">
+            <a class="in" href="https://buy.stripe.com/cNicN53Lp5WW46y6Y1d0Q03" target="_blank" rel="noreferrer">🌱 Boccioli – €7,99/mese</a>
+            <a class="in" href="https://buy.stripe.com/5kQeVd6XBCLj8W05TXd0Q04" target="_blank" rel="noreferrer">🌸 Fiori – €12,99/mese</a>
+            <a class="in" href="https://buy.stripe.com/00w7sL3Lpclj3Cucild0Q05" target="_blank" rel="noreferrer">💎 Premium – €149,99/mese</a>
+          </div>
+          <small class="tiny">Il pagamento si apre in una nuova scheda su Stripe.</small>
         </div>
       </section>
     </main>
@@ -371,192 +336,180 @@
   </section>
 
   <script>
-    // ================== helpers & storage ==================
+    // helpers
     const $ = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
     const LS = {
-      get:(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d }},
-      set:(k,v)=>localStorage.setItem(k, JSON.stringify(v))
+      get:(k,def)=>{try{return JSON.parse(localStorage.getItem(k))??def}catch{return def}},
+      set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
     };
 
-    // ================== router ==================
+    // router
     const views = ["home","career","emotions","fitness","spirituality","community","profile"];
     function show(v){ views.forEach(x=>$("#"+x).classList.toggle("active", x===v)); location.hash="#"+v; }
     window.addEventListener("hashchange", ()=>{ const v=(location.hash||"#home").slice(1); show(views.includes(v)?v:"home"); });
+
+    // nav
     $$("#home .card").forEach(b=>b.addEventListener("click", ()=>show(b.dataset.view)));
     $$("[data-back]").forEach(b=>b.addEventListener("click", ()=>history.back()));
     $("#go-home").addEventListener("click", ()=>show("home"));
-    $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup locale, Supporto, Info App"));
+    $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup, Supporto, Info App"));
 
-    // ================== Planner 00:00 - 24:00 ==================
-    const plDate=$("#pl-date"), slotsEl=$("#slots");
-    function todayISO(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
-    function genTimes(){
-      const out=[]; for(let h=0;h<24;h++){ for(let m of [0,30]){ out.push(`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`); } }
-      return out;
-    }
-    function loadDay(date){
-      slotsEl.innerHTML="";
-      const data=LS.get("planner-"+date,{});
-      genTimes().forEach(t=>{
-        const row=document.createElement("div"); row.className="slot"+(data[t]?.done?" done":"");
-        row.innerHTML=`<time>${t}</time><input type="text" class="in" value="${(data[t]?.task||"").replace(/"/g,'&quot;')}" placeholder="Aggiungi azione…"><button class="check" title="Completa"></button>`;
-        const input=row.querySelector("input"); const check=row.querySelector(".check");
-        input.addEventListener("change",()=>{ data[t]={...(data[t]||{}),task:input.value}; LS.set("planner-"+date,data); });
-        check.addEventListener("click",()=>{ data[t]={...(data[t]||{}),done:!(data[t]?.done)}; row.classList.toggle("done",data[t].done); LS.set("planner-"+date,data); });
-        slotsEl.appendChild(row);
-      });
-    }
-    plDate.value = todayISO();
-    loadDay(plDate.value);
-    plDate.addEventListener("change",()=>loadDay(plDate.value));
+    /* ===== Planner 00:00→23:30, 30' ==== */
+    (function buildPlanner(){
+      const wrap = $("#planner-grid"); if(!wrap) return;
+      wrap.style.display="grid"; wrap.style.gridTemplateColumns="80px 1fr"; wrap.style.gap="6px";
+      const key="planner-"+new Date().toISOString().slice(0,10);
+      const data=LS.get(key,{});
+      function slotLabel(i){const h=Math.floor(i/2), m=i%2?30:0; return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");}
+      for(let i=0;i<48;i++){
+        const time=slotLabel(i);
+        const lab=document.createElement("div"); lab.className="tiny"; lab.textContent=time;
+        const row=document.createElement("div"); row.className="row"; row.style.gap="6px";
+        const chk=document.createElement("input"); chk.type="checkbox"; chk.checked=!!data[time]?.done;
+        const inp=document.createElement("input"); inp.className="in"; inp.placeholder="Aggiungi attività…"; inp.value=data[time]?.txt||"";
+        chk.addEventListener("change", ()=>{data[time]={txt:inp.value,done:chk.checked}; LS.set(key,data);});
+        inp.addEventListener("change", ()=>{data[time]={txt:inp.value,done:chk.checked}; LS.set(key,data);});
+        row.append(chk,inp); wrap.append(lab,row);
+      }
+    })();
 
-    // ================== Calcolo rapido ==================
+    /* ===== Calcolo Lordo ===== */
     const hours=$("#hours"), rate=$("#rate"), gross=$("#gross");
-    function calc(){ const h=parseFloat(hours?.value||0)||0; const r=parseFloat(rate?.value||0)||0; const g=h*r; gross.textContent=g.toFixed(2); }
+    function calc(){ const h=parseFloat(hours?.value||0)||0; const r=parseFloat(rate?.value||0)||0; const g=h*r; gross && (gross.textContent=g.toFixed(2)); }
     hours?.addEventListener("input", calc); rate?.addEventListener("input", calc);
 
-    // ================== Obiettivi ==================
-    const GS=LS.get("goals-short",[]), GL=LS.get("goals-long",[]);
-    function renderGoals(){
-      $("#goals-short").innerHTML = GS.map((g,i)=>`<li>${g} <a href="#" data-gs="${i}">✖</a></li>`).join("")||"<div class='hint'>Nessun obiettivo breve</div>";
-      $("#goals-long").innerHTML  = GL.map((g,i)=>`<li>${g} <a href="#" data-gl="${i}">✖</a></li>`).join("") ||"<div class='hint'>Nessun obiettivo lungo</div>";
-      $$("[data-gs]").forEach(a=>a.onclick=()=>{GS.splice(+a.dataset.gs,1);LS.set("goals-short",GS);renderGoals();});
-      $$("[data-gl]").forEach(a=>a.onclick=()=>{GL.splice(+a.dataset.gl,1);LS.set("goals-long",GL);renderGoals();});
-    }
-    $("#goal-short-add").onclick=()=>{ const v=$("#goal-short-in").value.trim(); if(v){GS.push(v);LS.set("goals-short",GS);$("#goal-short-in").value="";renderGoals();}};
-    $("#goal-long-add").onclick =()=>{ const v=$("#goal-long-in").value.trim();  if(v){GL.push(v);LS.set("goals-long",GL); $("#goal-long-in").value=""; renderGoals();}};
-    renderGoals();
+    /* ===== Obiettivi (localStorage) ===== */
+    (function goals(){
+      const s=$("#goals-short"), l=$("#goals-long"); if(!s||!l) return;
+      const K="goals"; const mem=LS.get(K,{short:"",long:""}); s.value=mem.short; l.value=mem.long;
+      const save=()=>LS.set(K,{short:s.value,long:l.value}); s.addEventListener("input",save); l.addEventListener("input",save);
+    })();
 
-    // ================== Podcast/Libri (AI copy) ==================
-    $("#content-ai").onclick = async ()=>{
-      const title = $("#content-title").value.trim(); if(!title) return alert("Scrivi un titolo/link");
-      $("#content-desc").textContent="Sto creando il copy…";
-      try{
-        const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:`Scrivi una descrizione persuasiva (max 120 parole) per questo contenuto: "${title}". Stile empatico, chiaro, con invito all'azione.`})});
-        const j=await r.json(); $("#content-desc").textContent=j.reply||"—";
-      }catch{ $("#content-desc").textContent="Ops, non riesco ora 🙏"; }
-    };
+    /* ===== Emotions tracker ===== */
+    (function moods(){
+      const moodVal=$("#mood-val"), intensity=$("#intensity"), intensityVal=$("#intensity-val");
+      const moodTime=$("#mood-time"), moodTimeVal=$("#mood-time-val"), file=$("#mood-file"), chart=$("#mood-chart");
+      const dayKey="moods-"+new Date().toISOString().slice(0,10);
+      // time options 00:00→23:30
+      if(moodTime){ for(let i=0;i<48;i++){ const h=String(Math.floor(i/2)).padStart(2,"0"); const m=i%2?"30":"00"; const o=document.createElement("option"); o.value=h+":"+m; o.textContent=o.value; moodTime.append(o);} moodTime.value="00:00"; moodTimeVal.textContent=moodTime.value; moodTime.onchange=()=>moodTimeVal.textContent=moodTime.value; }
+      $$("[data-mood]").forEach(btn=>btn.addEventListener("click", ()=>{ if(moodVal) moodVal.textContent=btn.dataset.mood; }));
+      intensity?.addEventListener("input", e=>{ intensityVal.textContent=e.target.value; savePoint(); draw(); });
+      function savePoint(){
+        const data=LS.get(dayKey,[]);
+        const t=moodTime?.value||"00:00", mood=moodVal?.textContent||"😊", val=Number(intensity?.value||7);
+        const idx=data.findIndex(x=>x.t===t); const rec={t:t,m:mood,v:val};
+        if(idx>-1) data[idx]=rec; else data.push(rec);
+        LS.set(dayKey,data);
+      }
+      function draw(){
+        if(!chart) return;
+        const data=LS.get(dayKey,[]).sort((a,b)=>a.t.localeCompare(b.t));
+        chart.innerHTML=""; const w=chart.clientWidth||300, h=80, p=6;
+        const max=10; const x=(i)=>p+(w-2*p)*(i/Math.max(1,data.length-1)); const y=(v)=>h-p-(v/max)*(h-2*p);
+        let path=""; data.forEach((d,i)=>{ path+= (i? " L ":" M ")+x(i)+","+y(d.v); });
+        const grid=document.createElementNS("http://www.w3.org/2000/svg","path"); grid.setAttribute("d",`M ${p},${y(5)} L ${w-p},${y(5)}`); grid.setAttribute("stroke","#333");
+        const line=document.createElementNS("http://www.w3.org/2000/svg","path"); line.setAttribute("d",path||""); line.setAttribute("fill","none"); line.setAttribute("stroke","#FFB6C1"); line.setAttribute("stroke-width","2");
+        chart.append(grid,line);
+      }
+      file?.addEventListener("change", ()=>alert("File aggiunti (salvati localmente dal browser)."));
+      draw();
+      // salvataggio al click sui volti
+      $$("[data-mood]").forEach(btn=>btn.addEventListener("click", ()=>{ savePoint(); draw(); }));
+    })();
 
-    // ================== Emozioni ==================
-    const moodVal=$("#mood-val"), intensity=$("#intensity"), intensityVal=$("#intensity-val"), emoTime=$("#emo-time");
-    const emoKey = "emotions-entries";
-    function nowHHMM(){ const d=new Date(); return `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`; }
-    emoTime.value = nowHHMM();
-    $$("[data-mood]").forEach(btn=>btn.addEventListener("click", ()=>{ moodVal.textContent=btn.dataset.mood; }));
-    intensity.addEventListener("input", e=>{ intensityVal.textContent=e.target.value; });
-    $("#emo-add").onclick = ()=>{
-      const entries = LS.get(emoKey,[]);
-      entries.push({date:todayISO(), time: emoTime.value||nowHHMM(), mood: moodVal.textContent, intensity:+intensity.value});
-      LS.set(emoKey,entries); $("#emo-list").textContent = `${entries.length} registrazioni`; drawCharts();
-    };
-    $("#emo-files").addEventListener("change", e=>{
-      const files=[...e.target.files]; if(!files.length) return;
-      alert(`${files.length} file aggiunti (solo in locale).`);
+    // Link condivisibile (password semplice lato client)
+    $("#share-psych")?.addEventListener("click", ()=>{
+      const pwd=prompt("Imposta una password per lo psicologo:");
+      if(!pwd) return;
+      const token=btoa(JSON.stringify({d:new Date().toISOString().slice(0,10),p:pwd}));
+      const url=location.origin+location.pathname+"#share="+token;
+      $("#share-link").textContent=url;
+      alert("Invia questo link allo psicologo. Gli verrà chiesta la password.");
     });
-    $("#emo-export").onclick = ()=>{
-      const data = LS.get(emoKey,[]);
-      const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-      const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="emozioni.json"; a.click();
-    };
-    $("#emo-list").textContent = `${LS.get(emoKey,[]).length} registrazioni`;
+    // Se arrivo con #share=... chiedo password e mostro i dati umore del giorno
+    (function checkShare(){
+      const m=location.hash.match(/share=([^&]+)/); if(!m) return;
+      try{
+        const obj=JSON.parse(atob(m[1])); const pass=prompt("Password per accedere:");
+        if(pass!==obj.p) { alert("Password errata"); location.hash="#home"; return; }
+        show("emotions");
+        const dayKey="moods-"+obj.d; const data=LS.get(dayKey,[]);
+        alert("Report umore di "+obj.d+":\n"+data.map(x=>x.t+" "+x.m+" intensità "+x.v).join("\n"));
+      }catch{}
+    })();
 
-    // charts (semplice canvas)
-    function drawLine(ctx,points,color){ ctx.beginPath(); points.forEach((p,i)=>{ if(i) ctx.lineTo(p.x,p.y); else ctx.moveTo(p.x,p.y); }); ctx.strokeStyle=color; ctx.lineWidth=2; ctx.stroke(); }
-    function drawAxes(ctx){ ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height); ctx.strokeStyle="#333"; ctx.lineWidth=1; ctx.strokeRect(30,10,ctx.canvas.width-40,ctx.canvas.height-30); }
-    function drawCharts(){
-      const entries=LS.get(emoKey,[]).filter(e=>e.date===todayISO()).sort((a,b)=>a.time.localeCompare(b.time));
-      const c1=$("#chart-day"), ctx1=c1.getContext("2d"); drawAxes(ctx1);
-      if(entries.length){
-        const W=c1.width-40, H=c1.height-30, X0=30, Y0=10;
-        const pts=entries.map((e,i)=>({ x:X0 + (i/(Math.max(entries.length-1,1)))*W, y:Y0 + (1 - (e.intensity-1)/9)*H }));
-        drawLine(ctx1,pts,"#ffb6c1");
-      }else{ ctx1.fillStyle="#888"; ctx1.fillText("Nessun dato oggi", 40, 90); }
-
-      const c2=$("#chart-week"), ctx2=c2.getContext("2d"); drawAxes(ctx2);
-      // media 7 giorni
-      const map={}; for(let i=0;i<7;i++){ const d=new Date(); d.setDate(d.getDate()-i); const k=d.toISOString().slice(0,10); map[k]=[]; }
-      LS.get(emoKey,[]).forEach(e=>{ if(map[e.date]) map[e.date].push(e.intensity); });
-      const keys=Object.keys(map).sort(); const avg=keys.map(k=> (map[k].length? map[k].reduce((a,b)=>a+b)/map[k].length : 0));
-      if(avg.some(v=>v>0)){
-        const W2=c2.width-40,H2=c2.height-30,X02=30,Y02=10;
-        const pts2=avg.map((v,i)=>({x:X02+(i/(avg.length-1))*W2, y:Y02+(1-(v/10))*H2 }));
-        drawLine(ctx2,pts2,"#ffdAB9");
-      }else{ ctx2.fillStyle="#888"; ctx2.fillText("Nessun dato ultimi 7 giorni", 40, 90); }
-    }
-    drawCharts();
-
-    // ================== Contatori (con alcol) ==================
-    const counters={water:$("#water-count"), cig:$("#cig-count"), alcohol:$("#alcohol-count")};
-    $$("[data-counter]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const n=btn.dataset.counter; const d=parseInt(btn.dataset.delta,10);
-        const el=counters[n]; let v=parseInt(el.textContent||"0",10)+d; el.textContent=Math.max(0,v);
+    /* ===== Contatori ===== */
+    (function counters(){
+      const ids=["water","cig","alcohol"]; const K="counts-"+new Date().toISOString().slice(0,10);
+      const st=LS.get(K,{water:0,cig:0,alcohol:0});
+      ids.forEach(id=>{ const el=$("#"+id+"-count"); if(el) el.textContent=st[id]||0; });
+      $$("[data-counter]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const n=btn.dataset.counter; const d=parseInt(btn.dataset.delta,10);
+          st[n]=Math.max(0,(st[n]||0)+d); $("#"+n+"-count").textContent=st[n]; LS.set(K,st);
+        });
       });
-    });
+    })();
 
-    // ================== Nutrizione ==================
-    const mealsEl=$("#meals"), kcalTotal=$("#kcal-total");
-    function loadMeals(){ const arr=LS.get("meals-"+todayISO(),[]); renderMeals(arr); }
-    function renderMeals(arr){
-      mealsEl.innerHTML = arr.map((m,i)=>`<div class="row"><span>${m.name}</span><strong>${m.kcal} kcal</strong> <a href="#" data-del="${i}">✖</a></div>`).join("") || "<div class='hint'>Nessun pasto</div>";
-      kcalTotal.textContent = arr.reduce((s,m)=>s+(+m.kcal||0),0);
-      $$("[data-del]").forEach(a=>a.onclick=()=>{ const x=LS.get("meals-"+todayISO(),[]); x.splice(+a.dataset.del,1); LS.set("meals-"+todayISO(),x); renderMeals(x); });
+    /* ===== Nutrizione (kcal) ===== */
+    (function nutrition(){
+      const meals=$("#meals"); if(!meals) return;
+      const names=["Colazione","Spuntino","Pranzo","Merenda","Cena","Spuntino sera"];
+      meals.innerHTML=names.map((n,i)=>`
+        <div class="row">
+          <input class="in" id="meal-name-${i}" placeholder="${n}">
+          <input class="in" id="meal-kcal-${i}" inputmode="numeric" placeholder="kcal" style="max-width:120px">
+        </div>
+      `).join("");
+      const total=$("#kcal-total"); const K="kcal-"+new Date().toISOString().slice(0,10);
+      function load(){ const v=LS.get(K,Array(6).fill({n:"",k:0})); v.forEach((m,i)=>{ $("#meal-name-"+i).value=m.n; $("#meal-kcal-"+i).value=m.k; }); recalc(); }
+      function save(){ const v=[...Array(6).keys()].map(i=>({n:$("#meal-name-"+i).value,k:Number($("#meal-kcal-"+i).value||0)})); LS.set(K,v); recalc(); }
+      function recalc(){ const v=LS.get(K,Array(6).fill({n:"",k:0})); const sum=v.reduce((s,m)=>s+Number(m.k||0),0); total.textContent=sum; }
+      meals.addEventListener("input", save); load();
+    })();
+
+    /* ===== AI ENDPOINTS ===== */
+    async function callAI(url, payload, outEl){
+      try{
+        outEl && (outEl.textContent="⏳ Sto pensando…");
+        const r = await fetch(url,{ method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload) });
+        if(!r.ok) throw new Error(await r.text());
+        const { text, reply } = await r.json();
+        outEl && (outEl.textContent = text || reply || "—");
+      }catch(e){ outEl && (outEl.textContent="Ops, non riesco ora 🙏"); console.error(e); }
     }
-    $("#meal-add").onclick=()=>{ const name=$("#meal-name").value.trim(), kcal=+($("#meal-kcal").value||0); if(!name) return;
-      const arr=LS.get("meals-"+todayISO(),[]); arr.push({name,kcal}); LS.set("meals-"+todayISO(),arr); $("#meal-name").value=""; $("#meal-kcal").value=""; renderMeals(arr);
-    };
-    loadMeals();
 
-    // ================== Ricette AI ==================
-    $("#recipe-btn")?.addEventListener("click", async ()=>{
-      const ingredients=$("#ingr")?.value||"";
-      $("#recipe-out").textContent="Sto pensando a ricette…";
-      try{
-        const r=await fetch("/api/recipes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ingredients})});
-        if(!r.ok) throw new Error(await r.text());
-        const {text}=await r.json();
-        $("#recipe-out").innerHTML=text?.replace(/\n/g,"<br>")||"—";
-      }catch(e){ console.error(e); $("#recipe-out").textContent="Ops, non riesco ora 🙏"; }
+    // Recipes
+    $("#recipes-btn")?.addEventListener("click", ()=>{
+      callAI("/api/recipes",{ ingredients: $("#ingredients-input")?.value || "" }, $("#recipes-out"));
     });
 
-    // ================== Workout AI ==================
-    $("#wk-btn")?.addEventListener("click", async ()=>{
-      const goal=$("#wk-goal")?.value||""; const days=$("#wk-days")?.value||"";
-      $("#wk-out").textContent="Creo il piano…";
-      try{
-        const r=await fetch("/api/workout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({goal,days})});
-        if(!r.ok) throw new Error(await r.text());
-        const {text}=await r.json();
-        $("#wk-out").innerHTML=text?.replace(/\n/g,"<br>")||"—";
-      }catch(e){ console.error(e); $("#wk-out").textContent="Ops, non riesco ora 🙏"; }
+    // Workout
+    $("#workout-btn")?.addEventListener("click", ()=>{
+      callAI("/api/workout",{ goal: $("#workout-goal")?.value || "", days: $("#workout-days")?.value || "3" }, $("#workout-out"));
     });
 
-    // ================== Meditazione ==================
+    // Astro
+    $("#astro-btn")?.addEventListener("click", ()=>{
+      callAI("/api/astro",{ date: $("#astro-date")?.value, time: $("#astro-time")?.value, place: $("#astro-place")?.value }, $("#astro-out"));
+    });
+
+    /* ===== Meditazione ===== */
     const medBtn=$("#med-toggle"), medTimer=$("#med-timer"); let secs=5*60, iv=null;
     function rend(){const m=Math.floor(secs/60), s=secs%60; medTimer.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
     function start(){ if(iv) return; iv=setInterval(()=>{ if(secs>0){secs--;rend();}else{stop();secs=5*60;rend();alert("Meditazione completata ✨");}},1000); }
     function stop(){ clearInterval(iv); iv=null; }
     medBtn?.addEventListener("click", ()=> iv?stop():start()); rend();
 
-    // ================== Tema natale AI ==================
-    $("#astro-btn")?.addEventListener("click", async ()=>{
-      const date=$("#astro-date")?.value||""; const time=$("#astro-time")?.value||""; const place=$("#astro-place")?.value||"";
-      $("#astro-out").textContent="Sto analizzando…";
-      try{
-        const r=await fetch("/api/astro",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({date,time,place})});
-        if(!r.ok) throw new Error(await r.text());
-        const {text}=await r.json();
-        $("#astro-out").textContent=text||"—";
-      }catch(e){ console.error(e); $("#astro-out").textContent="Ops, non riesco ora 🙏"; }
+    /* ===== Community ===== */
+    $("#post-btn")?.addEventListener("click", ()=>{
+      const t=$("#post-text").value.trim(); if(!t) return;
+      const row=document.createElement("div"); row.className="row"; row.innerHTML=`<span>@Tu</span><span>${t}</span>`;
+      $("#feed").appendChild(row); $("#post-text").value="";
     });
 
-    // ================== Community (locale) ==================
-    function loadFeed(){ const arr=LS.get("feed",[]); $("#feed").innerHTML = `<h3>📰 Feed</h3>` + (arr.map(p=>`<div class="row"><span>@Tu</span><span>${p}</span></div>`).join("") || "<div class='hint'>Ancora nessun post</div>"); }
-    $("#post-btn").onclick=()=>{ const t=$("#post-text").value.trim(); if(!t) return; const arr=LS.get("feed",[]); arr.unshift(t); LS.set("feed",arr); $("#post-text").value=""; loadFeed(); };
-    loadFeed();
-
-    // ================== Chat AI (Jindi) ==================
+    /* ===== Chat Jindi ===== */
     const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
     function toggleChat(open){ const isOpen=open??!chat.classList.contains("active"); chat.classList.toggle("active", isOpen); bubble.setAttribute("aria-expanded", String(isOpen)); if(isOpen) input.focus(); }
     bubble.addEventListener("click", ()=>toggleChat()); closeChat.addEventListener("click", ()=>toggleChat(false));
@@ -567,7 +520,7 @@
         if(!r.ok) throw new Error(await r.text());
         const data = await r.json();
         return data.reply || "Sto riflettendo… ✨";
-      }catch(e){ console.error(e); return "Ops, non riesco a rispondere ora. Riprova tra poco 🙏"; }
+      }catch(e){ console.error(e); return "Ops, non riesco ora. Riprova tra poco 🙏"; }
     }
     input.addEventListener("keydown", async e=>{
       if(e.key==="Enter"){
