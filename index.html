@@ -1,352 +1,631 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>MINDflow – App</title>
-  <style>
-    :root{
-      --bg:#000; --text:#fff; --dim:#cfcfd2;
-      --panel:rgba(255,255,255,.05); --panel2:rgba(255,255,255,.1); --bd:rgba(255,255,255,.12);
-      --p1:#FFB6C1; --p2:#FFDAB9; --p3:#9370DB;
-      --shadow:0 6px 24px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:#000;color:#fff;font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
-    .app{height:100%;max-width:390px;margin:0 auto;display:flex;flex-direction:column;border:1px solid #222;border-radius:25px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);overflow:hidden}
-    .status{height:30px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#000,#111);border-bottom:1px solid #222;font-size:12px;padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
-    .topbar{padding:18px 16px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#1a1a1a)}
-    .logo{font-size:28px;font-weight:800;background:linear-gradient(45deg,var(--p1),var(--p2),var(--p1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-    .tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
-    main{flex:1;overflow:auto;padding:18px 16px 100px}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>MINDflow – App</title>
+<style>
+:root{--bg:#000;--text:#fff;--dim:#cfcfd2;--panel:rgba(255,255,255,.05);--panel2:rgba(255,255,255,.1);--bd:rgba(255,255,255,.12);--p1:#FFB6C1;--p2:#FFDAB9;--p3:#9370DB;--shadow:0 6px 24px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:#000;color:#fff;font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
+.app{height:100%;max-width:390px;margin:0 auto;display:flex;flex-direction:column;border:1px solid #222;border-radius:25px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);overflow:hidden}
+.status{display:none} /* ⛔️ rimossa barra orario/batteria */
+.topbar{padding:18px 16px;text-align:center;border-bottom:1px solid #222;background:linear-gradient(135deg,#000,#1a1a1a)}
+.logo{font-size:28px;font-weight:800;background:linear-gradient(45deg,var(--p1),var(--p2),var(--p1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tag{font-size:12px;color:#9aa;font-style:italic;margin-top:4px}
+main{flex:1;overflow:auto;padding:18px 16px 100px}
 
-    /* HOME centrata 2 colonne (2–3 righe) */
-    .home-wrap{height:100%;display:grid;place-items:center}
-    .home{
-      display:grid; grid-template-columns:repeat(2,150px); grid-auto-rows:150px; gap:16px;
-      place-content:center; place-items:center; /* centrate verticalmente/orizzontalmente */
-    }
-    .card{
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
-      width:150px; height:150px; border-radius:16px; border:1px solid var(--bd);
-      color:#fff; text-align:center; cursor:pointer; transition:transform .18s ease; box-shadow:var(--shadow)
-    }
-    .card:focus-visible{outline:2px solid var(--p1); outline-offset:2px}
-    .ic{font-size:28px}.tl{font-weight:700}.st{font-size:11px;opacity:.8}
-    .career{background:linear-gradient(135deg,#1a1a2e,#16213e)}
-    .emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
-    .fit{background:linear-gradient(135deg,#2e1f1a,#3e2a1b)}
-    .spi{background:linear-gradient(135deg,#1a2e1f,#1b3e26)}
-    .com{background:linear-gradient(135deg,#2e2a1a,#3e361b)}
-    .pro{background:linear-gradient(135deg,#2e1a2a,#3e1b2f)}
+/* HOME 2x3 centrata */
+.home-wrap{height:100%;display:grid;place-items:center}
+.home{display:grid;grid-template-columns:repeat(2,150px);grid-auto-rows:150px;gap:16px;place-content:center;place-items:center}
+.card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:150px;height:150px;border-radius:16px;border:1px solid var(--bd);color:#fff;text-align:center;cursor:pointer;transition:transform .18s ease;box-shadow:var(--shadow)}
+.card:focus-visible{outline:2px solid var(--p1);outline-offset:2px}
+.ic{font-size:28px}.tl{font-weight:700}.st{font-size:11px;opacity:.8}
+.career{background:linear-gradient(135deg,#1a1a2e,#16213e)}
+.emo{background:linear-gradient(135deg,#2d1b2e,#3e2640)}
+.fit{background:linear-gradient(135deg,#2e1f1a,#3e2a1b)}
+.spi{background:linear-gradient(135deg,#1a2e1f,#1b3e26)}
+.com{background:linear-gradient(135deg,#2e2a1a,#3e361b)}
+.pro{background:linear-gradient(135deg,#2e1a2a,#3e1b2f)}
 
-    .view{display:none;animation:fade .24s ease}
-    .view.active{display:block}
-    .head{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px}
-    .back{appearance:none;border:0;background:none;color:var(--p1);font-size:18px;cursor:pointer}
-    .title{font-size:18px;font-weight:800}
-    .ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-style:italic}
-    .ai:before{content:"🤖";position:absolute;right:10px;top:-6px}
-    .panel{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;background:var(--panel2);border-radius:8px;margin-top:8px}
-    .in{width:100%;padding:8px;border-radius:8px;border:1px solid #333;color:#fff;background:rgba(255,255,255,.08)}
+.view{display:none;animation:fade .24s ease}
+.view.active{display:block}
+.head{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px}
+.back{appearance:none;border:0;background:none;color:var(--p1);font-size:18px;cursor:pointer}
+.title{font-size:18px;font-weight:800}
+.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-style:italic}
+.ai:before{content:"🤖";position:absolute;right:10px;top:-6px}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;background:var(--panel2);border-radius:8px;margin-top:8px}
+.in{width:100%;padding:8px;border-radius:8px;border:1px solid #333;color:#fff;background:rgba(255,255,255,.08)}
 
-    .bottom{position:fixed;left:0;right:0;bottom:0;height:80px;background:linear-gradient(135deg,#111,#000);border-top:1px solid #222;display:flex;justify-content:center;align-items:center;padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
-    .homebtn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--p1),var(--p2));border:0;cursor:pointer}
-    .sys{position:absolute;right:20px;font-size:12px;color:var(--p1);background:rgba(255,182,193,.1);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:80px;background:linear-gradient(135deg,#111,#000);border-top:1px solid #222;display:flex;justify-content:center;align-items:center;padding-bottom:calc(env(safe-area-inset-bottom));z-index:10}
+.homebtn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--p1),var(--p2));border:0;cursor:pointer}
+.sys{position:absolute;right:20px;font-size:12px;color:var(--p1);background:rgba(255,182,193,.1);border:1px solid rgba(255,182,193,.35);padding:8px 12px;border-radius:12px;cursor:pointer}
 
-    .jindi{position:fixed;right:18px;bottom:100px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20;animation:wave 2s infinite}
-    .chat{position:fixed;right:18px;bottom:170px;width:300px;height:400px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
-    .chat.active{display:block;animation:up .22s ease}
-    .chathead{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #333}
-    .msgs{height:280px;overflow:auto;margin:10px 0}
-    .msg{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
-    .msg.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000}
-    .msg.me{background:var(--panel2)}
+/* Jindi AI bubble + chat */
+.jindi{position:fixed;right:18px;bottom:100px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(255,182,193,.35);cursor:pointer;z-index:20;animation:wave 2s infinite}
+.chat{position:fixed;right:18px;bottom:170px;width:300px;height:400px;display:none;z-index:25;background:rgba(0,0,0,.95);border:1px solid var(--p1);border-radius:15px;padding:12px;backdrop-filter:blur(10px)}
+.chat.active{display:block;animation:up .22s ease}
+.chathead{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #333}
+.msgs{height:280px;overflow:auto;margin:10px 0}
+.msg{max-width:80%;padding:8px 12px;border-radius:12px;margin-bottom:8px}
+.msg.ai{background:linear-gradient(135deg,var(--p1),var(--p2));color:#000}
+.msg.me{background:var(--panel2)}
+.small{font-size:12px;opacity:.8}
 
-    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-    @keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(12deg)}75%{transform:rotate(-12deg)}}
-    @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  </style>
+.planner-grid{display:grid;grid-template-columns:64px 1fr 40px;gap:8px;max-height:420px;overflow:auto;padding-right:4px}
+.slot{display:contents}
+.slot .time{display:flex;align-items:center;justify-content:flex-end;color:#87cefa;padding-right:4px}
+.slot input[type="text"]{width:100%}
+.slot .chk{display:flex;align-items:center;justify-content:center}
+.list{display:grid;gap:8px}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid var(--bd);font-size:12px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(12deg)}75%{transform:rotate(-12deg)}}
+@keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+canvas{width:100%;height:140px;background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:8px}
+</style>
 </head>
 <body>
   <div class="app">
-    <div class="status"><div>9:41</div><div>📶 🔋 100%</div></div>
     <div class="topbar">
       <div class="logo">MINDflow</div>
       <div class="tag">Il tuo viaggio verso la consapevolezza</div>
     </div>
 
-    <main id="main">
-      <!-- HOME (2 colonne, 3 righe, centrata) -->
-      <div class="home-wrap view active" id="home" aria-label="Home">
-        <section class="home">
-          <button class="card career" data-view="career"><div class="ic">🧠</div><div class="tl">Carriera</div><div class="st">Mindset</div></button>
-          <button class="card emo" data-view="emotions"><div class="ic">🩷</div><div class="tl">Emozioni</div><div class="st">Equilibrio</div></button>
-          <button class="card fit" data-view="fitness"><div class="ic">💪🏼</div><div class="tl">Fitness</div><div class="st">Alimentazione</div></button>
-          <button class="card spi" data-view="spirituality"><div class="ic">🔮</div><div class="tl">Spiritualità</div><div class="st">Crescita</div></button>
-          <button class="card com" data-view="community"><div class="ic">🫂</div><div class="tl">Community</div><div class="st">Connessioni</div></button>
-          <button class="card pro" data-view="profile"><div class="ic">🫆</div><div class="tl">Profilo</div><div class="st">Il tuo universo</div></button>
-        </section>
-      </div>
-
-      <!-- CARRIERA -->
-      <section id="career" class="view" aria-label="Carriera">
-        <div class="head"><button class="back" data-back>←</button><div class="title">🧠 Carriera & Mindset</div></div>
-        <div class="ai">"Oggi è il giorno perfetto per trasformare i tuoi sogni in realtà. Jindi crede in te!"</div>
-
-        <div class="panel">
-          <h3>📅 Daily Planner</h3>
-          <div id="planner-list">
-            <div class="row"><span>📧 Rispondere alle email</span><span>2h</span></div>
-            <div class="row"><span>💼 Meeting progetto X</span><span>1.5h</span></div>
-            <div class="row"><span>📊 Analisi report mensile</span><span>3h</span></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 100px 80px;gap:8px;margin-top:10px">
-            <input id="pl-text" class="in" placeholder="Nuova attività…" />
-            <input id="pl-dur" class="in" placeholder="Durata" />
-            <button id="pl-add" class="in" style="cursor:pointer">+ Aggiungi</button>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>💶 Calcolo Rapido</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-            <input id="hours" class="in" inputmode="decimal" placeholder="Ore" />
-            <input id="rate" class="in" inputmode="decimal" placeholder="€/ora" />
-            <div class="row"><span>Lordo</span><strong>€ <span id="gross">0.00</span></strong></div>
-            <div class="row"><span>Netto (≈70%)</span><strong>€ <span id="net">0.00</span></strong></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- EMOZIONI -->
-      <section id="emotions" class="view" aria-label="Emozioni">
-        <div class="head"><button class="back" data-back>←</button><div class="title">🩷 Emozioni</div></div>
-        <div class="ai">"Le tue emozioni sono valide. Navighiamo insieme questo mare interiore."</div>
-        <div class="panel">
-          <h3>😊 Tracker Umore</h3>
-          <div style="display:flex;gap:8px;justify-content:space-between;margin:10px 0">
-            <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😢">😢</button>
-            <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😐">😐</button>
-            <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😊">😊</button>
-            <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😄">😄</button>
-            <button class="card" style="width:auto;height:auto;padding:8px" data-mood="🤩">🤩</button>
-          </div>
-          <input id="intensity" type="range" min="1" max="10" value="7" style="width:100%">
-          <p>Intensità: <strong><span id="intensity-val">7</span>/10</strong> – Umore: <strong><span id="mood-val">😊</span></strong></p>
-        </div>
-      </section>
-
-      <!-- FITNESS -->
-      <section id="fitness" class="view" aria-label="Fitness e Alimentazione">
-        <div class="head"><button class="back" data-back>←</button><div class="title">💪🏼 Fitness & Alimentazione</div></div>
-        <div class="ai">"Il corpo è il tempio dell’anima. Un passo alla volta!"</div>
-        <div class="panel">
-          <h3>💧 Contatori Giornalieri</h3>
-          <div style="display:flex;gap:10px">
-            <div class="panel" style="flex:1">
-              <div>💧 Idratazione</div>
-              <div style="font-size:24px;font-weight:800;margin:8px 0" id="water-count">0</div>
-              <div>
-                <button data-counter="water" data-delta="-1">−</button>
-                <button data-counter="water" data-delta="1">+</button>
-              </div>
-              <div style="font-size:11px;opacity:.7">bicchieri</div>
-            </div>
-            <div class="panel" style="flex:1">
-              <div>🚭 Sigarette</div>
-              <div style="font-size:24px;font-weight:800;margin:8px 0" id="cig-count">0</div>
-              <div>
-                <button data-counter="cig" data-delta="-1">−</button>
-                <button data-counter="cig" data-delta="1">+</button>
-              </div>
-              <div style="font-size:11px;opacity:.7">oggi</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SPIRITUALITÀ -->
-      <section id="spirituality" class="view" aria-label="Spiritualità">
-        <div class="head"><button class="back" data-back>←</button><div class="title">🔮 Spiritualità</div></div>
-        <div class="ai" style="background:linear-gradient(135deg,var(--p3),var(--p1))">"Le stelle ti sussurrano: oggi è giorno di trasformazione."</div>
-        <div class="panel" style="text-align:center">
-          <h3>🧘‍♀️ Meditazione Guidata</h3>
-          <div id="med-timer" style="font-size:32px;font-weight:800;color:var(--p1);margin:8px 0">05:00</div>
-          <button id="med-toggle" class="in" style="cursor:pointer;width:auto">▶️ Avvia/Metti in pausa</button>
-        </div>
-      </section>
-
-      <!-- COMMUNITY -->
-      <section id="community" class="view" aria-label="Community">
-        <div class="head"><button class="back" data-back>←</button><div class="title">🫂 Community</div></div>
-        <div class="ai">"Insieme siamo più forti!"</div>
-
-        <div class="panel">
-          <h3>✨ Condividi il tuo momento</h3>
-          <textarea rows="3" class="in" id="post-text" placeholder="Cosa stai pensando oggi?"></textarea>
-          <div class="row">
-            <span>Allega 📷 🎯 💡</span>
-            <button id="post-btn" class="in" style="width:auto;cursor:pointer">Pubblica</button>
-          </div>
-        </div>
-
-        <div class="panel" id="feed">
-          <h3>📰 Feed</h3>
-          <div class="row"><span>@MindfulSara</span><span>“Prima meditazione di 20’ fatta! 🧘‍♀️”</span></div>
-          <div class="row"><span>@FitnessMarco</span><span>“10.000 passi al giorno ✅”</span></div>
-        </div>
-      </section>
-
-      <!-- PROFILO -->
-      <section id="profile" class="view" aria-label="Profilo">
-        <div class="head"><button class="back" data-back>←</button><div class="title">🫆 Profilo</div></div>
-        <div class="ai">"Il tuo profilo è la mappa del tuo universo."</div>
-
-        <div class="panel">
-          <h3>👤 Info</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <input class="in" value="Alessandro" placeholder="Nome">
-            <input class="in" value="Rossi" placeholder="Cognome">
-            <input class="in" value="alex@mindflow.app" placeholder="Email">
-            <input class="in" type="date" value="1995-03-15">
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>🔔 Notifiche</h3>
-          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 🧠 Carriera</label>
-          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox"> 🩷 Emozioni</label>
-          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 💪🏼 Fitness</label>
-          <label style="display:flex;align-items:center;gap:8px;margin:6px 0"><input type="checkbox" checked> 🔮 Spiritualità</label>
-        </div>
-
-        <div class="panel">
-          <h3>💎 Piano</h3>
-          <div class="row"><span>Piano attivo:</span><strong>Fiori</strong></div>
-          <div class="row"><span>Rinnovo:</span><strong>15/09/2024</strong></div>
-        </div>
-      </section>
-    </main>
-
-    <nav class="bottom" aria-label="Navigazione">
-      <button class="homebtn" id="go-home" aria-label="Home">🏠</button>
-      <button class="sys" id="open-system" aria-haspopup="dialog">Sistema ⚙️</button>
-    </nav>
+<main id="main">
+  <!-- HOME -->
+  <div class="home-wrap view active" id="home" aria-label="Home">
+    <section class="home">
+      <button class="card career" data-view="career"><div class="ic">🧠</div><div class="tl">Carriera</div><div class="st">Mindset</div></button>
+      <button class="card emo" data-view="emotions"><div class="ic">🩷</div><div class="tl">Emozioni</div><div class="st">Equilibrio</div></button>
+      <button class="card fit" data-view="fitness"><div class="ic">💪🏼</div><div class="tl">Fitness</div><div class="st">Alimentazione</div></button>
+      <button class="card spi" data-view="spirituality"><div class="ic">🔮</div><div class="tl">Spiritualità</div><div class="st">Crescita</div></button>
+      <button class="card com" data-view="community"><div class="ic">🫂</div><div class="tl">Community</div><div class="st">Connessioni</div></button>
+      <button class="card pro" data-view="profile"><div class="ic">🫆</div><div class="tl">Profilo</div><div class="st">Il tuo universo</div></button>
+    </section>
   </div>
 
-  <!-- Bolla Jindi -->
-  <button class="jindi" id="jindi" aria-controls="chat" aria-expanded="false">👋</button>
+  <!-- CARRIERA -->
+  <section id="career" class="view" aria-label="Carriera">
+    <div class="head"><button class="back" data-back>←</button><div class="title">🧠 Carriera & Mindset</div></div>
+    <div class="ai">"Oggi è il giorno perfetto per trasformare i tuoi sogni in realtà. Jindi crede in te!"</div>
 
-  <!-- Chat -->
-  <section class="chat" id="chat" aria-live="polite" aria-label="Chat con Jindi">
-    <div class="chathead">
-      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center">👋</div>
-      <div><strong>Jindi AI</strong><div style="font-size:10px;opacity:.7">Il tuo assistente</div></div>
-      <button id="close-chat" style="margin-left:auto;background:none;border:0;color:#ccc;font-size:18px">×</button>
+    <!-- Planner -->
+    <div class="panel">
+      <h3>📅 Planner <span class="small">(00:00 → 23:30, slot 30’)</span></h3>
+      <div class="row">
+        <span>Giorno</span>
+        <input type="date" id="pl-date" class="in" style="max-width:180px">
+        <span class="badge" id="pl-clear" style="cursor:pointer">Pulisci giorno</span>
+      </div>
+      <div id="planner-grid" class="planner-grid" aria-label="Planner"></div>
+      <div class="small">Tip: scrivi l’attività nello slot desiderato e spunta ✅ quando concluso. Salva automatico.</div>
     </div>
-    <div class="msgs" id="msgs"><div class="msg ai">Ciao! Come posso aiutarti oggi? 🌟</div></div>
-    <input id="chat-in" class="in" placeholder="Scrivi a Jindi…" />
+
+    <!-- Calcolo rapido -->
+    <div class="panel">
+      <h3>💶 Calcolo Rapido</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <input id="hours" class="in" inputmode="decimal" placeholder="Ore" />
+        <input id="rate" class="in" inputmode="decimal" placeholder="€/ora" />
+        <div class="row"><span>Lordo</span><strong>€ <span id="gross">0.00</span></strong></div>
+      </div>
+    </div>
+
+    <!-- Obiettivi -->
+    <div class="panel">
+      <h3>🎯 Obiettivi</h3>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:8px">
+        <input id="goal-text" class="in" placeholder="Nuovo obiettivo…" />
+        <select id="goal-type" class="in" style="width:140px"><option value="short">Breve</option><option value="long">Lungo</option></select>
+      </div>
+      <button id="goal-add" class="in" style="cursor:pointer;width:100%">+ Aggiungi</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div><div class="badge">Breve termine</div><div id="goals-short" class="list"></div></div>
+        <div><div class="badge">Lungo termine</div><div id="goals-long" class="list"></div></div>
+      </div>
+    </div>
+
+    <!-- Podcast & Libri -->
+    <div class="panel">
+      <h3>🎧 Podcast & 📚 Libri</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 110px;gap:8px">
+        <input id="store-title" class="in" placeholder="Titolo" />
+        <input id="store-url" class="in" placeholder="Link (Stripe / esterno)" />
+        <button id="store-add" class="in" style="cursor:pointer">+ Aggiungi</button>
+      </div>
+      <div id="store-list" class="list" style="margin-top:8px"></div>
+      <div class="small">Suggerimento: crea un <em>Payment Link</em> su Stripe e incollalo qui.</div>
+    </div>
   </section>
 
-  <script>
-    // helpers
-    const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
+  <!-- EMOZIONI -->
+  <section id="emotions" class="view" aria-label="Emozioni">
+    <div class="head"><button class="back" data-back>←</button><div class="title">🩷 Emozioni</div></div>
+    <div class="ai">"Le tue emozioni sono valide. Navighiamo insieme questo mare interiore."</div>
 
-    // router
-    const views = ["home","career","emotions","fitness","spirituality","community","profile"];
-    function show(v){ views.forEach(x=>$("#"+x).classList.toggle("active", x===v)); location.hash="#"+v; }
-    window.addEventListener("hashchange", ()=>{ const v=(location.hash||"#home").slice(1); show(views.includes(v)?v:"home"); });
+    <div class="panel">
+      <h3>😊 Tracker Umore</h3>
+      <div class="row">
+        <span>Ora</span>
+        <input id="mood-time" type="time" class="in" style="max-width:120px">
+        <span>Intensità</span>
+        <input id="intensity" type="range" min="1" max="10" value="7" style="width:100%">
+        <span class="badge"> <span id="intensity-val">7</span>/10 </span>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:space-between;margin:10px 0">
+        <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😢">😢</button>
+        <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😐">😐</button>
+        <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😊">😊</button>
+        <button class="card" style="width:auto;height:auto;padding:8px" data-mood="😄">😄</button>
+        <button class="card" style="width:auto;height:auto;padding:8px" data-mood="🤩">🤩</button>
+      </div>
+      <div class="row">
+        <span>Umore selezionato:</span>
+        <strong id="mood-val">😊</strong>
+        <button id="mood-save" class="in" style="width:auto;cursor:pointer">Salva voce</button>
+      </div>
+      <div class="row">
+        <span>Allegati</span>
+        <input id="mood-files" type="file" class="in" accept="image/*,audio/*" multiple>
+      </div>
+      <div id="mood-previews" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      <div class="small">Nota: gli allegati non restano dopo il refresh senza backend. I dati testuali invece sì (localStorage).</div>
+    </div>
 
-    // nav
-    $$("#home .card").forEach(b=>b.addEventListener("click", ()=>show(b.dataset.view)));
-    $$("[data-back]").forEach(b=>b.addEventListener("click", ()=>history.back()));
-    $("#go-home").addEventListener("click", ()=>show("home"));
-    $("#open-system").addEventListener("click", ()=>alert("Impostazioni, Backup, Supporto, Info App"));
+    <div class="panel">
+      <h3>📈 Grafico giornaliero</h3>
+      <canvas id="chart-day" width="320" height="140"></canvas>
+    </div>
+    <div class="panel">
+      <h3>📆 Grafico settimanale</h3>
+      <canvas id="chart-week" width="320" height="140"></canvas>
+      <div class="row">
+        <button id="share-generate" class="in" style="cursor:pointer">🔗 Genera link per psicologo (demo)</button>
+        <input id="share-pass" class="in" placeholder="Password per l’accesso (demo)">
+      </div>
+      <div id="share-link" class="small"></div>
+    </div>
+  </section>
 
-    // planner "aggiungi"
-    $("#pl-add")?.addEventListener("click", ()=>{
-      const t=$("#pl-text").value.trim(); const d=$("#pl-dur").value.trim()||"";
-      if(!t) return; const row=document.createElement("div"); row.className="row";
-      row.innerHTML = `<span>${t}</span><span>${d}</span>`;
-      $("#planner-list").appendChild(row);
-      $("#pl-text").value=""; $("#pl-dur").value="";
-    });
+  <!-- FITNESS -->
+  <section id="fitness" class="view" aria-label="Fitness e Alimentazione">
+    <div class="head"><button class="back" data-back>←</button><div class="title">💪🏼 Fitness & Alimentazione</div></div>
+    <div class="ai">"Il corpo è il tempio dell’anima. Un passo alla volta!"</div>
 
-    // calc
-    const hours=$("#hours"), rate=$("#rate"), gross=$("#gross"), net=$("#net");
-    function calc(){ const h=parseFloat(hours?.value||0)||0; const r=parseFloat(rate?.value||0)||0; const g=h*r; gross.textContent=g.toFixed(2); net.textContent=(g*0.7).toFixed(2); }
-    hours?.addEventListener("input", calc); rate?.addEventListener("input", calc);
+    <!-- contatori -->
+    <div class="panel">
+      <h3>💧 Contatori Giornalieri</h3>
+      <div style="display:flex;gap:10px">
+        <div class="panel" style="flex:1"><div>💧 Idratazione</div><div style="font-size:24px;font-weight:800;margin:8px 0" id="water-count">0</div><div><button data-counter="water" data-delta="-1">−</button><button data-counter="water" data-delta="1">+</button></div><div class="small">bicchieri</div></div>
+        <div class="panel" style="flex:1"><div>🚭 Sigarette</div><div style="font-size:24px;font-weight:800;margin:8px 0" id="cig-count">0</div><div><button data-counter="cig" data-delta="-1">−</button><button data-counter="cig" data-delta="1">+</button></div><div class="small">oggi</div></div>
+        <div class="panel" style="flex:1"><div>🍷 Alcol</div><div style="font-size:24px;font-weight:800;margin:8px 0" id="alc-count">0</div><div><button data-counter="alc" data-delta="-1">−</button><button data-counter="alc" data-delta="1">+</button></div><div class="small">unità</div></div>
+      </div>
+    </div>
 
-    // mood
-    const moodVal=$("#mood-val"), intensity=$("#intensity"), intensityVal=$("#intensity-val");
-    $$("[data-mood]").forEach(btn=>btn.addEventListener("click", ()=>{ if(moodVal) moodVal.textContent=btn.dataset.mood; }));
-    intensity?.addEventListener("input", e=>{ intensityVal.textContent=e.target.value; });
+    <!-- dati personali -->
+    <div class="panel">
+      <h3>📏 Dati personali</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <input id="w-kg" class="in" placeholder="Peso (kg)">
+        <input id="c-br" class="in" placeholder="Braccia (cm)">
+        <input id="c-pe" class="in" placeholder="Petto (cm)">
+        <input id="c-vi" class="in" placeholder="Vita (cm)">
+        <input id="c-fi" class="in" placeholder="Fianchi (cm)">
+        <input id="c-ga" class="in" placeholder="Gambe (cm)">
+      </div>
+      <div class="small">I dati restano sul dispositivo (localStorage).</div>
+    </div>
 
-    // counters
-    const counters={water:$("#water-count"), cig:$("#cig-count")};
-    $$("[data-counter]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const n=btn.dataset.counter; const d=parseInt(btn.dataset.delta,10);
-        const el=counters[n]; let v=parseInt(el.textContent||"0",10)+d; el.textContent=Math.max(0,v);
-      });
-    });
+    <!-- nutrizione -->
+    <div class="panel">
+      <h3>🍽️ Nutrizione</h3>
+      <div style="display:grid;grid-template-columns:1fr 100px;gap:8px">
+        <input class="in meal" data-meal="colazione" placeholder="Colazione (descrizione)">
+        <input class="in kcal" data-meal="colazione" inputmode="decimal" placeholder="kcal">
+        <input class="in meal" data-meal="spuntino1" placeholder="Spuntino mattino">
+        <input class="in kcal" data-meal="spuntino1" inputmode="decimal" placeholder="kcal">
+        <input class="in meal" data-meal="pranzo" placeholder="Pranzo">
+        <input class="in kcal" data-meal="pranzo" inputmode="decimal" placeholder="kcal">
+        <input class="in meal" data-meal="merenda" placeholder="Merenda">
+        <input class="in kcal" data-meal="merenda" inputmode="decimal" placeholder="kcal">
+        <input class="in meal" data-meal="cena" placeholder="Cena">
+        <input class="in kcal" data-meal="cena" inputmode="decimal" placeholder="kcal">
+        <input class="in meal" data-meal="spuntino2" placeholder="Spuntino sera">
+        <input class="in kcal" data-meal="spuntino2" inputmode="decimal" placeholder="kcal">
+      </div>
+      <div class="row"><span>Totale</span><strong><span id="kcal-total">0</span> kcal</strong></div>
 
-    // meditazione
-    const medBtn=$("#med-toggle"), medTimer=$("#med-timer"); let secs=5*60, iv=null;
-    function rend(){const m=Math.floor(secs/60), s=secs%60; medTimer.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
-    function start(){ if(iv) return; iv=setInterval(()=>{ if(secs>0){secs--;rend();}else{stop();secs=5*60;rend();alert("Meditazione completata ✨");}},1000); }
-    function stop(){ clearInterval(iv); iv=null; }
-    medBtn?.addEventListener("click", ()=> iv?stop():start()); rend();
+      <div class="row" style="margin-top:8px">
+        <input id="sgarro-text" class="in" placeholder="Sgarro…">
+        <input id="sgarro-kcal" class="in" inputmode="decimal" placeholder="kcal">
+        <button id="sgarro-add" class="in" style="width:auto;cursor:pointer">+ Aggiungi</button>
+      </div>
+      <div id="sgarri-list" class="list"></div>
+    </div>
 
-    // community post finto
-    $("#post-btn")?.addEventListener("click", ()=>{
-      const t=$("#post-text").value.trim(); if(!t) return;
-      const row=document.createElement("div"); row.className="row";
-      row.innerHTML=`<span>@Tu</span><span>${t}</span>`;
-      $("#feed").appendChild(row); $("#post-text").value="";
-      alert("Pubblicato nella community ✨");
-    });
+    <!-- spesa & ricette -->
+    <div class="panel">
+      <h3>🛒 Spesa & Ricette</h3>
+      <textarea id="ingr" class="in" rows="3" placeholder="Ingredienti disponibili (scrivi o incolla)"></textarea>
+      <div class="row">
+        <input id="shop-files" type="file" class="in" accept="image/*" multiple>
+        <button id="recipes-ai" class="in" style="width:auto;cursor:pointer">🍳 Suggerisci ricette (AI)</button>
+      </div>
+      <div id="recipes-out" class="list"></div>
+      <div class="small">Per OCR delle foto serve un backend/servizio esterno. Qui l’AI usa solo il testo degli ingredienti.</div>
+    </div>
 
-    // chat open/close
-    const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
-    function toggleChat(open){ const isOpen=open??!chat.classList.contains("active"); chat.classList.toggle("active", isOpen); bubble.setAttribute("aria-expanded", String(isOpen)); if(isOpen) input.focus(); }
-    bubble.addEventListener("click", ()=>toggleChat()); closeChat.addEventListener("click", ()=>toggleChat(false));
+    <!-- workout AI -->
+    <div class="panel">
+      <h3>🏋️‍♀️ Workout (AI)</h3>
+      <div class="row">
+        <input id="wk-goal" class="in" placeholder="Obiettivo (es. dimagrimento, forza…)">
+        <button id="wk-ai" class="in" style="width:auto;cursor:pointer">Genera piano</button>
+      </div>
+      <div id="wk-out" class="list"></div>
+    </div>
+  </section>
 
-    function addMsg(text, who="ai"){ const d=document.createElement("div"); d.className="msg "+who; d.textContent=text; msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; }
+  <!-- SPIRITUALITÀ -->
+  <section id="spirituality" class="view" aria-label="Spiritualità">
+    <div class="head"><button class="back" data-back>←</button><div class="title">🔮 Spiritualità</div></div>
+    <div class="ai" style="background:linear-gradient(135deg,var(--p3),var(--p1))">"Le stelle ti sussurrano: oggi è giorno di trasformazione."</div>
 
-    // chiamata alla tua API su Vercel
-    async function generateAIResponse(userMessage){
-      try{
-        const r = await fetch("/api/chat", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify({ message: userMessage })
-        });
-        if(!r.ok) throw new Error(await r.text());
-        const data = await r.json();
-        return data.reply || "Sto riflettendo… ✨";
-      }catch(e){
-        console.error(e);
-        return "Ops, non riesco a rispondere ora. Riprova tra poco 🙏";
-      }
-    }
+    <div class="panel" style="text-align:center">
+      <h3>🧘‍♀️ Meditazione Guidata</h3>
+      <div id="med-timer" style="font-size:32px;font-weight:800;color:var(--p1);margin:8px 0">05:00</div>
+      <button id="med-toggle" class="in" style="cursor:pointer;width:auto">▶️ Avvia/Metti in pausa</button>
+    </div>
 
-    input.addEventListener("keydown", async e=>{
-      if(e.key==="Enter"){
-        const text=input.value.trim(); if(!text) return;
-        addMsg(text,"me"); input.value="";
-        const reply = await generateAIResponse(text);
-        addMsg(reply,"ai");
-      }
-    });
+    <div class="panel">
+      <h3>🗺️ Tema natale (AI)</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <input id="tn-date" class="in" type="date">
+        <input id="tn-time" class="in" type="time">
+        <input id="tn-place" class="in" placeholder="Luogo di nascita">
+      </div>
+      <button id="tn-ai" class="in" style="margin-top:8px;cursor:pointer">Analizza influenza su azioni & umore</button>
+      <div id="tn-out" class="list"></div>
+      <div class="small">Per un tema natale astronomicamente preciso serve un’API di effemeridi. Qui l’AI crea una lettura personalizzata dai tuoi dati.</div>
+    </div>
+  </section>
 
-    // start
-    show((location.hash||"#home").slice(1));
-  </script>
+  <!-- COMMUNITY -->
+  <section id="community" class="view" aria-label="Community">
+    <div class="head"><button class="back" data-back>←</button><div class="title">🫂 Community</div></div>
+    <div class="ai">"Insieme siamo più forti!"</div>
+
+    <div class="panel">
+      <h3>✨ Condividi il tuo momento</h3>
+      <textarea rows="3" class="in" id="post-text" placeholder="Cosa stai pensando oggi?"></textarea>
+      <div class="row">
+        <span>Allega 📷 🎯 💡 (solo locale)</span>
+        <button id="post-btn" class="in" style="width:auto;cursor:pointer">Pubblica</button>
+      </div>
+    </div>
+
+    <div class="panel" id="feed">
+      <h3>📰 Feed</h3>
+      <div class="row"><span>@MindfulSara</span><span>“Prima meditazione di 20’ fatta! 🧘‍♀️”</span></div>
+      <div class="row"><span>@FitnessMarco</span><span>“10.000 passi al giorno ✅”</span></div>
+    </div>
+  </section>
+
+  <!-- PROFILO -->
+  <section id="profile" class="view" aria-label="Profilo">
+    <div class="head"><button class="back" data-back>←</button><div class="title">🫆 Profilo</div></div>
+    <div class="ai">"Il tuo profilo è la mappa del tuo universo."</div>
+
+    <div class="panel">
+      <h3>👤 Info</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <input id="p-nome" class="in" placeholder="Nome">
+        <input id="p-cogn" class="in" placeholder="Cognome">
+        <input id="p-mail" class="in" placeholder="Email">
+        <input id="p-nasc" class="in" type="date">
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>💎 Piani & Upgrade</h3>
+      <div class="row"><span>🌱 Radice</span><span>Gratis</span></div>
+      <div class="row"><span>🌿 Boccioli</span><button class="in upgrade" data-plan="boccioli">Upgrade</button></div>
+      <div class="row"><span>🌸 Fiori</span><button class="in upgrade" data-plan="fiori">Upgrade</button></div>
+      <div class="row"><span>🌟 Premium</span><button class="in upgrade" data-plan="premium">Upgrade</button></div>
+      <div class="row"><input id="pay-link" class="in" placeholder="Payment Link Stripe per Upgrade"></div>
+      <div class="small">Immetti qui un Payment Link e i bottoni “Upgrade” lo apriranno.</div>
+    </div>
+
+    <div class="panel">
+      <h3>🎥 Live</h3>
+      <div class="row"><span>Prossime live</span><span class="badge">Coming soon</span></div>
+      <div class="small">Quando vorrai attivare le live, le colleghiamo a un fornitore (YouTube Live, Mux, Zoom, ecc.).</div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Navigazione">
+  <button class="homebtn" id="go-home" aria-label="Home">🏠</button>
+  <button class="sys" id="open-system" aria-haspopup="dialog">Sistema ⚙️</button>
+</nav>
+</div>
+
+<!-- Jindi AI bubble -->
+<button class="jindi" id="jindi" aria-controls="chat" aria-expanded="false">👋</button>
+
+<!-- Chat -->
+<section class="chat" id="chat" aria-live="polite" aria-label="Chat con Jindi">
+  <div class="chathead">
+    <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center">👋</div>
+    <div><strong>Jindi AI</strong><div class="small">Il tuo assistente</div></div>
+    <button id="close-chat" style="margin-left:auto;background:none;border:0;color:#ccc;font-size:18px">×</button>
+  </div>
+  <div class="msgs" id="msgs"><div class="msg ai">Ciao! Come posso aiutarti oggi? 🌟</div></div>
+  <input id="chat-in" class="in" placeholder="Scrivi a Jindi…" />
+</section>
+
+<script>
+/* Helpers */
+const $=(s,r=document)=>r.querySelector(s);const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const todayStr=()=>new Date().toISOString().slice(0,10);
+
+/* Router */
+const views=["home","career","emotions","fitness","spirituality","community","profile"];
+function show(v){views.forEach(x=>$("#"+x).classList.toggle("active",x===v));location.hash="#"+v;}
+window.addEventListener("hashchange",()=>{const v=(location.hash||"#home").slice(1);show(views.includes(v)?v:"home");});
+$$("#home .card").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+$$("[data-back]").forEach(b=>b.addEventListener("click",()=>history.back()));
+$("#go-home").addEventListener("click",()=>show("home"));
+$("#open-system").addEventListener("click",()=>alert("Impostazioni, Backup, Supporto, Info App"));
+
+/* Planner 00:00→23:30 */
+const grid=$("#planner-grid"), plDate=$("#pl-date"), plClear=$("#pl-clear");
+function plannerKey(){return "planner:"+ (plDate.value||todayStr());}
+function buildPlanner(){
+  grid.innerHTML="";
+  for(let h=0;h<24;h++){for(let m=0;m<60;m+=30){
+    const time=`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+    const wrap=document.createElement("div");wrap.className="slot";
+    wrap.innerHTML=`<div class="time">${time}</div>
+      <input class="in" type="text" data-time="${time}" placeholder="Scrivi attività…">
+      <label class="chk"><input type="checkbox" data-done="${time}" title="Fatto"></label>`;
+    grid.appendChild(wrap);
+  }}
+  loadPlanner();
+  grid.querySelectorAll("input").forEach(i=>i.addEventListener("input",savePlanner));
+}
+function savePlanner(){
+  const data={};
+  grid.querySelectorAll('[data-time]').forEach(inp=>{
+    const t=inp.dataset.time; const done=grid.querySelector(`[data-done="${t}"]`).checked;
+    data[t]={text:inp.value,done};
+  });
+  localStorage.setItem(plannerKey(),JSON.stringify(data));
+}
+function loadPlanner(){
+  const saved=JSON.parse(localStorage.getItem(plannerKey())||"{}");
+  Object.entries(saved).forEach(([t,v])=>{
+    const inp=grid.querySelector(`[data-time="${t}"]`);
+    const chk=grid.querySelector(`[data-done="${t}"]`);
+    if(inp) inp.value=v.text||""; if(chk) chk.checked=!!v.done;
+  });
+}
+plDate.value=todayStr();
+plDate.addEventListener("change",buildPlanner);
+plClear.addEventListener("click",()=>{localStorage.removeItem(plannerKey());buildPlanner();});
+buildPlanner();
+
+/* Calcolo rapido: solo Lordo */
+const hours=$("#hours"), rate=$("#rate"), gross=$("#gross");
+function calc(){const h=parseFloat(hours?.value||0)||0;const r=parseFloat(rate?.value||0)||0;const g=h*r;gross.textContent=g.toFixed(2);}
+hours?.addEventListener("input",calc);rate?.addEventListener("input",calc);
+
+/* Obiettivi */
+const goals={short:$("#goals-short"),long:$("#goals-long")};
+function goalsKey(type){return "goals:"+type;}
+function renderGoals(type){
+  const list=JSON.parse(localStorage.getItem(goalsKey(type))||"[]");
+  goals[type].innerHTML="";
+  list.forEach((g,i)=>{
+    const row=document.createElement("div");row.className="row";
+    row.innerHTML=`<label style="display:flex;gap:8px;align-items:center">
+      <input type="checkbox" ${g.done?"checked":""} data-gtype="${type}" data-idx="${i}">
+      <span>${g.text}</span></label>
+      <button class="in" data-del="${type}" data-idx="${i}" style="width:auto">🗑️</button>`;
+    goals[type].appendChild(row);
+  });
+}
+function saveGoals(type,arr){localStorage.setItem(goalsKey(type),JSON.stringify(arr));renderGoals(type);}
+$("#goal-add").addEventListener("click",()=>{
+  const txt=$("#goal-text").value.trim();const type=$("#goal-type").value;
+  if(!txt) return; const arr=JSON.parse(localStorage.getItem(goalsKey(type))||"[]");
+  arr.push({text:txt,done:false}); saveGoals(type,arr); $("#goal-text").value="";
+});
+["short","long"].forEach(renderGoals);
+document.addEventListener("change",e=>{
+  if(e.target.matches('[data-gtype]')){
+    const t=e.target.dataset.gtype, i=+e.target.dataset.idx;
+    const arr=JSON.parse(localStorage.getItem(goalsKey(t))||"[]"); if(arr[i]){arr[i].done=e.target.checked; saveGoals(t,arr);}
+  }
+});
+document.addEventListener("click",e=>{
+  if(e.target.matches('[data-del]')){
+    const t=e.target.dataset.del, i=+e.target.dataset.idx;
+    const arr=JSON.parse(localStorage.getItem(goalsKey(t))||"[]"); arr.splice(i,1); saveGoals(t,arr);
+  }
+});
+
+/* Store Podcast/Libri */
+const storeList=$("#store-list");
+function renderStore(){
+  const items=JSON.parse(localStorage.getItem("store")||"[]"); storeList.innerHTML="";
+  items.forEach((it,i)=>{
+    const row=document.createElement("div");row.className="row";
+    row.innerHTML=`<span>${it.title}</span>
+      <a class="in" style="width:auto;text-align:center" href="${it.url}" target="_blank">Apri/Acquista</a>
+      <button class="in" data-sdel="${i}" style="width:auto">🗑️</button>`;
+    storeList.appendChild(row);
+  });
+}
+renderStore();
+$("#store-add").addEventListener("click",()=>{
+  const t=$("#store-title").value.trim(), u=$("#store-url").value.trim(); if(!t||!u) return;
+  const items=JSON.parse(localStorage.getItem("store")||"[]"); items.push({title:t,url:u});
+  localStorage.setItem("store",JSON.stringify(items)); $("#store-title").value=""; $("#store-url").value=""; renderStore();
+});
+document.addEventListener("click",e=>{
+  if(e.target.matches('[data-sdel]')){const i=+e.target.dataset.sdel; const items=JSON.parse(localStorage.getItem("store")||"[]"); items.splice(i,1); localStorage.setItem("store",JSON.stringify(items)); renderStore();}
+});
+
+/* Emozioni */
+const moodVal=$("#mood-val"), intensity=$("#intensity"), intensityVal=$("#intensity-val"), timeIn=$("#mood-time");
+timeIn.value=new Date().toTimeString().slice(0,5);
+$$("[data-mood]").forEach(btn=>btn.addEventListener("click",()=>{moodVal.textContent=btn.dataset.mood;}));
+intensity.addEventListener("input",e=>intensityVal.textContent=e.target.value);
+$("#mood-files").addEventListener("change",e=>{
+  const box=$("#mood-previews"); box.innerHTML="";
+  [...e.target.files].forEach(f=>{
+    const url=URL.createObjectURL(f);
+    const tag=f.type.startsWith("image/")?`<img src="${url}" style="width:64px;height:64px;object-fit:cover;border-radius:8px">`:`<audio src="${url}" controls style="width:140px"></audio>`;
+    const w=document.createElement("div");w.innerHTML=tag;box.appendChild(w);
+  });
+});
+function moodKey(date){return "mood:"+date;}
+function saveMood(){
+  const date=plDate.value||todayStr();
+  const arr=JSON.parse(localStorage.getItem(moodKey(date))||"[]");
+  arr.push({t:timeIn.value, mood:moodVal.textContent, inten:+intensity.value});
+  localStorage.setItem(moodKey(date),JSON.stringify(arr));
+  drawCharts();
+  alert("Voce umore salvata ✅");
+}
+$("#mood-save").addEventListener("click",saveMood);
+
+/* Grafici */
+function drawLine(canvas,labels,values){
+  const ctx=canvas.getContext("2d"); const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H); ctx.strokeStyle="#ffb6c1"; ctx.lineWidth=2; ctx.beginPath();
+  const max=Math.max(10, ...values, 1), stepX=W/Math.max(1,labels.length-1), pad=8;
+  values.forEach((v,i)=>{const x=i*stepX, y=H-pad-(v/max)*(H-pad*2); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.stroke(); ctx.fillStyle="#FFDAB9"; values.forEach((v,i)=>{const x=i*stepX, y=H-pad-(v/max)*(H-pad*2); ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill();});
+}
+function drawCharts(){
+  const date=plDate.value||todayStr(); const day=JSON.parse(localStorage.getItem(moodKey(date))||"[]");
+  const labelsD=day.map(d=>d.t), valsD=day.map(d=>d.inten); drawLine($("#chart-day"),labelsD,valsD);
+  // week
+  const labelsW=[], valsW=[];
+  for(let i=6;i>=0;i--){const d=new Date(); d.setDate(d.getDate()-i); const key=d.toISOString().slice(0,10);
+    const arr=JSON.parse(localStorage.getItem("mood:"+key)||"[]"); const avg=arr.length?Math.round(arr.reduce((s,a)=>s+a.inten,0)/arr.length):0;
+    labelsW.push(key.slice(5)); valsW.push(avg);
+  }
+  drawLine($("#chart-week"),labelsW,valsW);
+}
+drawCharts();
+
+/* Condivisione demo (senza backend) */
+$("#share-generate").addEventListener("click",()=>{
+  const pass=$("#share-pass").value.trim(); if(!pass){alert("Imposta una password");return;}
+  const code=Math.random().toString(36).slice(2,8); localStorage.setItem("share-pass:"+code,pass);
+  $("#share-link").textContent="Link (demo, locale): " + location.origin + location.pathname + "#emotions?share="+code;
+  alert("Creato. Nota: funziona solo sul tuo dispositivo finché non aggiungiamo un backend.");
+});
+
+/* Contatori fitness */
+const counters={water:$("#water-count"), cig:$("#cig-count"), alc:$("#alc-count")};
+function loadCounters(){Object.keys(counters).forEach(k=>{counters[k].textContent=localStorage.getItem("cnt:"+k)||"0";});}
+loadCounters();
+$$("[data-counter]").forEach(btn=>btn.addEventListener("click",()=>{
+  const n=btn.dataset.counter,d=+btn.dataset.delta,el=counters[n]; let v=Math.max(0,(+el.textContent||0)+d); el.textContent=v; localStorage.setItem("cnt:"+n,String(v));
+}));
+
+/* Dati personali */
+["w-kg","c-br","c-pe","c-vi","c-fi","c-ga"].forEach(id=>{const el=$("#"+id); el.value=localStorage.getItem("pd:"+id)||""; el.addEventListener("input",()=>localStorage.setItem("pd:"+id,el.value));});
+
+/* Nutrizione */
+function sumKcal(){let t=0; $$(".kcal").forEach(k=>t+=parseFloat(k.value||0)||0); $("#kcal-total").textContent=t;}
+$$(".meal").forEach(i=>i.addEventListener("input",()=>localStorage.setItem("meal:"+i.dataset.meal,i.value)));
+$$(".kcal").forEach(i=>i.addEventListener("input",()=>{localStorage.setItem("kcal:"+i.dataset.meal,i.value);sumKcal();}));
+$$(".meal").forEach(i=>i.value=localStorage.getItem("meal:"+i.dataset.meal)||"");
+$$(".kcal").forEach(i=>i.value=localStorage.getItem("kcal:"+i.dataset.meal)||"");
+sumKcal();
+function renderSgarri(){
+  const arr=JSON.parse(localStorage.getItem("sgarri")||"[]"); const box=$("#sgarri-list"); box.innerHTML="";
+  arr.forEach((s,i)=>{const r=document.createElement("div"); r.className="row"; r.innerHTML=`<span>${s.t} – ${s.k} kcal</span><button class="in" data-sgdel="${i}" style="width:auto">🗑️</button>`; box.appendChild(r);});
+}
+renderSgarri();
+$("#sgarro-add").addEventListener("click",()=>{const t=$("#sgarro-text").value.trim(), k=+($("#sgarro-kcal").value||0); if(!t||!k) return; const arr=JSON.parse(localStorage.getItem("sgarri")||"[]"); arr.push({t,k}); localStorage.setItem("sgarri",JSON.stringify(arr)); $("#sgarro-text").value=""; $("#sgarro-kcal").value=""; renderSgarri(); sumKcal();});
+document.addEventListener("click",e=>{if(e.target.matches('[data-sgdel]')){const i=+e.target.dataset.sgdel; const arr=JSON.parse(localStorage.getItem("sgarri")||"[]"); arr.splice(i,1); localStorage.setItem("sgarri",JSON.stringify(arr)); renderSgarri();}});
+
+/* Ricette AI */
+async function aiPrompt(prompt){
+  try{
+    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:prompt})});
+    if(!r.ok) throw new Error(await r.text()); const data=await r.json(); return data.reply||"";
+  }catch(e){console.error(e); return "Ops, non riesco ora 🙏";}
+}
+$("#recipes-ai").addEventListener("click",async ()=>{
+  $("#recipes-out").innerHTML="<div class='small'>Sto pensando…</div>";
+  const reply=await aiPrompt("Sei un nutrizionista. Con questi ingredienti consiglia 3 ricette sane con stima kcal per porzione. Ingredienti: "+($("#ingr").value||"-"));
+  $("#recipes-out").innerHTML=`<div class="row"><div>${reply.replaceAll("\n","<br>")}</div></div>`;
+});
+
+/* Workout AI */
+$("#wk-ai").addEventListener("click",async ()=>{
+  $("#wk-out").innerHTML="<div class='small'>Creo il piano…</div>";
+  const goal=$("#wk-goal").value||"benessere generale";
+  const prof=`Peso: ${$("#w-kg").value||"?"}kg; Circonferenze (cm) Br:${$("#c-br").value||"?"} Pe:${$("#c-pe").value||"?"} Vi:${$("#c-vi").value||"?"} Fi:${$("#c-fi").value||"?"} Ga:${$("#c-ga").value||"?"}`;
+  const reply=await aiPrompt(`Sei un coach. Genera un piano settimanale (3-4 sedute) con esercizi, serie/rep/recupero, obiettivo: ${goal}. Profilo: ${prof}.`);
+  $("#wk-out").innerHTML=`<div class="row"><div>${reply.replaceAll("\n","<br>")}</div></div>`;
+});
+
+/* Meditazione */
+const medBtn=$("#med-toggle"), medTimer=$("#med-timer"); let secs=5*60, iv=null;
+function medR(){const m=Math.floor(secs/60), s=secs%60; medTimer.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
+function medStart(){if(iv) return; iv=setInterval(()=>{if(secs>0){secs--;medR();}else{medStop();secs=5*60;medR();alert("Meditazione completata ✨");}},1000);}
+function medStop(){clearInterval(iv);iv=null;}
+medBtn?.addEventListener("click",()=>iv?medStop():medStart()); medR();
+
+/* Tema natale (AI) */
+$("#tn-ai").addEventListener("click",async ()=>{
+  $("#tn-out").innerHTML="<div class='small'>Sto analizzando…</div>";
+  const d=$("#tn-date").value, t=$("#tn-time").value, p=$("#tn-place").value;
+  const reply=await aiPrompt(`Sei un astrologo pratico: dati nascita (data: ${d}, ora: ${t}, luogo: ${p}). Fornisci lettura sintetica e come influenzi umore/azioni per la settimana. Linguaggio concreto, consigli pratici.`);
+  $("#tn-out").innerHTML=`<div class="row"><div>${reply.replaceAll("\n","<br>")}</div></div>`;
+});
+
+/* Community locale */
+function renderFeed(){const arr=JSON.parse(localStorage.getItem("feed")||"[]"); const feed=$("#feed"); arr.forEach(p=>{const r=document.createElement("div"); r.className="row"; r.innerHTML=`<span>@Tu</span><span>${p}</span>`; feed.appendChild(r);});}
+renderFeed();
+$("#post-btn")?.addEventListener("click",()=>{const t=$("#post-text").value.trim(); if(!t) return; const arr=JSON.parse(localStorage.getItem("feed")||"[]"); arr.unshift(t); localStorage.setItem("feed",JSON.stringify(arr)); const row=document.createElement("div"); row.className="row"; row.innerHTML=`<span>@Tu</span><span>${t}</span>`; $("#feed").appendChild(row); $("#post-text").value="";});
+
+/* Profilo */
+["p-nome","p-cogn","p-mail","p-nasc"].forEach(id=>{const el=$("#"+id); el.value=localStorage.getItem("prof:"+id)||""; el.addEventListener("input",()=>localStorage.setItem("prof:"+id,el.value));});
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("upgrade")){
+    const link=$("#pay-link").value.trim();
+    if(!link) return alert("Inserisci un Payment Link Stripe nel campo sotto.");
+    window.open(link,"_blank");
+  }
+});
+
+/* Chat Jindi */
+const bubble=$("#jindi"), chat=$("#chat"), closeChat=$("#close-chat"), input=$("#chat-in"), msgs=$("#msgs");
+function toggleChat(open){const isOpen=open??!chat.classList.contains("active"); chat.classList.toggle("active",isOpen); bubble.setAttribute("aria-expanded",String(isOpen)); if(isOpen) input.focus();}
+bubble.addEventListener("click",()=>toggleChat()); closeChat.addEventListener("click",()=>toggleChat(false));
+function addMsg(text,who="ai"){const d=document.createElement("div"); d.className="msg "+who; d.innerHTML=text.replaceAll("\n","<br>"); msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;}
+async function generateAIResponse(userMessage){
+  try{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:userMessage})}); if(!r.ok) throw new Error(await r.text()); const data=await r.json(); return data.reply||"Sto riflettendo… ✨";}
+  catch(e){console.error(e); return "Ops, non riesco a rispondere ora. Riprova tra poco 🙏";}
+}
+input.addEventListener("keydown",async e=>{if(e.key==="Enter"){const text=input.value.trim(); if(!text) return; addMsg(text,"me"); input.value=""; const reply=await generateAIResponse(text); addMsg(reply,"ai");}});
+
+/* Start */
+show((location.hash||"#home").slice(1));
+</script>
 </body>
 </html>
