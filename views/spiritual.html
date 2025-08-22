@@ -1,0 +1,48 @@
+<section class="panel">
+  <div class="head"><button class="back" onclick="history.back()">←</button><div class="title">🔮 Spiritualità & Crescita</div></div>
+
+  <div class="section">
+    <h3>🧘 Meditazione guidata</h3>
+    <div class="row">
+      <button class="btn" id="med-play">Avvia/Metti in pausa (10:00)</button>
+      <button class="btn ghost" id="med-my-audios">I miei audio</button>
+    </div>
+    <div class="small" id="med-info">Timer in pausa. Possibilità di playlist proprietarie (gratis/pagamento).</div>
+  </div>
+
+  <div class="section">
+    <h3>🪐 Astrologia / 🃏 Tarocchi / 🔢 Numerologia</h3>
+    <div class="small">Hook AI pronto: inserisci data/ora/luogo per calcoli automatici (tema natale, arcani, numeri destino).</div>
+    <div class="row" style="flex-wrap:wrap">
+      <input class="in" placeholder="Data di nascita (YYYY-MM-DD)" id="astro-date" style="width:220px">
+      <input class="in" placeholder="Ora (HH:MM)" id="astro-time" style="width:120px">
+      <input class="in" placeholder="Luogo (città)" id="astro-place" style="flex:1">
+      <button class="btn" id="astro-calc">Calcola</button>
+    </div>
+    <div id="astro-out" class="section" style="background:#0f0f0f"></div>
+  </div>
+
+  <div class="section">
+    <h3>📿 Sogni & Rituali</h3>
+    <textarea class="in" id="dream" placeholder="Sogno ricordato…"></textarea>
+    <button class="btn" id="dream-add" style="margin-top:8px">Salva</button>
+    <div id="dream-feed" class="section" style="background:#0f0f0f"></div>
+  </div>
+</section>
+
+<script>
+const L=(k)=>JSON.parse(localStorage.getItem('mf_sp_'+k)||'[]'); const W=(k,v)=>localStorage.setItem('mf_sp_'+k,JSON.stringify(v));
+document.getElementById('med-play').onclick=()=>alert('Timer 10:00 (stub). Più avanti: audio proprietari + paywall.');
+document.getElementById('med-my-audios').onclick=()=>alert('Uploader audio admin via Supabase Storage (hook pronto).');
+
+document.getElementById('astro-calc').onclick=()=>{
+  const d=document.getElementById('astro-date').value, t=document.getElementById('astro-time').value, p=document.getElementById('astro-place').value;
+  if(!d||!t||!p) return alert('Completa data/ora/luogo');
+  document.getElementById('astro-out').textContent = `Tema natale/Arcani/Numeri per ${d} ${t} a ${p} (demo).`;
+};
+document.getElementById('dream-add').onclick=()=>{
+  const txt=document.getElementById('dream').value.trim(); if(!txt) return;
+  const a=L('dreams'); a.unshift({txt,ts:Date.now()}); W('dreams',a); document.getElementById('dream').value='';
+  const feed=document.getElementById('dream-feed'); feed.innerHTML=''; a.forEach(r=>{ const d=document.createElement('div'); d.className='row'; d.innerHTML=`<div>📝 ${r.txt}</div><div class="small">${new Date(r.ts).toLocaleString()}</div>`; feed.appendChild(d);});
+};
+</script>
