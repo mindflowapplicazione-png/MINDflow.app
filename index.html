@@ -1,226 +1,133 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mèlora 🌙</title>
-  <style>
-    body { background:#000; color:#fff; font-family:Arial, sans-serif; margin:0; padding:0; }
-    header { text-align:center; padding:20px; font-size:1.5em; background:#111; }
-    main { padding:15px; }
-    section { border:1px solid #333; padding:15px; border-radius:8px; margin-bottom:20px; }
-    h2 { margin-top:0; }
-    input, textarea, button, select {
-      width:100%; padding:8px; margin:5px 0; border-radius:6px; border:none;
-    }
-    button { background:#e91e63; color:white; font-weight:bold; cursor:pointer; }
-    button:hover { background:#ad1457; }
-    .output { white-space:pre-wrap; background:#111; padding:10px; border-radius:6px; margin-top:10px; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MINDflow — Profilo & Piani</title>
+<style>
+  :root{--bg:#000;--panel:#111;--ring:#2a2a2a;--muted:#8b8b8b;--rose1:#ffc0cb;--rose2:#f6bfcf}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:420px;margin:0 auto;padding:20px}
+  .header{text-align:center;margin-bottom:16px}
+  .header h1{font-size:28px;color:#FFB6C1;margin:4px 0}
+  .header p{color:var(--muted);font-style:italic;font-size:13px}
+  .back{display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:14px;padding:14px;margin:10px 0 16px;text-decoration:none;color:#fff;font-weight:700}
+  .section{background:#121212;border:1px solid var(--ring);border-radius:14px;padding:14px;margin:12px 0}
+  .title{font-weight:800;margin-bottom:10px;font-size:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .plan{background:linear-gradient(135deg,var(--rose1),var(--rose2));color:#000;border-radius:16px;padding:14px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:90px}
+  .muted{color:#bbb;font-size:12px}
+  .btn{background:linear-gradient(135deg,var(--rose1),var(--rose2));color:#000;border:0;border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer}
+  .row{display:flex;gap:8px;align-items:center}
+  .card{background:#141414;border:1px solid #282828;border-radius:14px;padding:12px;margin:8px 0}
+  input,select{width:100%;background:#1b1b1b;border:1px solid #333;color:#fff;border-radius:12px;padding:10px;font-size:14px}
+</style>
 </head>
 <body>
-  <header>🌸 Benvenuta in <b>Mèlora</b></header>
-  <main>
-    
-    <!-- Chat motivazionale -->
-    <section>
-      <h2>🩷 Chat Motivazionale</h2>
-      <textarea id="chatInput" placeholder="Scrivi un pensiero..."></textarea>
-      <button onclick="sendChat()">Invia</button>
-      <div id="chatOut" class="output"></div>
-    </section>
+<div class="wrap">
+  <div class="header">
+    <h1>MINDflow</h1>
+    <p>Il tuo viaggio verso la consapevolezza</p>
+  </div>
+  <a class="back" href="./index.html">← 🔐 Profilo</a>
 
-    <!-- Ricette -->
-    <section>
-      <h2>🍽️ Ricette</h2>
-      <input id="recIn" placeholder="Ingredienti (es: pollo, zucchine)">
-      <button onclick="sendRecipes()">Genera ricette</button>
-      <div id="recOut" class="output"></div>
-    </section>
-
-    <!-- Workout -->
-    <section>
-      <h2>💪 Workout</h2>
-      <select id="goal">
-        <option>Forza</option>
-        <option>Dimagrimento</option>
-        <option>Mobilità</option>
-      </select>
-      <input id="days" type="number" value="3" min="1" max="7">
-      <button onclick="sendWorkout()">Crea piano</button>
-      <div id="workOut" class="output"></div>
-    </section>
-
-    <!-- Astrologia -->
-    <section>
-      <h2>🔮 Astrologia</h2>
-      <input id="date" type="date">
-      <input id="time" type="time">
-      <input id="place" placeholder="Luogo di nascita">
-      <button onclick="sendAstro()">Leggi</button>
-      <div id="astroOut" class="output"></div>
-    </section>
-
-    <!-- Feed -->
-    <section>
-      <h2>📢 Feed</h2>
-      <textarea id="feedText" placeholder="Scrivi un post..."></textarea>
-      <input id="feedFile" type="file">
-      <button onclick="sendFeed()">Pubblica</button>
-      <div id="feedOut" class="output"></div>
-    </section>
-
-    <!-- Emozioni -->
-    <section>
-      <h2>🩷 Emozioni</h2>
-      <div class="grid">
-        <input id="emoEmoji" placeholder="Emoji 😊">
-        <input id="emoInt" type="number" placeholder="Intensità 1-10">
+  <div class="section">
+    <div class="title">👤 Dati utente</div>
+    <div class="card">
+      <div class="row">
+        <input id="email" type="email" placeholder="Email (usata per abbonamento)">
+        <button class="btn" onclick="saveEmail()">Salva</button>
       </div>
-      <input id="emoTrigger" placeholder="Trigger">
-      <textarea id="emoWhy" placeholder="Perché?"></textarea>
-      <textarea id="emoCare" placeholder="Self-care"></textarea>
-      <input id="emoFile" type="file">
-      <button onclick="sendMood()">Salva Emozione</button>
-      <div id="emoOut" class="output"></div>
-    </section>
+      <div class="muted" id="emailInfo"></div>
+    </div>
+  </div>
 
-    <!-- Planner -->
-    <section>
-      <h2>📅 Planner</h2>
-      <input id="planStart" type="datetime-local">
-      <input id="planEnd" type="datetime-local">
-      <input id="planTitle" placeholder="Titolo attività">
-      <button onclick="sendPlan()">Aggiungi</button>
-      <div id="planOut" class="output"></div>
-    </section>
+  <div class="section">
+    <div class="title">💎 Piani & Upgrade</div>
+    <div class="grid3">
+      <button class="plan" onclick="startCheckout('boccioli')">🌱 Boccioli<br><span class="muted">€7,99/m</span></button>
+      <button class="plan" onclick="startCheckout('fiori')">🌸 Fiori<br><span class="muted">€12,99/m</span></button>
+      <button class="plan" onclick="startCheckout('premium')">💎 Premium<br><span class="muted">€149,99/m</span></button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" onclick="openPortal()">Gestisci abbonamento</button>
+      <button class="btn" onclick="checkStatus()">Verifica stato</button>
+    </div>
+    <div id="statusBox" class="card" style="display:none"></div>
+  </div>
 
-    <!-- Bilancio -->
-    <section>
-      <h2>💸 Bilancio</h2>
-      <select id="cashKind"><option value="in">Entrata</option><option value="out">Uscita</option></select>
-      <input id="cashAmt" type="number" placeholder="Importo €">
-      <input id="cashDesc" placeholder="Descrizione">
-      <button onclick="sendCash()">Registra</button>
-      <div id="cashOut" class="output"></div>
-    </section>
-
-  </main>
+  <div class="section">
+    <div class="title">⚙️ Preferenze</div>
+    <div class="row">
+      <select id="theme">
+        <option value="dark" selected>Tema: Scuro</option>
+        <option value="light">Tema: Chiaro</option>
+      </select>
+      <button class="btn" onclick="savePrefs()">Salva</button>
+    </div>
+  </div>
+</div>
 
 <script>
-async function api(path, body) {
-  const r = await fetch(path, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(body) });
-  return r.json();
-}
+/* ===== CONFIG FALLBACK (usa i tuoi link diretti se le API non sono configurate) ===== */
+const DIRECT_CHECKOUT = {
+  boccioli: "https://buy.stripe.com/00w7sL3Lpclj3CucildQQ05",
+  fiori:    "https://buy.stripe.com/5kQeVd6XBclj8WO5TXdQQ04",
+  premium:  "https://buy.stripe.com/cNicN53Lp5WV4Gy6Y1dQQ03"
+};
 
-// CHAT
-async function sendChat(){
-  const message=document.getElementById("chatInput").value;
-  const out=document.getElementById("chatOut");
-  out.textContent="⏳...";
-  const res=await api("/api/chat",{message});
-  out.textContent=res.reply;
+function getEmail(){ return localStorage.getItem('mf_email') || ''; }
+function saveEmail(){
+  const v = document.getElementById('email').value.trim();
+  if(!v) return alert("Inserisci un'email");
+  localStorage.setItem('mf_email', v);
+  document.getElementById('emailInfo').textContent = "Email salvata: " + v;
 }
-
-// RICETTE
-async function sendRecipes(){
-  const ingredients=document.getElementById("recIn").value;
-  const out=document.getElementById("recOut");
-  out.textContent="⏳...";
-  const res=await api("/api/recipes",{ingredients});
-  out.textContent=res.text;
+function savePrefs(){
+  localStorage.setItem('mf_theme', document.getElementById('theme').value);
+  alert('Preferenze salvate');
 }
+document.getElementById('email').value = getEmail();
+document.getElementById('emailInfo').textContent = getEmail() ? "Email salvata: " + getEmail() : "Suggerimento: salva l'email per associare l'abbonamento.";
 
-// WORKOUT
-async function sendWorkout(){
-  const goal=document.getElementById("goal").value;
-  const days=document.getElementById("days").value;
-  const out=document.getElementById("workOut");
-  out.textContent="⏳...";
-  const res=await api("/api/workout",{goal,days});
-  out.textContent=res.text;
-}
+/* ===== CHECKOUT ===== */
+async function startCheckout(plan){
+  const email = getEmail();
+  if(!email) { if(!confirm("Procedere senza email salvata?")) return; }
 
-// ASTRO
-async function sendAstro(){
-  const date=document.getElementById("date").value;
-  const time=document.getElementById("time").value;
-  const place=document.getElementById("place").value;
-  const out=document.getElementById("astroOut");
-  out.textContent="⏳...";
-  const res=await api("/api/astro",{date,time,place});
-  out.textContent=res.text;
-}
-
-// FEED
-async function sendFeed(){
-  const text=document.getElementById("feedText").value;
-  const file=document.getElementById("feedFile").files[0];
-  const out=document.getElementById("feedOut");
-  out.textContent="⏳...";
-  let media_urls=[];
-  if(file){
-    const b64=await toBase64(file);
-    const up=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filename:file.name,dataBase64:b64,text,type:"feed"})});
-    const u=await up.json();
-    media_urls=[u.url];
+  try{
+    // Prova la route serverless: se fallisce, usa i link diretti
+    const res = await fetch(`/api/checkout?plan=${encodeURIComponent(plan)}&email=${encodeURIComponent(email||'')}`, { method:'POST' });
+    if(res.ok){
+      const { url } = await res.json();
+      if(url) { window.location.href = url; return; }
+    }
+    // fallback
+    window.location.href = DIRECT_CHECKOUT[plan];
+  }catch(e){
+    // fallback duro
+    window.location.href = DIRECT_CHECKOUT[plan];
   }
-  const res=await api("/api/feed",{text,media_urls});
-  out.textContent="✅ Post pubblicato";
 }
 
-// MOODS
-async function sendMood(){
-  const emoji=document.getElementById("emoEmoji").value;
-  const intensity=document.getElementById("emoInt").value;
-  const trigger=document.getElementById("emoTrigger").value;
-  const why=document.getElementById("emoWhy").value;
-  const selfcare=document.getElementById("emoCare").value;
-  const file=document.getElementById("emoFile").files[0];
-  const out=document.getElementById("emoOut");
-  out.textContent="⏳...";
-  let media_urls=[];
-  if(file){
-    const b64=await toBase64(file);
-    const up=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filename:file.name,dataBase64:b64,type:"mood"})});
-    const u=await up.json();
-    media_urls=[u.url];
-  }
-  const res=await api("/api/moods",{emoji,intensity,trigger,why,selfcare,media_urls});
-  out.textContent="✅ Emozione salvata";
+/* ===== CUSTOMER PORTAL ===== */
+async function openPortal(){
+  const email = getEmail();
+  if(!email){ alert("Inserisci e salva la tua email per aprire il Portale clienti."); return; }
+  try{
+    const res = await fetch(`/api/portal?email=${encodeURIComponent(email)}`, { method:'POST' });
+    const data = await res.json();
+    if(data.url) window.location.href = data.url; else alert('Impossibile aprire il portale.');
+  }catch(e){ alert('Portale non configurato.'); }
 }
 
-// PLANNER
-async function sendPlan(){
-  const start_ts=document.getElementById("planStart").value;
-  const end_ts=document.getElementById("planEnd").value;
-  const title=document.getElementById("planTitle").value;
-  const out=document.getElementById("planOut");
-  out.textContent="⏳...";
-  const res=await api("/api/planner",{start_ts,end_ts,title});
-  out.textContent="✅ Attività salvata";
-}
-
-// CASHBOOK
-async function sendCash(){
-  const kind=document.getElementById("cashKind").value;
-  const amount=document.getElementById("cashAmt").value;
-  const description=document.getElementById("cashDesc").value;
-  const out=document.getElementById("cashOut");
-  out.textContent="⏳...";
-  const res=await api("/api/cashbook",{kind,amount,description});
-  out.textContent="✅ Registrato";
-}
-
-// Helper
-function toBase64(file){
-  return new Promise((resolve,reject)=>{
-    const r=new FileReader();
-    r.readAsDataURL(file);
-    r.onload=()=>resolve(r.result);
-    r.onerror=reject;
-  });
+/* ===== STATO LOCALE (senza backend) ===== */
+function checkStatus(){
+  const box = document.getElementById('statusBox');
+  const sub = JSON.parse(localStorage.getItem('mf_subscription') || '{}');
+  if(!sub.plan){ box.style.display='block'; box.innerHTML = "Nessun abbonamento registrato in locale.<br><span class='muted'>Dopo il pagamento, il server aggiornerà lo stato.</span>"; return; }
+  box.style.display='block';
+  box.innerHTML = `<strong>Piano:</strong> ${sub.plan}<br><strong>Stato:</strong> ${sub.status}<br><span class='muted'>Aggiornato: ${sub.updated_at||'—'}</span>`;
 }
 </script>
 </body>
