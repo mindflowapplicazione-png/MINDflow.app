@@ -1,0 +1,160 @@
+<section class="panel">
+  <div class="head"><button class="back" onclick="history.back()">←</button><div class="title">💪 Fitness & Salute</div></div>
+
+  <div class="section">
+    <h3>😴 Sonno</h3>
+    <div class="row">
+      <input class="in" id="sleep-hrs" placeholder="Ore sonno (es. 7.5)" inputmode="decimal" style="flex:1">
+      <button class="btn" id="sleep-add">Registra</button>
+    </div>
+    <div class="small" id="sleep-ai">AI: inserisci 3 giorni per avere un parere.</div>
+    <div id="sleep-list" class="section" style="background:#0f0f0f"></div>
+  </div>
+
+  <div class="section">
+    <h3>🍽️ Nutrizione & kcal</h3>
+    <div class="row">
+      <select id="meal-type" class="in">
+        <option>Colazione</option><option>Spuntino</option>
+        <option>Pranzo</option><option>Cena</option><option>Spuntino</option>
+      </select>
+      <input id="meal-desc" class="in" placeholder="Alimento/piatto">
+      <input id="meal-kcal" class="in" placeholder="kcal (es. 350)" inputmode="numeric" style="width:100px">
+      <button class="btn" id="meal-add">+ Aggiungi</button>
+    </div>
+    <div class="row"><strong>Totale oggi:</strong><strong><span id="kcal-today">0</span> kcal</strong></div>
+    <div id="meal-list" class="section" style="background:#0f0f0f"></div>
+  </div>
+
+  <div class="section">
+    <h3>🤸 Stretching / Mobilità</h3>
+    <div class="row">
+      <button class="btn" id="ai-stretch">Consigli Stretching (AI)</button>
+      <button class="btn ghost" id="add-vacuum">+ Vacuum</button>
+    </div>
+    <div id="stretch-box" class="small" style="margin-top:8px;color:#ddd">Premi per generare una routine leggera basata su come ti senti.</div>
+  </div>
+
+  <div class="section">
+    <h3>🏋️ Workout</h3>
+    <div class="row" style="flex-wrap:wrap">
+      <input id="wo-title" class="in" placeholder="Esercizio">
+      <input id="wo-kcal" class="in" placeholder="kcal stimate" inputmode="numeric" style="width:120px">
+      <button class="btn" id="wo-add">+ Aggiungi</button>
+    </div>
+    <div id="wo-list" class="section" style="background:#0f0f0f"></div>
+    <div class="row"><strong>Kcal bruciate oggi:</strong><strong><span id="burn-today">0</span> kcal</strong></div>
+    <div class="small" id="surplus-tip"></div>
+  </div>
+
+  <div class="section">
+    <h3>💧 Idratazione</h3>
+    <div class="row">
+      <button class="btn" id="water-250">+ 250ml</button>
+      <button class="btn" id="water-500">+ 500ml</button>
+      <div><strong><span id="water-today">0</span> ml</strong></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🚭 Sigarette • 🍷 Alcol</h3>
+    <div class="row">
+      <button class="btn ghost" id="smoke-add">+1 sigaretta</button>
+      <button class="btn ghost" id="alcohol-add">+1 drink</button>
+    </div>
+    <div class="row"><span>Oggi:</span><strong>🚭 <span id="smoke-today">0</span> • 🍷 <span id="alcohol-today">0</span></strong></div>
+  </div>
+
+  <div class="section">
+    <h3>📈 Trend corporei</h3>
+    <div class="row" style="flex-wrap:wrap">
+      <input id="body-weight" class="in" placeholder="Peso (kg)" inputmode="decimal" style="width:120px">
+      <input id="body-fat" class="in" placeholder="Massa grassa (%)" inputmode="decimal" style="width:150px">
+      <input id="body-muscle" class="in" placeholder="Massa musc. (%)" inputmode="decimal" style="width:150px">
+      <button class="btn" id="body-add">Registra</button>
+    </div>
+    <div class="small">Grafici settimanali/mensili verranno resi con Chart.js (hook pronto).</div>
+  </div>
+</section>
+
+<script>
+const G=(k)=>JSON.parse(localStorage.getItem('mf_fit_'+k)||'[]'); const S=(k,v)=>localStorage.setItem('mf_fit_'+k,JSON.stringify(v));
+
+// sonno
+(function(){
+  const list=document.getElementById('sleep-list'); const ai=document.getElementById('sleep-ai');
+  function render(){ list.innerHTML=''; const arr=G('sleep');
+    arr.slice(-14).reverse().forEach(it=>{ const d=document.createElement('div'); d.className='row'; d.innerHTML=`<div>🛌 ${it.h} h</div><div class="small">${new Date(it.ts).toLocaleDateString()}</div>`; list.appendChild(d);});
+    if(arr.length>=3){const h=arr.slice(-3).reduce((a,b)=>a+Number(b.h),0)/3; ai.textContent = h<7 ? 'AI: stai dormendo poco. Prova ad anticipare di 30′.' : (h>9?'AI: stai dormendo molto. Valuta qualità del sonno.':'AI: buona media, continua così.');}
+  }
+  document.getElementById('sleep-add').onclick=()=>{ const h=parseFloat(document.getElementById('sleep-hrs').value||0); if(!h) return; const a=G('sleep'); a.push({h,ts:Date.now()}); S('sleep',a); document.getElementById('sleep-hrs').value=''; render(); };
+  render();
+})();
+
+// nutrizione
+(function(){
+  const list=document.getElementById('meal-list'), total=document.getElementById('kcal-today');
+  function todayKey(){return new Date().toISOString().slice(0,10);}
+  function render(){ list.innerHTML=''; const arr=G('meals').filter(x=>x.day===todayKey()); let sum=0;
+    arr.forEach(it=>{ sum+=+it.k; const r=document.createElement('div'); r.className='row'; r.innerHTML=`<div>🍽️ ${it.t} – ${it.d}</div><strong>${it.k} kcal</strong>`; list.appendChild(r);});
+    total.textContent=sum;
+  }
+  document.getElementById('meal-add').onclick=()=>{
+    const t=document.getElementById('meal-type').value, d=document.getElementById('meal-desc').value.trim(), k=parseInt(document.getElementById('meal-kcal').value||'0',10);
+    if(!d||!k) return; const arr=G('meals'); arr.push({t,d,k,day:todayKey()}); S('meals',arr); document.getElementById('meal-desc').value=''; document.getElementById('meal-kcal').value=''; render();
+  };
+  render();
+})();
+
+// stretching / vacuum
+document.getElementById('ai-stretch').onclick=()=>{
+  const tips = [
+    "5′ mobilità spalle + 2×30\" cat-camel + 60\" child pose",
+    "4′ anca (figure-4) + 3×20\" polpacci + 1′ respiro nasale",
+    "3′ mobilità toracica + 2×40\" hip flexor + 1′ box breathing"
+  ];
+  document.getElementById('stretch-box').textContent = "Routine: " + tips[Math.floor(Math.random()*tips.length)];
+};
+document.getElementById('add-vacuum').onclick=()=> alert("Esercizio Vacuum: 3 serie da 20\" in apnea, riposo 40\"");
+
+// workout + kcal bruciate
+(function(){
+  const list=document.getElementById('wo-list'), burn=document.getElementById('burn-today'), tip=document.getElementById('surplus-tip');
+  function today(){return new Date().toISOString().slice(0,10);}
+  function render(){ list.innerHTML=''; const arr=G('workouts').filter(x=>x.day===today()); let sum=0;
+    arr.forEach(it=>{ sum+=+it.k; const r=document.createElement('div'); r.className='row'; r.innerHTML=`<div>🏋️ ${it.t}</div><strong>${it.k} kcal</strong>`; list.appendChild(r);});
+    burn.textContent=sum;
+    // surplus/deficit semplice
+    const eaten=(+document.getElementById('kcal-today').textContent)||0; const net = eaten - sum;
+    tip.textContent = net>0 ? `Surplus stimato: +${net} kcal (tendenza ad aumentare peso)` : `Deficit stimato: ${net} kcal (tendenza a dimagrire)`;
+  }
+  document.getElementById('wo-add').onclick=()=>{ const t=document.getElementById('wo-title').value.trim(), k=parseInt(document.getElementById('wo-kcal').value||0,10); if(!t||!k) return; const a=G('workouts'); a.push({t,k,day:today()}); S('workouts',a); document.getElementById('wo-title').value=''; document.getElementById('wo-kcal').value=''; render(); };
+  render();
+})();
+
+// acqua / sigarette / alcol
+(function(){
+  const W = ()=>+localStorage.getItem('mf_fit_water')||0;
+  const SW = (v)=>localStorage.setItem('mf_fit_water',v);
+  const Sg = ()=>+localStorage.getItem('mf_fit_smoke')||0; const Ss=v=>localStorage.setItem('mf_fit_smoke',v);
+  const Al = ()=>+localStorage.getItem('mf_fit_alc')||0; const Sa=v=>localStorage.setItem('mf_fit_alc',v);
+
+  function render(){ document.getElementById('water-today').textContent=W(); document.getElementById('smoke-today').textContent=Sg(); document.getElementById('alcohol-today').textContent=Al(); }
+  document.getElementById('water-250').onclick=()=>{ SW(W()+250); render(); };
+  document.getElementById('water-500').onclick=()=>{ SW(W()+500); render(); };
+  document.getElementById('smoke-add').onclick=()=>{ Ss(Sg()+1); render(); };
+  document.getElementById('alcohol-add').onclick=()=>{ Sa(Al()+1); render(); };
+  render();
+})();
+
+// trend corporei
+document.getElementById('body-add').onclick=()=>{
+  const w=parseFloat(document.getElementById('body-weight').value||0),
+        f=parseFloat(document.getElementById('body-fat').value||0),
+        m=parseFloat(document.getElementById('body-muscle').value||0);
+  if(!w) return alert('Inserisci almeno il peso');
+  const a=G('body'); a.push({w,f,m,ts:Date.now()}); S('body',a);
+  document.getElementById('body-weight').value=document.getElementById('body-fat').value=document.getElementById('body-muscle').value='';
+  alert('Registrato!');
+};
+</script>
