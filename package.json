@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/api/:path*",    "destination": "/api/:path*" },
+    { "source": "/styles/:path*", "destination": "/styles/:path*" },
+    { "source": "/public/:path*", "destination": "/public/:path*" },
+    { "source": "/(.*)",          "destination": "/" }
+  ]
+}
