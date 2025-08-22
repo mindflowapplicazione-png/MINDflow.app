@@ -1,134 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MINDflow — Profilo & Piani</title>
-<style>
-  :root{--bg:#000;--panel:#111;--ring:#2a2a2a;--muted:#8b8b8b;--rose1:#ffc0cb;--rose2:#f6bfcf}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif}
-  .wrap{max-width:420px;margin:0 auto;padding:20px}
-  .header{text-align:center;margin-bottom:16px}
-  .header h1{font-size:28px;color:#FFB6C1;margin:4px 0}
-  .header p{color:var(--muted);font-style:italic;font-size:13px}
-  .back{display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:14px;padding:14px;margin:10px 0 16px;text-decoration:none;color:#fff;font-weight:700}
-  .section{background:#121212;border:1px solid var(--ring);border-radius:14px;padding:14px;margin:12px 0}
-  .title{font-weight:800;margin-bottom:10px;font-size:16px}
-  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-  .plan{background:linear-gradient(135deg,var(--rose1),var(--rose2));color:#000;border-radius:16px;padding:14px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:90px}
-  .muted{color:#bbb;font-size:12px}
-  .btn{background:linear-gradient(135deg,var(--rose1),var(--rose2));color:#000;border:0;border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer}
-  .row{display:flex;gap:8px;align-items:center}
-  .card{background:#141414;border:1px solid #282828;border-radius:14px;padding:12px;margin:8px 0}
-  input,select{width:100%;background:#1b1b1b;border:1px solid #333;color:#fff;border-radius:12px;padding:10px;font-size:14px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>MINDflow</title>
+  <link rel="stylesheet" href="/styles/globals.css">
+  <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png">
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
+  <header class="hero">
     <h1>MINDflow</h1>
     <p>Il tuo viaggio verso la consapevolezza</p>
-  </div>
-  <a class="back" href="./index.html">← 🔐 Profilo</a>
+  </header>
 
-  <div class="section">
-    <div class="title">👤 Dati utente</div>
-    <div class="card">
-      <div class="row">
-        <input id="email" type="email" placeholder="Email (usata per abbonamento)">
-        <button class="btn" onclick="saveEmail()">Salva</button>
-      </div>
-      <div class="muted" id="emailInfo"></div>
-    </div>
-  </div>
+  <!-- GRID HOME (immutata) -->
+  <main id="home" class="grid">
+    <a class="tile navy" data-route="career">
+      <div class="icon">🧠</div>
+      <div class="t1">Carriera</div><div class="t2">Mindset</div>
+    </a>
+    <a class="tile plum" data-route="emotions">
+      <div class="icon">💖</div>
+      <div class="t1">Emozioni</div><div class="t2">Equilibrio</div>
+    </a>
+    <a class="tile earth" data-route="fitness">
+      <div class="icon">💪</div>
+      <div class="t1">Fitness</div><div class="t2">Salute</div>
+    </a>
+    <a class="tile green" data-route="spiritual">
+      <div class="icon">🔮</div>
+      <div class="t1">Spiritualità</div><div class="t2">Crescita</div>
+    </a>
+    <a class="tile sand" data-route="community">
+      <div class="icon">🫂</div>
+      <div class="t1">Community</div><div class="t2">Connessioni</div>
+    </a>
+    <a class="tile wine" data-route="profile">
+      <div class="icon">🌀</div>
+      <div class="t1">Profilo</div><div class="t2">Piani</div>
+    </a>
+  </main>
 
-  <div class="section">
-    <div class="title">💎 Piani & Upgrade</div>
-    <div class="grid3">
-      <button class="plan" onclick="startCheckout('boccioli')">🌱 Boccioli<br><span class="muted">€7,99/m</span></button>
-      <button class="plan" onclick="startCheckout('fiori')">🌸 Fiori<br><span class="muted">€12,99/m</span></button>
-      <button class="plan" onclick="startCheckout('premium')">💎 Premium<br><span class="muted">€149,99/m</span></button>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <button class="btn" onclick="openPortal()">Gestisci abbonamento</button>
-      <button class="btn" onclick="checkStatus()">Verifica stato</button>
-    </div>
-    <div id="statusBox" class="card" style="display:none"></div>
-  </div>
+  <!-- FAB + Pannello Sistema -->
+  <button id="fab-home" class="fab" data-route="home">🏠</button>
+  <div class="system-btn" id="open-system">Sistema ⚙️</div>
 
-  <div class="section">
-    <div class="title">⚙️ Preferenze</div>
-    <div class="row">
-      <select id="theme">
-        <option value="dark" selected>Tema: Scuro</option>
-        <option value="light">Tema: Chiaro</option>
-      </select>
-      <button class="btn" onclick="savePrefs()">Salva</button>
-    </div>
-  </div>
-</div>
+  <dialog id="system-modal">
+    <form method="dialog" class="panel">
+      <div class="head"><button class="back">←</button><div class="title">⚙️ Sistema</div></div>
 
-<script>
-/* ===== CONFIG FALLBACK (usa i tuoi link diretti se le API non sono configurate) ===== */
-const DIRECT_CHECKOUT = {
-  boccioli: "https://buy.stripe.com/00w7sL3Lpclj3CucildQQ05",
-  fiori:    "https://buy.stripe.com/5kQeVd6XBclj8WO5TXdQQ04",
-  premium:  "https://buy.stripe.com/cNicN53Lp5WV4Gy6Y1dQQ03"
-};
+      <section class="section">
+        <h3>🔔 Notifiche</h3>
+        <div class="row">
+          <label class="switch">
+            <input id="notif-toggle" type="checkbox">
+            <span></span>
+          </label>
+          <div>Promemoria (meditazione, acqua, workout, journaling)</div>
+        </div>
+        <div class="small">Le notifiche push richiedono consenso del browser. Su iOS Safari potrebbero non apparire: useremo email/Push API quando abilitate.</div>
+      </section>
 
-function getEmail(){ return localStorage.getItem('mf_email') || ''; }
-function saveEmail(){
-  const v = document.getElementById('email').value.trim();
-  if(!v) return alert("Inserisci un'email");
-  localStorage.setItem('mf_email', v);
-  document.getElementById('emailInfo').textContent = "Email salvata: " + v;
-}
-function savePrefs(){
-  localStorage.setItem('mf_theme', document.getElementById('theme').value);
-  alert('Preferenze salvate');
-}
-document.getElementById('email').value = getEmail();
-document.getElementById('emailInfo').textContent = getEmail() ? "Email salvata: " + getEmail() : "Suggerimento: salva l'email per associare l'abbonamento.";
+      <section class="section">
+        <h3>🔐 Privacy</h3>
+        <label class="row" style="align-items:flex-start;gap:10px">
+          <input id="privacy-accept" type="checkbox" style="margin-top:4px">
+          <span>Ho letto e accetto la <a href="/public/privacy.md" target="_blank">Privacy Policy</a> e i Termini.</span>
+        </label>
+        <div class="small">Questo flag abilita l’uso di funzionalità cloud (Supabase) quando le attiverai.</div>
+      </section>
 
-/* ===== CHECKOUT ===== */
-async function startCheckout(plan){
-  const email = getEmail();
-  if(!email) { if(!confirm("Procedere senza email salvata?")) return; }
+      <section class="section">
+        <h3>🧰 Collegamenti (dev)</h3>
+        <div class="kv"><span>Stripe status:</span><code id="stripe-status">test</code></div>
+        <div class="kv"><span>Supabase URL:</span><code id="sb-url"></code></div>
+        <div class="kv"><span>Site URL:</span><code id="site-url"></code></div>
+        <button class="btn" id="btn-test-checkout">Prova checkout (Boccioli)</button>
+      </section>
 
-  try{
-    // Prova la route serverless: se fallisce, usa i link diretti
-    const res = await fetch(`/api/checkout?plan=${encodeURIComponent(plan)}&email=${encodeURIComponent(email||'')}`, { method:'POST' });
-    if(res.ok){
-      const { url } = await res.json();
-      if(url) { window.location.href = url; return; }
-    }
-    // fallback
-    window.location.href = DIRECT_CHECKOUT[plan];
-  }catch(e){
-    // fallback duro
-    window.location.href = DIRECT_CHECKOUT[plan];
+      <menu class="row" style="justify-content:flex-end;margin-top:10px">
+        <button class="btn ghost" value="cancel">Chiudi</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <!-- Router Target -->
+  <div id="view-host"></div>
+
+  <script>
+  // ---- Router super leggero (carica /views/<page>.html nel #view-host) ----
+  const host = document.getElementById('view-host');
+  const home = document.getElementById('home');
+  function go(route){
+    if(route==='home'){ host.innerHTML=''; home.style.display='grid'; history.pushState({route:'home'}, '', '/'); return; }
+    fetch(`/views/${route}.html`).then(r=>r.text()).then(html=>{
+      home.style.display='none';
+      host.innerHTML = html;
+      history.pushState({route}, '', `/#/${route}`);
+      window.scrollTo(0,0);
+    }).catch(()=>alert('Vista non trovata: '+route));
   }
-}
+  document.querySelectorAll('[data-route]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.route)));
+  window.addEventListener('popstate', (e)=> go((e.state&&e.state.route)||'home'));
+  document.getElementById('fab-home').onclick=()=>go('home');
 
-/* ===== CUSTOMER PORTAL ===== */
-async function openPortal(){
-  const email = getEmail();
-  if(!email){ alert("Inserisci e salva la tua email per aprire il Portale clienti."); return; }
-  try{
-    const res = await fetch(`/api/portal?email=${encodeURIComponent(email)}`, { method:'POST' });
-    const data = await res.json();
-    if(data.url) window.location.href = data.url; else alert('Impossibile aprire il portale.');
-  }catch(e){ alert('Portale non configurato.'); }
-}
+  // ---- Sistema dialog ----
+  const dlg = document.getElementById('system-modal');
+  document.getElementById('open-system').onclick = ()=> dlg.showModal();
+  dlg.querySelector('.back').onclick = ()=> dlg.close();
 
-/* ===== STATO LOCALE (senza backend) ===== */
-function checkStatus(){
-  const box = document.getElementById('statusBox');
-  const sub = JSON.parse(localStorage.getItem('mf_subscription') || '{}');
-  if(!sub.plan){ box.style.display='block'; box.innerHTML = "Nessun abbonamento registrato in locale.<br><span class='muted'>Dopo il pagamento, il server aggiornerà lo stato.</span>"; return; }
-  box.style.display='block';
-  box.innerHTML = `<strong>Piano:</strong> ${sub.plan}<br><strong>Stato:</strong> ${sub.status}<br><span class='muted'>Aggiornato: ${sub.updated_at||'—'}</span>`;
-}
-</script>
+  const siteUrl = (typeof window !== 'undefined') ? (window.__SITE_URL__ || window.location.origin) : '';
+  document.getElementById('site-url').textContent = siteUrl;
+  document.getElementById('sb-url').textContent = (window.__SUPABASE_URL__ || '—');
+  document.getElementById('stripe-status').textContent = 'TEST';
+
+  // toggles persistiti
+  const LS = (k,v)=>{
+    const key='mf_sys_'+k;
+    if(v===undefined){ try{return JSON.parse(localStorage.getItem(key));}catch{return null;} }
+    localStorage.setItem(key, JSON.stringify(v));
+  };
+  const notifToggle = document.getElementById('notif-toggle');
+  notifToggle.checked = !!LS('notif');
+  notifToggle.onchange = ()=> LS('notif', notifToggle.checked);
+
+  const privacy = document.getElementById('privacy-accept');
+  privacy.checked = !!LS('privacy');
+  privacy.onchange = ()=> LS('privacy', privacy.checked);
+
+  // test checkout (Boccioli)
+  document.getElementById('btn-test-checkout').onclick = async ()=>{
+    const r = await fetch('/api/checkout', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ plan: 'buds', success_url: location.origin+'/#/profile?ok=1', cancel_url: location.href })
+    });
+    const {url, error} = await r.json();
+    if(error){ alert(error); return; }
+    location.href = url;
+  };
+
+  // atterraggio diretto via hash
+  if(location.hash.startsWith('#/')) go(location.hash.replace('#/',''));
+  </script>
 </body>
 </html>
