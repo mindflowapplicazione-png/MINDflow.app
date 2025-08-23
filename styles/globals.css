@@ -1,0 +1,18 @@
+:root{--bg:#0f0f10;--panel:#17181a;--card:#1f2023;--text:#f7e6ea;--muted:#bfaeb3;--accent:#f6a7b6;}
+html,body,#__next{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui, -apple-system, Segoe UI, Roboto}
+h1,h2{margin:0 0 .6rem}
+.container{max-width:920px;margin:0 auto;padding:20px}
+.panel{background:var(--panel);border-radius:16px;padding:16px;margin:12px 0}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.btn{background:linear-gradient(135deg,#ffd1dc,#f6a7b6);border:0;padding:10px 14px;border-radius:14px;color:#262628;cursor:pointer}
+.btn.secondary{background:#292a2e;color:var(--text)}
+.input,textarea,select{background:#121316;border:1px solid #2b2c31;color:var(--text);padding:10px 12px;border-radius:12px}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border-radius:20px;padding:18px;min-height:120px}
+.item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px dashed #2c2d33}
+.item:last-child{border-bottom:0}
+.item .title{font-weight:600}
+.badge{background:#2a2b30;color:#e8dbe0;border-radius:999px;padding:4px 8px;font-size:.8rem}
+.small{color:var(--muted);font-size:.9rem}
+hr{border:0;border-top:1px solid #2c2d33;margin:12px 0}
