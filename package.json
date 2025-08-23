@@ -1,7 +1,7 @@
 {
-  "name": "mindflow-app",
-  "version": "1.0.0",
+  "name": "mindflow",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
@@ -9,10 +9,9 @@
   },
   "dependencies": {
     "next": "14.2.5",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "stripe": "14.9.0",
-    "nanoid": "5.0.7",
-    "dayjs": "1.11.11"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "stripe": "14.25.0",
+    "micro": "9.4.1"
   }
 }
