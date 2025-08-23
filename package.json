@@ -1,16 +1,18 @@
 {
-  "name": "mindflow",
+  "name": "mindflow-app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 3000"
   },
   "dependencies": {
     "next": "14.2.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@stripe/stripe-js": "2.4.0",
-    "stripe": "16.5.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "stripe": "14.9.0",
+    "nanoid": "5.0.7",
+    "dayjs": "1.11.11"
   }
 }
