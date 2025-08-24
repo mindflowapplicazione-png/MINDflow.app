@@ -1,30 +1,43 @@
+// components/Layout.js
 import Link from 'next/link';
+import '../styles/globals.css';
+import FabJindi from './FabJindi';
 
-export default function Layout({ children }) {
+export default function Layout({ children, title = 'MINDflow' }) {
   return (
     <div className="container">
-      <header style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-        <div>
-          <div className="title">MINDflow</div>
-          <div className="sub">Il tuo viaggio verso la consapevolezza</div>
-        </div>
+      <header className="header">
+        <div className="brand">{title}</div>
 
-        <nav className="row">
-          <Link className="btn-ghost" href="/">Home</Link>
-          <Link className="btn-ghost" href="/sezioni">🧠 Sezioni</Link>
-          <Link className="btn-ghost" href="/emozioni">🩷 Emozioni</Link>
-          <Link className="btn-ghost" href="/fitness">💪🏼 Fitness</Link>
-          <Link className="btn-ghost" href="/spiritualita">🔮 Spiritualità</Link>
-          <Link className="btn-ghost" href="/community">🫂 Community</Link>
-          <Link className="btn-ghost" href="/profilo">🫆 Profilo</Link>
+        {/* NAV DESTRA */}
+        <nav className="top-actions">
+          {/* Casa per tornare sempre alla home */}
+          <Link href="/" className="btn-ghost" aria-label="Home">
+            🏡
+          </Link>
         </nav>
       </header>
 
-      {children}
+      <main>{children}</main>
+      <footer className="footer">© MINDflow</footer>
 
-      <footer style={{opacity:.6,textAlign:'center',padding:20}}>
-        © MINDflow
-      </footer>
+      {/* Floating chat con Jindi */}
+      <FabJindi />
+      <style jsx>{`
+        .container { padding: 24px; max-width: 980px; margin: 0 auto; }
+        .header {
+          display:flex; align-items:center; justify-content:space-between;
+          margin-bottom: 20px;
+        }
+        .brand { font-weight: 800; letter-spacing:.3px; }
+        .top-actions { display:flex; gap:10px; }
+        .btn-ghost {
+          padding:8px 10px; border-radius:10px; border:1px solid #333;
+          background: #121214; text-decoration:none;
+        }
+        main { display:block; }
+        .footer { opacity:.6; text-align:center; padding:28px 0 8px; }
+      `}</style>
     </div>
   );
 }
