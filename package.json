@@ -8,10 +8,10 @@
     "start": "next start -p 3000"
   },
   "dependencies": {
+    "micro": "9.4.1",
     "next": "14.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "stripe": "14.25.0",
-    "micro": "9.4.1"
+    "stripe": "14.25.0"
   }
 }
