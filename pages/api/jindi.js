@@ -1,73 +1,89 @@
 // pages/api/jindi.js
-export const config = {
-  runtime: 'edge', // veloce su Vercel; se preferisci node: togli questa riga
-};
+export const config = { runtime: 'edge' };
 
 const SYSTEM_PROMPT = `
-Sei "Jindi", l'AI di MINDflow. Tono empatico e pratico.
+Sei "Jindi", l'AI di MINDflow. Tono empatico e concreto.
 Compiti:
-- Genera esempi pratici (5/10) per qualsiasi sezione dell'app.
-- Crea workout settimanali personalizzati in formato breve e chiaro.
-- Suggerisci come strutturare grafici/metriche (senza immagini), indicando che cosa plottare e con che intervallo.
-- Risposte concise, elenco puntato quando utile. Italiano. 
+- Genera 5-10 esempi pertinenti per la sezione richiesta (elenco puntato sintetico).
+- Se l'utente chiede un grafico, restituisci ANCHE uno schema dati JSON con la chiave "chart"
+  nel formato:
+  { "type": "bar" | "line", "title": "...", "series": [ { "label": "string", "value": number } ] }
+- Rispondi in ITALIANO. Mantieni le liste sintetiche e immediatamente utilizzabili.
 `;
 
 export default async function handler(req) {
   try {
-    if (req.method !== 'POST') {
+    if (req.method !== 'POST')
       return new Response(JSON.stringify({ error: 'Method Not Allowed' }), { status: 405 });
-    }
 
     const { messages } = await req.json();
-    if (!Array.isArray(messages)) {
-      return new Response(JSON.stringify({ error: 'Missing messages[]' }), { status: 400 });
-    }
-
     const apiKey = process.env.OPENAI_API_KEY;
     const model = process.env.JINDI_MODEL || 'gpt-4o-mini';
 
-    // Se manca la chiave, rispondiamo con un fallback così l'app non si rompe
     if (!apiKey) {
       return new Response(
         JSON.stringify({
           role: 'assistant',
           content:
-            '⚠️ Jindi non è collegata a un provider AI (manca OPENAI_API_KEY). ' +
-            'Esempi: 1) “Bere 2L d’acqua” 2) “10’ meditazione” 3) “Camminata 10k passi” 4) “Leggere 15 pagine” 5) “Chiamare un amico”.',
+            '⚠️ Jindi non è collegata (manca OPENAI_API_KEY). Ecco esempi: • Bere 2L d’acqua • 10’ meditazione • 30’ camminata • Leggere 15 pagine • Scrivere 3 idee.',
         }),
         { status: 200, headers: { 'content-type': 'application/json' } }
       );
     }
 
-    // OpenAI Chat Completions REST (no SDK)
     const resp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${apiKey}`,
-      },
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${apiKey}` },
       body: JSON.stringify({
         model,
-        temperature: 0.7,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages, // [{role:'user'|'assistant', content:string}]
-        ],
+        temperature: 0.6,
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
+        response_format: { type: 'json_schema', json_schema: {
+          name: "jindi_response",
+          schema: {
+            type: "object",
+            properties: {
+              text: { type: "string" },
+              chart: {
+                type: "object",
+                properties: {
+                  type: { enum: ["bar", "line"] },
+                  title: { type: "string" },
+                  series: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: { label: { type: "string" }, value: { type: "number" } },
+                      required: ["label", "value"],
+                      additionalProperties: false
+                    }
+                  }
+                },
+                required: ["type","series"],
+                additionalProperties: false
+              }
+            },
+            required: ["text"],
+            additionalProperties: true
+          }
+        }}
       }),
     });
 
     if (!resp.ok) {
-      const errText = await resp.text();
-      return new Response(JSON.stringify({ error: 'Upstream error', detail: errText }), { status: 500 });
+      const detail = await resp.text();
+      return new Response(JSON.stringify({ error: 'Upstream error', detail }), { status: 500 });
     }
 
     const data = await resp.json();
-    const content = data?.choices?.[0]?.message?.content?.trim() || 'Nessuna risposta.';
-    return new Response(JSON.stringify({ role: 'assistant', content }), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
+    const msg = data?.choices?.[0]?.message?.content || '{}';
+    let parsed;
+    try { parsed = JSON.parse(msg); } catch { parsed = { text: msg }; }
+
+    return new Response(JSON.stringify(parsed), {
+      status: 200, headers: { 'content-type': 'application/json' },
     });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err?.message || 'Server error' }), { status: 500 });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message || 'Server error' }), { status: 500 });
   }
 }
