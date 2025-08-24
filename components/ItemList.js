@@ -2,21 +2,17 @@
 import { useState } from 'react';
 import { useStore } from '../lib/store';
 
-export default function ItemList({ section, fields, placeholder, title }) {
+export default function ItemList({ section, fields, title }) {
   const { add, remove, all } = useStore();
   const [form, setForm] = useState({});
-
   const list = all[section] || [];
 
-  function update(name, value) {
-    setForm(prev => ({ ...prev, [name]: value }));
-  }
+  function update(name, value) { setForm(prev => ({ ...prev, [name]: value })); }
 
   return (
     <div className="card">
       {title && <h3 className="card-title">{title}</h3>}
 
-      {/* form */}
       <div className="grid">
         {fields.map(f => (
           <input
@@ -41,7 +37,6 @@ export default function ItemList({ section, fields, placeholder, title }) {
 
       <div className="hint">Tutte le voci sono elencate una sotto l’altra • Usa “Elimina” per rimuovere</div>
 
-      {/* lista */}
       {list.length === 0 ? (
         <div className="empty">Nessuna voce ancora.</div>
       ) : (
