@@ -10,24 +10,23 @@ export default async function handler(req, res) {
 
   const sig = req.headers['stripe-signature'];
   let event;
-
   try {
     const buf = await buffer(req);
     event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
-    console.error('Webhook signature verification failed.', err.message);
+    console.error('Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   try {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
-      // TODO: qui puoi salvare l'utente/piano nel DB quando lo collegherai (Supabase)
-      console.log('Checkout completato:', session.id, session.customer_email || session.customer);
+      console.log('✅ checkout.session.completed', session.id, session.customer_email || session.customer);
+      // TODO: salva su DB quando collegherai Supabase
     }
-    res.json({ received: true });
+    return res.json({ received: true });
   } catch (err) {
     console.error('Webhook handler error:', err);
-    res.status(500).send('Server error');
+    return res.status(500).send('Server error');
   }
 }
