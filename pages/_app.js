@@ -1,6 +1,10 @@
 // pages/_app.js
-import '../styles/globals.css';
+import { StoreProvider } from '../lib/store';
 
-export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+export default function App({ Component, pageProps }) {
+  return (
+    <StoreProvider>
+      <Component {...pageProps} />
+    </StoreProvider>
+  );
 }
